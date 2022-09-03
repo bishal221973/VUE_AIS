@@ -33,41 +33,41 @@
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Book Name</label>
+                                            <label for="exampleInputEmail1">Book Name*</label>
                                             <input type="text" class="form-control" v-model="book" id="txtBook"
                                                 aria-describedby="bookHelp" placeholder="Enter Book Name">
                                             <small id="bookHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Publication</label>
+                                            <label for="exampleInputEmail1">Publication*</label>
                                             <input type="text" class="form-control" v-model="publication"
                                                 id="txtPublication" aria-describedby="publicationHelp"
                                                 placeholder="Enter Publication">
                                             <small id="publicationHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Author</label>
+                                            <label for="exampleInputEmail1">Author*</label>
                                             <input type="text" class="form-control" v-model="author" id="txtAuthor"
                                                 aria-describedby="authorHelp" placeholder="Enter Author Name">
                                             <small id="authorHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Page Number</label>
+                                            <label for="exampleInputEmail1">Page Number*</label>
                                             <input type="number" class="form-control" v-model="page" id="txtPage"
                                                 aria-describedby="pageHelp" placeholder="Enter Page Number">
                                             <small id="pageHelp" class="form-text text-danger"></small>
                                         </div>
 
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Book Price</label>
+                                            <label for="exampleInputEmail1">Book Price*</label>
 
                                             <input type="number" class="form-control" v-model="price" id="txtPrice"
                                                 aria-describedby="priceHelp" placeholder="Enter Book Price">
                                             <small id="priceHelp" class="form-text text-danger"></small>
                                         </div>
-                                        <div>
-                                            <button class="btn btn-success float-right" v-on:click="save">{{ btn_save
-                                            }}</button>
+                                        <div class="row">
+                                            <button class="btn btn-success float-right" v-on:click="save">{{ btn_save}}</button>
+                                            <!-- <button class="btn btn-danger float-right ml-2" v-on:click="clear">Clear</button> -->
                                         </div>
                                     </div>
 

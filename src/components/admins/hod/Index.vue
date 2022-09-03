@@ -2,114 +2,7 @@
     <Navbar />
     <Sidebar />
 
-    <!-- <div class="content-wrapper" style="min-height: 792px;">
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">HOD</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item active">HOD</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card">
-                        <div class="card-header bg-secondary">
-                            <strong>Appoind HOD</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Teacher name</label>
-                                <select class="form-control select2 select2-hidden-accessible" data-select2-id="9"
-                                    tabindex="-1" aria-hidden="true" v-model="user_id" id="txtFaculty">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option v-for="item in teacher_list" v-bind:key="item.id" :value="item.id">
-                                        {{ item.name }}
-                                    </option>
-                                </select>
-                                <small id="bookHelp" class="form-text text-danger"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Program Name</label>
-                                <select class="form-control select2 select2-hidden-accessible" data-select2-id="9"
-                                    tabindex="-1" aria-hidden="true" v-model="program_id" id="txtFaculty">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option v-for="item in program_list" v-bind:key="item.id" :value="item.id">
-                                        {{ item.program }}
-                                    </option>
-                                </select>
-                                <small id="publicationHelp" class="form-text text-danger"></small>
-                            </div>
-
-                            <div>
-                                <button class="btn btn-success float-right" v-on:click="appoind">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="card">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">HOD Name</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Profile</th>
-                                    <th scope="col">Program</th>
-
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in hod_list" v-bind:key="item.id">
-                                    <th scope="row">{{ item.id }}</th>
-                                    <th scope="row">{{ item.user.name }}</th>
-                                    <th scope="row">{{ item.user.username }}</th>
-                                    <th scope="row">{{ item.user.email }}</th>
-                                    <th scope="row">{{ item.profile }}</th>
-                                    <th scope="row">{{ item.program.program }}</th>
-                                    <td>
-                                        <div class="row btn-action">
-                                            <i class="fas fa-user-plus text-success"
-                                                v-on:click="assignMore(item.user.id)"></i>
-                                            <i class="fas fa-edit ml-2 text-warning" v-on:click="edit(item.id)"></i>
-
-                                          
-                                            <div class="dropdown">
-                                                <button class="btn " type="button" id="dropdownMenuButton"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-trash ml-2 text-danger"></i>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item"
-                                                        v-on:click="regineCourse(item.id)">Resign</a>
-                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+   
 
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -125,12 +18,10 @@
                                     <li class="breadcrumb-item">
                                         <a href="index.html">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item" aria-current="page">
-                                        Teacher
-                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Add
+                                        HOD
                                     </li>
+                                   
                                 </ol>
                             </nav>
                         </div>
@@ -184,11 +75,11 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Faculty</th>
-                                                    <th scope="col">Program</th>
-                                                    <th scope="col">Teacher</th>
+                                                    <th scope="col">Name</th>
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Email</th>
+                                                    <th scope="col">Faculty</th>
+                                                    <th scope="col">Program</th>
                                                     <th scope="col">Action</th>
 
                                                 </tr>

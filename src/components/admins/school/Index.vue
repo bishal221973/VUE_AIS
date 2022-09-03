@@ -26,30 +26,30 @@
                 <div class="product-wrap">
                     <div class="product-detail-wrap mb-30">
                         <div class="row">
-                           
+
                             <div class="col-lg-4 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">School Name</label>
+                                        <label for="exampleInputEmail1">School Name*</label>
                                         <input type="text" class="form-control" v-model="school_name" id="txtSchoolName"
                                             aria-describedby="emailHelp" placeholder="Enter School Name">
                                         <small id="schoolNameHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Reg Number</label>
+                                        <label for="exampleInputEmail1">Reg Number*</label>
                                         <input type="text" class="form-control" v-model="reg_number" id="txtRegNumber"
                                             aria-describedby="emailHelp" placeholder="Enter Reg Number">
                                         <small id="regNumberHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Phone Nummber</label>
+                                        <label for="exampleInputEmail1">Phone Nummber*</label>
                                         <input type="number" class="form-control" v-model="phone" id="txtPhone"
                                             aria-describedby="emailHelp" placeholder="Enter Phone Nummber">
                                         <small id="phoneHelp" class="form-text text-danger"></small>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Address</label>
+                                        <label for="exampleInputEmail1">Address*</label>
                                         <input type="text" class="form-control" v-model="address" id="txtAddress"
                                             aria-describedby="emailHelp" placeholder="Enter Address">
                                         <small id="addressHelp" class="form-text text-danger"></small>
@@ -58,23 +58,32 @@
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-12 col-sm-12">
-                                <div class="product-detail-desc pd-20 card-box height-100-p" v-for="item in list"
-                                    v-bind:key="item.id">
+                                <div class="product-detail-desc pd-20 card-box height-100-p">
                                     <img :src="'./assets/img/school.jpg'" alt="" class="school-img" />
-                                    <h1 class="mb-20 pt-20 text-center mt-5">{{ item.school_name }}</h1>
-                                    <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5>
-                                    <h5 class="mb-20 pt-20 text-center">{{ item.address }}</h5>
+                                    <div v-if="!list || !list.length">
+                                                <div class="div-empity-table">
+
+                                                    <p class="col-12 text-center empity-table text-black-50">Please setup your school</p>
+                                                </div>
 
 
-                                    <div class="row">
-                                        <div class="col-md-6 col-6">
-                                            <a href="#" class="btn btn-primary btn-block"
-                                                v-on:click="edit_school(item.id)">Edit</a>
-                                        </div>
+                                            </div>
+                                    <div v-for="item in list" v-bind:key="item.id">
+                                        <h1 class="mb-20 pt-20 text-center mt-5">{{ item.school_name }}</h1>
+                                        <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5>
+                                        <h5 class="mb-20 pt-20 text-center">{{ item.address }}</h5>
 
-                                        <div class="col-md-6 col-6">
-                                            <a href="#" class="btn btn-outline-primary btn-block"
-                                                v-on:click="delete_school(item.id)">Delete</a>
+
+                                        <div class="row">
+                                            <div class="col-md-6 col-6">
+                                                <a href="#" class="btn btn-primary btn-block"
+                                                    v-on:click="edit_school(item.id)">Edit</a>
+                                            </div>
+
+                                            <div class="col-md-6 col-6">
+                                                <a href="#" class="btn btn-outline-primary btn-block"
+                                                    v-on:click="delete_school(item.id)">Delete</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -144,12 +153,15 @@ export default {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
-                                if (result.isConfirmed) {
+                                
                                     this.btn = 'Save';
                                     this.getUnits();
                                     // window.location.reload();
 
-                                }
+                                this.school_name='';
+                                this.reg_number='';
+                                this.phone='';
+                                this.address='';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -223,11 +235,13 @@ export default {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
+                                
                                     this.getUnits();
 
-                                }
+                                this.school_name='';
+                                this.reg_number='';
+                                this.phone='';
+                                this.address='';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({

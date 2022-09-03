@@ -2,88 +2,6 @@
     <Navbar />
     <Sidebar />
 
-    <!-- <div class="content-wrapper" style="min-height: 792px;">
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0"></h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Program</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="card">
-                        <div class="card-header bg-secondary">
-                            <strong>Manage Program</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Faculty Name</label>
-                                <select class="form-control select2 select2-hidden-accessible" data-select2-id="9"
-                                    tabindex="-1" aria-hidden="true" v-model="faculty_id" id="txtFaculty">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option v-for="item in faculty_list" v-bind:key="item.id" :value="item.id">
-                                        {{ item.faculty }}
-                                    </option>
-                                </select>
-                               
-                                <small id="facultyHelp" class="form-text text-danger"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Program Name</label>
-                                <input type="text" class="form-control" v-model="program" id="txtProgram"
-                                    aria-describedby="programHelp" placeholder="Enter Program Name">
-                                <small id="programHelp" class="form-text text-danger"></small>
-                            </div>
-                            <div>
-                                <button class="btn btn-success float-right" v-on:click="save">{{ btn_save }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="card">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Faculty</th>
-                                    <th scope="col">Program</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in program_list" v-bind:key="item.id">
-                                    <th scope="row">{{ item.id }}</th>
-                                    <td>{{ item.faculty.faculty }}</td>
-                                    <td>{{ item.program }}</td>
-                                    <td>
-                                        <div class="row btn-action">
-                                            <i class="fas fa-edit text-warning" v-on:click="edit(item.id)"></i>
-                                            <i class="fas fa-trash ml-2 text-danger"
-                                                v-on:click="deleteProgram(item.id)"></i>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="min-height-200px">
@@ -127,7 +45,7 @@
                                         <small id="facultyHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group col-lg-12">
-                                        <label for="exampleInputEmail1">Faculty Name</label>
+                                        <label for="exampleInputEmail1">Program Name</label>
                                         <input type="text" class="form-control" v-model="program" id="txtProgram"
                                             aria-describedby="programHelp" placeholder="Enter Program Name">
                                         <small id="programHelp" class="form-text text-danger"></small>

@@ -2,115 +2,7 @@
     <Navbar />
     <Sidebar />
 
-    <!-- <div class="content-wrapper" style="min-height: 792px;">
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Course Management</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Course</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header bg-secondary">
-                            <strong>Manage Books</strong>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Program Name</label>
-                                <select class="form-control select2 select2-hidden-accessible" data-select2-id="9"
-                                    tabindex="-1" aria-hidden="true" v-model="program_id" id="txtProgram">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option v-for="item in program_list" v-bind:key="item.id" :value="item.id">
-                                        {{ item.program }}
-                                    </option>
-                                </select>
-                                <small id="programHelp" class="form-text text-danger"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Semester</label>
-                                <select class="form-control" data-select2-id="9" v-model="semester" id="txtSemester">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option value="1">First Semester</option>
-                                    <option value="2">Second Semester</option>
-                                    <option value="3">Third Semester</option>
-                                    <option value="4">Fourth Semester</option>
-                                    <option value="5">Fifth Semester</option>
-                                    <option value="6">Sixth Semester</option>
-                                    <option value="7">Seven Semester</option>
-                                    <option value="8">Eight Semester</option>
-                                </select>
-                                <small id="semesterHelp" class="form-text text-danger"></small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Book Name</label>
-                                <select class="form-control select2 select2-hidden-accessible" data-select2-id="9"
-                                    tabindex="-1" aria-hidden="true" v-model="book_id" id="txtBook">
-
-                                    <option value="" selected>Please select Faculty</option>
-                                    <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
-                                        {{ item.book }}
-                                    </option>
-                                </select>
-                                <small id="bookHelp" class="form-text text-danger"></small>
-                            </div>
-
-                            <div>
-                                <button class="btn btn-success float-right" v-on:click="save">Submit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Program</th>
-                                    <th scope="col">Semester</th>
-                                    <th scope="col">Book</th>
-
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in course_list" v-bind:key="item.id">
-                                    <th scope="row">{{ item.id }}</th>
-                                    <th scope="row">{{ item.program.program }}</th>
-                                    <th scope="row">{{ item.semester }}</th>
-                                    <th scope="row">{{ item.book.book }}</th>
-
-
-                                    <td>
-                                        <div class="row btn-action">
-                                            <i class="fas fa-edit text-warning" v-on:click="edit(item.id)"></i>
-                                            <i class="fas fa-trash ml-2 text-danger"
-                                                v-on:click="deleteCourse(item.id)"></i>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+   
 
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -142,11 +34,11 @@
                             <div class="col-lg-6 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Program Name</label>
+                                        <label for="exampleInputEmail1">Program Name*</label>
                                         <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                             aria-hidden="true" v-model="program_id" id="txtProgram">
 
-                                            <option value="" selected>Please select Faculty</option>
+                                            <option value="" selected>Please select Program*</option>
                                             <option v-for="item in program_list" v-bind:key="item.id" :value="item.id">
                                                 {{ item.program }}
                                             </option>
@@ -154,11 +46,11 @@
                                         <small id="programHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Semester</label>
+                                        <label for="exampleInputEmail1">Semester*</label>
                                         <select class="form-control" data-select2-id="9" v-model="semester"
                                             id="txtSemester">
 
-                                            <option value="" selected>Please select Faculty</option>
+                                            <option value="" selected>Please select Semester</option>
                                             <option value="1">First Semester</option>
                                             <option value="2">Second Semester</option>
                                             <option value="3">Third Semester</option>
@@ -171,11 +63,11 @@
                                         <small id="semesterHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Book Name</label>
+                                        <label for="exampleInputEmail1">Book Name*</label>
                                         <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                             aria-hidden="true" v-model="book_id" id="txtBook">
 
-                                            <option value="" selected>Please select Faculty</option>
+                                            <option value="" selected>Please select Book</option>
                                             <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
                                                 {{ item.book }}
                                             </option>
@@ -242,10 +134,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr v-for="item in course_list" v-bind:key="item.id">
-                                                    <th scope="row">{{ item.id }}</th>
-                                                    <th scope="row">{{ item.program.program }}</th>
-                                                    <th scope="row">{{ item.semester }}</th>
-                                                    <th scope="row">{{ item.book.book }}</th>
+                                                    <td scope="row">{{ item.id }}</td>
+                                                    <td scope="row">{{ item.program.program }}</td>
+                                                    <td scope="row">{{ item.semester }}</td>
+                                                    <td scope="row">{{ item.book.book }}</td>
 
 
                                                     <td>
