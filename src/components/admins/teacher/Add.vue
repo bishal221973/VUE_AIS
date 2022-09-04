@@ -109,8 +109,9 @@
                                                 </div>
                                                 <div class="form-group col-lg-4" v-if="update_record === ''">
                                                     <label for="exampleInputEmail1">Password Confirmation*</label>
-                                                    <input type="password" class="form-control" v-model="password_confirmation"
-                                                        id="txtPassword" aria-describedby="bookHelp"
+                                                    <input type="password" class="form-control"
+                                                        v-model="password_confirmation" id="txtPassword"
+                                                        aria-describedby="bookHelp"
                                                         placeholder="Enter Confirm Password">
                                                     <small id="passwordHelp" class="form-text text-danger"></small>
                                                 </div>
@@ -121,11 +122,13 @@
                                         <div class="col-lg-3 ">
                                             <div class="rounded-circle border-secondary teacher-profile">
                                                 <div class="form-group">
-                                                    <img :src="'./assets/img/user.png'" alt="" class="school-img" />
+                                                   
+                                                        <img v-if="url" :src="url" class="profile_img"/>
+                                                    <!-- <img :src="'./assets/img/user.png'" alt="" class="school-img" /> -->
                                                 </div>
                                                 <div class="txtprofile form-group">
                                                     <input type="file" :v-model="profile" id="txtprofile"
-                                                        class="form-control">
+                                                        class="form-control" @change="onFileChange">
                                                     <!-- <label class="">Choose your profile</label> -->
                                                     <small id="profileHelp" class="form-text text-danger"></small>
                                                 </div>
@@ -169,43 +172,42 @@
                                             </thead>
 
                                             <tbody>
-                                                <div
-                                                    v-if="!teacher_list || !teacher_list.length">
+                                                <div v-if="!teacher_list || !teacher_list.length">
                                                     <div class="div-empity-table">
 
-                                                        <p class="col-12 text-center empity-table text-black-50"> Oops! No
+                                                        <p class="col-12 text-center empity-table text-black-50"> Oops!
+                                                            No
                                                             record found.</p>
                                                     </div>
 
 
                                                 </div>
-                                                
-                                                    <tr v-else v-for="item in teacher_list" v-bind:key="item.id">
-                                                        <td scope="row">{{ item.teacher[0].id }}</td>
-                                                        <td scope="row">{{ item.name }}</td>
-                                                        <td scope="row">{{ item.profile }}
-                                                            <span class="user-icon">
-                                                                <img :src="'./assets/vendors/images/photo1.jpg'"
-                                                                    alt="" />
-                                                            </span>
-                                                        </td>
-                                                        <td scope="row">{{ item.username }}</td>
-                                                        <td scope="row">{{ item.email }}</td>
-                                                        <td scope="row">{{ item.teacher[0].gender }}</td>
-                                                        <td scope="row">{{ item.teacher[0].address }}</td>
-                                                        <td scope="row">{{ item.teacher[0].dob }}</td>
-                                                        <td scope="row">{{ item.teacher[0].phone }}</td>
-                                                        <td>
-                                                            <div class="row">
-                                                                <button class="btn btn-warning text-white"
-                                                                    v-on:click="edit(item.teacher[0].id)">Edit</button>
-                                                                <button class="btn btn-danger text-white ml-1"
-                                                                    v-on:click="deleteTeacher(item.teacher[0].id)">Delete</button>
 
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                
+                                                <tr v-else v-for="item in teacher_list" v-bind:key="item.id">
+                                                    <td scope="row">{{ item.teacher[0].id }}</td>
+                                                    <td scope="row">{{ item.name }}</td>
+                                                    <td scope="row">{{ item.profile }}
+                                                        <span class="user-icon">
+                                                            <img :src="'./assets/vendors/images/photo1.jpg'" alt="" />
+                                                        </span>
+                                                    </td>
+                                                    <td scope="row">{{ item.username }}</td>
+                                                    <td scope="row">{{ item.email }}</td>
+                                                    <td scope="row">{{ item.teacher[0].gender }}</td>
+                                                    <td scope="row">{{ item.teacher[0].address }}</td>
+                                                    <td scope="row">{{ item.teacher[0].dob }}</td>
+                                                    <td scope="row">{{ item.teacher[0].phone }}</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <button class="btn btn-warning text-white"
+                                                                v-on:click="edit(item.teacher[0].id)">Edit</button>
+                                                            <button class="btn btn-danger text-white ml-1"
+                                                                v-on:click="deleteTeacher(item.teacher[0].id)">Delete</button>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
 
                                             </tbody>
                                         </table>
@@ -244,7 +246,7 @@ export default {
             'username': '',
             'email': '',
             'password': '',
-            'password_confirmation':'',
+            'password_confirmation': '',
             'gender': '',
             'address': '',
             'dob': '',
@@ -255,9 +257,15 @@ export default {
             'btn': 'Save',
             'update_record': '',
             'teacher_id': '',
+            'url':'./assets/img/user.png',
         }
     },
     methods: {
+
+        onFileChange(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
         save() {
             document.getElementById('nameHelp').innerHTML = '';
             document.getElementById('usernameHelp').innerHTML = '';
@@ -392,7 +400,7 @@ export default {
                         username: this.username,
                         email: this.email,
                         password: this.password,
-                        password_confirmation:::::this.password_confirmation,
+                        password_confirmation: this.password_confirmation,
                         gender: this.gender,
                         address: this.address,
                         dob: this.dob,
@@ -605,7 +613,7 @@ export default {
     height: 200px;
     width: 200px;
     margin: 0 auto;
-    background-color: rgba(210, 210, 210, 210);
+    /* background-color: rgba(210, 210, 210, 210); */
 }
 
 .div-search {
@@ -625,12 +633,17 @@ input.nosubmit {
     padding: 7px 4px 7px 40px;
     background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
 }
-.empity-table{
+
+.empity-table {
     position: absolute;
     font-size: 3rem;
     margin-top: 40px;
 }
-.div-empity-table{
+
+.div-empity-table {
     height: 110px;
+}
+.profile_img{
+    
 }
 </style>
