@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="title">
-                                <h4>Program</h4>
+                                <h4>Student</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
@@ -16,7 +16,7 @@
                                         <a href="index.html">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Program
+                                        Student
                                     </li>
 
                                 </ol>
@@ -37,25 +37,17 @@
                                                 class="col-12 mb-4 text-black-50 text-uppercase text-monospace">Personal
                                                 Informations</label>
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">First Name</label>
-                                                <input type="text" class="form-control" v-model="first_name"
-                                                    id="txtFirstName" aria-describedby="bookHelp"
-                                                    placeholder="Enter First Name">
+                                                <label for="exampleInputEmail1">Name*</label>
+                                                <input type="text" class="form-control" v-model="name" id="txtFirstName"
+                                                    aria-describedby="bookHelp" placeholder="Enter Name">
                                                 <small id="firstnameHelp" class="form-text text-danger"></small>
                                             </div>
 
 
-                                            <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Last Name</label>
-                                                <input type="text" class="form-control" v-model="last_name"
-                                                    id="txtLastName" aria-describedby="bookHelp"
-                                                    placeholder="Enter Last Name">
-                                                <small id="lastnameHelp" class="form-text text-danger"></small>
-                                            </div>
 
 
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Email</label>
+                                                <label for="exampleInputEmail1">Email*</label>
                                                 <input type="text" class="form-control" v-model="email" id="txtEmail"
                                                     aria-describedby="bookHelp" placeholder="Enter Email">
                                                 <small id="emailHelp" class="form-text text-danger"></small>
@@ -63,7 +55,7 @@
 
 
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Gender</label>
+                                                <label for="exampleInputEmail1">Gender*</label>
                                                 <select class="form-control select2  " data-select2-id="9" tabindex="-1"
                                                     aria-hidden="true" v-model="gender" id="txtGender">
 
@@ -75,20 +67,20 @@
                                                 <small id="genderHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Address</label>
+                                                <label for="exampleInputEmail1">Address*</label>
                                                 <input type="text" class="form-control" v-model="address"
                                                     id="txtAddress" aria-describedby="bookHelp"
                                                     placeholder="Enter Address">
                                                 <small id="addressHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">DOB</label>
+                                                <label for="exampleInputEmail1">DOB*</label>
                                                 <input type="date" class="form-control" v-model="dob" id="txtDOB"
                                                     aria-describedby="bookHelp" placeholder="Enter DOB">
                                                 <small id="dobHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Phone</label>
+                                                <label for="exampleInputEmail1">Phone*</label>
                                                 <input type="number" class="form-control" v-model="phone" id="txtPhone"
                                                     aria-describedby="bookHelp" placeholder="Enter Phone number">
                                                 <small id="phoneHelp" class="form-text text-danger"></small>
@@ -98,21 +90,7 @@
 
 
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Faculty Name</label>
-                                                <select class="form-control select2" data-select2-id="9" tabindex="-1"
-                                                    aria-hidden="true" v-model="program_id" id="txtProgram">
-
-                                                    <option value="" selected>Please select Faculty</option>
-                                                    <option v-for="item in program_list" v-bind:key="item.id"
-                                                        :value="item.id">
-                                                        {{ item.program }}
-                                                    </option>
-                                                </select>
-                                                <small id="programHelp" class="form-text text-danger"></small>
-                                            </div>
-
-                                            <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Program Name</label>
+                                                <label for="exampleInputEmail1">Program*</label>
                                                 <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                                     aria-hidden="true" v-model="program_id" id="txtProgram">
 
@@ -125,19 +103,32 @@
                                                 <small id="programHelp" class="form-text text-danger"></small>
                                             </div>
 
+                                            <div class="form-group col-lg-4">
+                                                <label for="exampleInputEmail1">Father's Name*</label>
+                                                <input type="text" class="form-control" v-model="f_name" id="txtPhone"
+                                                    aria-describedby="bookHelp" placeholder="Enter Father's Name">
+                                                <small id="fnameHelp" class="form-text text-danger"></small>
+                                            </div>
+
+                                            <div class="form-group col-lg-4">
+                                                <label for="exampleInputEmail1">Mother's Name*</label>
+                                                <input type="text" class="form-control" v-model="m_name" id="txtPhone"
+                                                    aria-describedby="bookHelp" placeholder="Enter Mother's Name">
+                                                <small id="mnameHelp" class="form-text text-danger"></small>
+                                            </div>
 
                                             <label class="col-12 mb-4 text-black-50 text-uppercase text-monospace">Login
                                                 Informations</label>
 
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Username</label>
+                                                <label for="exampleInputEmail1">Username*</label>
                                                 <input type="text" class="form-control" v-model="username"
                                                     id="txtUsername" aria-describedby="bookHelp"
                                                     placeholder="Enter Username">
                                                 <small id="usernameHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-lg-4">
-                                                <label for="exampleInputEmail1">Password</label>
+                                                <label for="exampleInputEmail1">Password*</label>
                                                 <input type="password" class="form-control" v-model="password"
                                                     id="txtPassword" aria-describedby="bookHelp"
                                                     placeholder="Enter Password">
@@ -145,9 +136,9 @@
                                             </div>
                                             <div class="form-group col-lg-4">
                                                 <label for="exampleInputEmail1">Password Confirmation*</label>
-                                                <input type="password" class="form-control" v-model="password"
-                                                    id="txtPassword" aria-describedby="bookHelp"
-                                                    placeholder="Enter Confirm Password">
+                                                <input type="password" class="form-control"
+                                                    v-model="password_confirmation" id="txtPassword"
+                                                    aria-describedby="bookHelp" placeholder="Enter Confirm Password">
                                                 <small id="passwordHelp" class="form-text text-danger"></small>
                                             </div>
 
@@ -158,16 +149,19 @@
                                     <div class="col-lg-3 ">
                                         <div class="rounded-circle border-secondary teacher-profile">
                                             <div class="form-group">
-                                                <img :src="'./assets/img/user.png'" alt="" class="school-img" />
+
+                                                <img v-if="url" :src="url" class="profile_img" />
+                                                <!-- <img :src="'./assets/img/user.png'" alt="" class="school-img" /> -->
                                             </div>
                                             <div class="txtprofile form-group">
                                                 <input type="file" :v-model="profile" id="txtprofile"
-                                                    class="form-control">
+                                                    class="form-control" @change="onFileChange">
+                                                <!-- <label class="">Choose your profile</label> -->
                                                 <small id="profileHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-12">
                                                 <button class="btn btn-success mt-2 col-12" v-on:click="save">{{
-                                                        btn
+                                                btn
                                                 }}</button>
                                             </div>
                                         </div>
@@ -179,54 +173,66 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 mt-5">
                             <div class="product-detail-desc pd-20 card-box">
                                 <div class="row">
-                                    <h3 class="text-uppercase mb-3 ml-2 col-5">Students List</h3>
+                                    <h3 class="text-uppercase mb-3 ml-2 col-4">Students List</h3>
 
-                                    <!-- Faculty -->
-                                    <div class="dropdown ml-4 mr-2">
-                                        <button class="btn btn-info dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Faculty
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
+
+                                    <!-- Program -->
+                                    <div class="form-group col-2">
+                                        <select class="custom-select text-white select2 my-select bg-info"
+                                            data-select2-id="9" tabindex="-1" aria-hidden="true" v-model="program_id"
+                                            id="txtProgram">
+
+                                            <option value="" selected class="bg-white text-dark" disabled>Program
+                                            </option>
+                                            <option class="bg-white text-dark" v-for="item in program_list"
+                                                v-bind:key="item.id" :value="item.id">
+                                                {{ item.program }}
+                                            </option>
+                                        </select>
+                                        <small id="programHelp" class="form-text text-danger"></small>
                                     </div>
 
-                                     <!-- Program -->
-                                     <div class="dropdown mr-2">
-                                        <button class="btn btn-info dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Program
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <!-- Semester -->
 
-                                     <!-- Semester -->
-                                     <div class="dropdown mr-5">
-                                        <button class="btn btn-info dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Semester
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <div class="form-group col-2">
+                                        <select class="custom-select text-white select2 my-select bg-info"
+                                            data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                            v-model="search_semester" id="txtProgram">
 
+                                            <option value="" selected class="bg-white text-dark" disabled>Semester
+                                            </option>
+                                            <option value="1" selected class="bg-white text-dark">First Semester
+                                            </option>
+                                            <option value="2" selected class="bg-white text-dark">Second Semester
+                                            </option>
+                                            <option value="3" selected class="bg-white text-dark">Third Semester
+                                            </option>
+                                            <option value="4" selected class="bg-white text-dark">Fourth Semester
+                                            </option>
+                                            <option value="5" selected class="bg-white text-dark">Fifth Semester
+                                            </option>
+                                            <option value="6" selected class="bg-white text-dark">Sixth Semester
+                                            </option>
+                                            <option value="7" selected class="bg-white text-dark">Seventh Semester
+                                            </option>
+
+                                        </select>
+                                        <small id="programHelp" class="form-text text-danger"></small>
+                                    </div>
 
                                     <form class="nosubmit">
-                                        <input class="nosubmit" type="search" placeholder="Search Teacher...">
+                                        <input class="nosubmit" type="search" placeholder="Search Teacher..."
+                                            v-model="search_data">
                                     </form>
+
+                                    <div class="form-group">
+
+                                        <button class="btn btn-success btn-sm ml-2" v-on:click="filter"><i
+                                                class="icon-copy fa fa-eye" aria-hidden="true"></i> Filter</button>
+
+
+                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <table class="table">
@@ -235,19 +241,17 @@
                                                 <th scope="col">#</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Username</th>
-                                                <th scope="col">Email</th>
                                                 <th scope="col">Gender</th>
                                                 <th scope="col">Program</th>
                                                 <th scope="col">Semester</th>
-                                                <th scope="col">Address</th>
                                                 <th scope="col">DOB</th>
                                                 <th scope="col">Phone</th>
                                                 <th scope="col">Profile</th>
-                                                <th scope="col"></th>
+                                                <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <div v-if="!teacher_list || !teacher_list.length">
+                                            <div v-if="!student_list || !student_list.length">
                                                 <div class="div-empity-table">
 
                                                     <p class="col-12 text-center empity-table text-black-50"> Oops! No
@@ -257,26 +261,32 @@
 
                                             </div>
                                             <tr v-else v-for="item in student_list" v-bind:key="item.id">
-                                                <th scope="row">{{ item.id }}</th>
-                                                <th scope="row">{{ item.name }}</th>
-                                                <th scope="row">{{ item.username }}</th>
-                                                <th scope="row">{{ item.email }}</th>
-                                                <th scope="row">{{ item.student[0].gender }}</th>
-                                                <th scope="row">{{ item.student[0].program.program }}</th>
-                                                <th scope="row">{{ item.student[0].semester }}</th>
-                                                <!-- <th scope="row">{{ item.student[0].roll_number }}</th> -->
-                                                <th scope="row">{{ item.student[0].address }}</th>
-                                                <th scope="row">{{ item.student[0].dob }}</th>
-                                                <th scope="row">{{ item.student[0].phone }}</th>
-                                                <th scope="row">{{ item.student[0].profile }}</th>
+                                                <td scope="row">{{ item.id }}</td>
+                                                <td scope="row">{{ item.name }}</td>
+                                                <td scope="row">{{ item.username }}</td>
+                                                <td scope="row">{{ item.student[0].gender }}</td>
+                                                <td scope="row">{{ item.student[0].program.program }}</td>
+                                                <td scope="row">{{ item.student[0].semester }}</td>
+                                                <!-- <td scope="row">{{ item.student[0].roll_number }}</td> -->
+                                                <td scope="row">{{ item.student[0].dob }}</td>
+                                                <td scope="row">{{ item.student[0].phone }}</td>
+                                                <td scope="row">{{ item.student[0].profile }}</td>
                                                 <td>
                                                     <div class="row btn-action">
-                                                        <a href="#" class="text-warning"><i
-                                                                class="icon-copy fa fa-edit fa-2x" aria-hidden="true"
-                                                                v-on:click="edit(item.student[0].id)"></i></a>
-                                                        <a href="#" class="text-danger ml-3"><i
-                                                                class="icon-copy fa fa-trash fa-2x" aria-hidden="true"
+                                                        <a href="#" class="btn btn-success btn-sm ml-1"><i
+                                                                class="icon-copy fa fa-eye" aria-hidden="true"
                                                                 v-on:click="deleteStudent(item.student[0].id)"></i></a>
+
+                                                        <a href="#" class="btn btn-danger btn-sm ml-1"><i
+                                                                class="icon-copy fa fa-edit" aria-hidden="true"
+                                                                v-on:click="edit(item.student[0].id)"></i></a>
+
+
+                                                        <a href="#" class="btn btn-warning btn-sm ml-1"><i
+                                                                class="icon-copy fa fa-trash" aria-hidden="true"
+                                                                v-on:click="deleteStudent(item.student[0].id)"></i></a>
+
+
 
 
                                                     </div>
@@ -327,11 +337,22 @@ export default {
             'profile': '',
             'update_student': '',
             'students_id': '',
+            'f_name': '',
+            'm_name': '',
             'btn': 'Save',
+            'password_confirmation':'',
+            'url':'./assets/img/user.png',
+            'search_semester':'',
+            'search_program':'',
+            'search_data':'',
         }
     },
     components: { Navbar, Sidebar },
     methods: {
+        onFileChange(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file);
+        },
         getUnits: function () {
 
 
@@ -366,78 +387,17 @@ export default {
 
         },
         save() {
-            if (this.name == '') {
-                document.getElementById('firstnameHelp').innerHTML = "Please enter name";
-                document.getElementById('txtFirstName').style.borderColor = "red";
-            } else {
-                document.getElementById('nameHelp').innerHTML = "";
-                document.getElementById('txtName').style.borderColor = "gray";
-            }
-
-            if (this.username == '') {
-                document.getElementById('usernameHelp').innerHTML = "Please enter username";
-                document.getElementById('txtUsername').style.borderColor = "red";
-            } else {
-                document.getElementById('usernameHelp').innerHTML = "";
-                document.getElementById('txtUsername').style.borderColor = "gray";
-            }
-
-            if (this.email == '') {
-                document.getElementById('emailHelp').innerHTML = "Please enter email";
-                document.getElementById('txtEmail').style.borderColor = "red";
-            } else {
-                document.getElementById('emailHelp').innerHTML = "";
-                document.getElementById('txtEmail').style.borderColor = "gray";
-            }
-
-            if (this.password == '') {
-                document.getElementById('passwordHelp').innerHTML = "Please enter password";
-                document.getElementById('txtPassword').style.borderColor = "red";
-            } else {
-                document.getElementById('passwordHelp').innerHTML = "";
-                document.getElementById('txtPassword').style.borderColor = "gray";
-            }
-
-            if (this.program_id == '') {
-                document.getElementById('programHelp').innerHTML = "Please select program";
-                document.getElementById('txtProgram').style.borderColor = "red";
-            } else {
-                document.getElementById('programHelp').innerHTML = "";
-                document.getElementById('txtProgram').style.borderColor = "gray";
-            }
-
-            if (this.gender == '') {
-                document.getElementById('genderHelp').innerHTML = "Please enter gender";
-                document.getElementById('txtGender').style.borderColor = "red";
-            } else {
-                document.getElementById('genderHelp').innerHTML = "";
-                document.getElementById('txtGender').style.borderColor = "gray";
-            }
-
-            if (this.address == '') {
-                document.getElementById('addressHelp').innerHTML = "Please enter address";
-                document.getElementById('txtAddress').style.borderColor = "red";
-            } else {
-                document.getElementById('addressHelp').innerHTML = "";
-                document.getElementById('txtAddress').style.borderColor = "gray";
-            }
-
-            if (this.dob == '') {
-                document.getElementById('dobHelp').innerHTML = "Please enter dob";
-                document.getElementById('txtDOB').style.borderColor = "red";
-            } else {
-                document.getElementById('dobHelp').innerHTML = "";
-                document.getElementById('txtDOB').style.borderColor = "gray";
-            }
-            if (this.phone == '') {
-                document.getElementById('phoneHelp').innerHTML = "Please enter phone";
-                document.getElementById('txtPhone').style.borderColor = "red";
-            } else {
-                document.getElementById('phoneHelp').innerHTML = "";
-                document.getElementById('txtPhone').style.borderColor = "gray";
-            }
-
-            if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
+            document.getElementById('firstnameHelp').innerHTML='';
+            document.getElementById('emailHelp').innerHTML='';
+            document.getElementById('genderHelp').innerHTML='';
+            document.getElementById('addressHelp').innerHTML='';
+            document.getElementById('dobHelp').innerHTML='';
+            document.getElementById('phoneHelp').innerHTML='';
+            document.getElementById('programHelp').innerHTML='';
+            document.getElementById('usernameHelp').innerHTML='';
+            document.getElementById('passwordHelp').innerHTML='';
+            document.getElementById('fnameHelp').innerHTML='';
+            document.getElementById('mnameHelp').innerHTML='';
                 if (this.update_student != 'true') {
 
 
@@ -447,11 +407,14 @@ export default {
                             username: this.username,
                             email: this.email,
                             password: this.password,
+                            password_confirmation:this.password_confirmation,
                             program_id: this.program_id,
                             gender: this.gender,
                             address: this.address,
                             dob: this.dob,
                             phone: this.phone,
+                            f_name:this.f_name,
+                            m_name:this.m_name,
                             profile: this.profile,
                         },
                         {
@@ -475,6 +438,18 @@ export default {
 
                                     }
                                 })
+                                this.name='';
+                                this.email='';
+                                this.gender='';
+                                this.address='';
+                                this.dob='';
+                                this.phone='';
+                                this.program_id='';
+                                this.f_name='';
+                                this.m_name='';
+                                this.username='';
+                                this.password='';
+                                this.password_confirmation='';
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
                                     icon: 'error',
@@ -492,17 +467,82 @@ export default {
                             }
                         }).catch(error => {
 
+                            if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function (key, value) {
+                                if (key == 'name') {
+                                    document.getElementById('firstnameHelp').innerHTML = error.response.data.errors.name[0];
+
+                                }
+                                if (key == 'email') {
+                                    document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
+
+                                }
+                                if (key == 'gender') {
+                                    document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
+
+                                }
+                                if (key == 'address') {
+                                    document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
+
+                                }
+                                if (key == 'dob') {
+                                    document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
+
+                                }
+
+                                if (key == 'phone') {
+                                    document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
+
+                                }
+                                if (key == 'program_id') {
+                                    document.getElementById('programHelp').innerHTML = error.response.data.errors.program_id[0];
+
+                                }
+                                if (key == 'username') {
+                                    document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
+
+                                }
+                                if (key == 'password') {
+                                    document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
+
+                                }
+                                if (key == 'f_name') {
+                                    document.getElementById('fnameHelp').innerHTML = error.response.data.errors.f_name[0];
+
+                                }
+                                if (key == 'm_name') {
+                                    document.getElementById('mnameHelp').innerHTML = error.response.data.errors.m_name[0];
+
+                                }
+                               
+                            });
+                        } else if (error.response.status == 401) {
+                            Swal.fire({
+                                title: 'You are not authorised user',
+                                text: "Please login to perform any transaction",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.$router.push({ path: "/login" });
+
+                                }
+                            })
+                        }
+                        else {
                             Swal.fire(
                                 'Warning',
                                 'error: ' + error,
                                 'error'
                             )
+                        }
                         });
 
                     return result;
                 }
-            }
-            else if (this.name != '' && this.username != '' && this.email != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
                 if (this.update_student == 'true') {
                     let result = axios.put('http://127.0.0.1:8000/api/student/' + this.students_id,
                         {
@@ -515,6 +555,8 @@ export default {
                             address: this.address,
                             dob: this.dob,
                             phone: this.phone,
+                            f_name:this.f_name,
+                            m_name:this.m_name,
                             profile: this.profile,
                         },
                         {
@@ -549,6 +591,19 @@ export default {
 
                                     }
                                 })
+                                this.name='';
+                                this.email='';
+                                this.gender='';
+                                this.address='';
+                                this.dob='';
+                                this.phone='';
+                                this.program_id='';
+                                this.f_name='';
+                                this.m_name='';
+                                this.username='';
+                                this.password='';
+                                this.password_confirmation='';
+
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
                                     icon: 'error',
@@ -575,7 +630,54 @@ export default {
 
                     return result;
                 }
-            }
+            // }
+        },
+        filter(){
+           
+            let result = axios.post('http://127.0.0.1:8000/api/student-search',
+                        {
+                           
+                            program_id: this.program_id,
+                            search_data:this.search_data,
+                            semester:this.semester, 
+                        },
+                        {
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            }
+                        }).then((response) => {
+                            this.student_list = response.data;
+                            console.log(response.data);
+                        }).catch(error => {
+
+                            
+                        if (error.response.status == 401) {
+                            Swal.fire({
+                                title: 'You are not authorised user',
+                                text: "Please login to perform any transaction",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.$router.push({ path: "/login" });
+
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
+                        });
+
+                    return result;
         },
         edit(student_id) {
             axios.get('http://127.0.0.1:8000/api/student/' + student_id,
@@ -594,6 +696,8 @@ export default {
                     this.dob = response.data.dob;
                     this.phone = response.data.phone;
                     this.profile = response.data.profile;
+                    this.f_name = response.data.f_name;
+                    this.m_name = response.data.m_name;
 
                     this.update_student = 'true';
                     this.students_id = response.data.id;
@@ -656,6 +760,58 @@ export default {
     },
     beforeMount() {
         this.getUnits()
+    },
+    watch: {
+        search_data: function(val, oldVal) {
+             let result = axios.post('http://127.0.0.1:8000/api/student-search',
+                    {
+                        search_data: this.search_data,
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        
+                            this.student_list=response.data;
+                        
+                    }).catch(error => {
+
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function (key, value) {
+                                if (key == 'faculty') {
+                                    document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+
+                                }
+                            });
+                        } else if (error.response.status == 401) {
+                            Swal.fire({
+                                title: 'You are not authorised user',
+                                text: "Please login to perform any transaction",
+                                icon: 'warning',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.$router.push({ path: "/login" });
+
+                                }
+                            })
+                        }
+                        else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
+                    });
+
+                return result;
+        }
     },
 }
 </script>

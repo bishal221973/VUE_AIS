@@ -645,6 +645,8 @@ input.nosubmit {
     height: 110px;
 }
 .profile_img{
-    
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
 }
 </style>

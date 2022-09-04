@@ -2,7 +2,7 @@
     <Navbar />
     <Sidebar />
 
-   
+
 
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -86,14 +86,12 @@
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
 
-                                        <!-- <input type="text" class="form-control col-3 search-input  m-3"
-                                            v-model="search_text" placeholder="Search book" /> -->
-                                        <div class="form-group">
-                                            <select class="form-control select2" data-select2-id="9" tabindex="-1"
+                                        <div class="form-group col-4">
+                                            <select class="custom-select text-white select2 my-select bg-info" data-select2-id="9" tabindex="-1"
                                                 aria-hidden="true" v-model="search_text" id="txtProgram">
 
-                                                <option value="" selected>Please select Faculty</option>
-                                                <option v-for="item in program_list" v-bind:key="item.id"
+                                                <option value="" selected class="bg-white text-dark">Program</option>
+                                                <option class="bg-white text-dark" v-for="item in program_list" v-bind:key="item.id"
                                                     :value="item.program">
                                                     {{ item.program }}
                                                 </option>
@@ -101,23 +99,27 @@
                                             <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
 
-                                        <div class="form-group">
-                                            <select class="form-control select2" data-select2-id="9" tabindex="-1"
-                                                aria-hidden="true" v-model="search_text" id="txtProgram">
+                                        <div class="form-group col-4">
+                                            <select class="custom-select text-white select2 my-select bg-info" data-select2-id="9" tabindex="-1"
+                                                aria-hidden="true" v-model="search_semester" id="txtProgram">
 
-                                                <option value="" selected>Please select Faculty</option>
-                                                <option value="1" selected>First semester</option>
-                                                <option value="2" selected>Second semester</option>
-                                                <option value="3" selected>Third semester</option>
-                                                <option value="4" selected>Fourth semester</option>
-                                                <option value="5" selected>Fifth semester</option>
-                                                <option value="6" selected>Sixth semester</option>
-                                                <option value="7" selected>Seventh semester</option>
-                                               
-                                                
+                                                <option value="" selected class="bg-white text-dark">Semester</option>
+                                                <option class="bg-white text-dark" href="#">First semester</option>
+                                                <option class="bg-white text-dark" href="#">Second semester</option>
+                                                <option class="bg-white text-dark" href="#">Third semester</option>
+                                                <option class="bg-white text-dark" href="#">Fourth semester</option>
+                                                <option class="bg-white text-dark" href="#">Fifth semester</option>
+                                                <option class="bg-white text-dark" href="#">Sixth semester</option>
+                                                <option class="bg-white text-dark" href="#">Seventh semester</option>
                                             </select>
                                             <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
+
+
+                                       
+
+
+                                      
 
                                     </div>
                                     <div class="row">
@@ -512,3 +514,6 @@ export default {
     },
 }
 </script>
+
+<style>
+</style>
