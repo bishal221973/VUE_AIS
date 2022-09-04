@@ -109,14 +109,10 @@
                                                 </div>
                                                 <div class="form-group col-lg-4" v-if="update_record === ''">
                                                     <label for="exampleInputEmail1">Password Confirmation*</label>
-<<<<<<< HEAD
-                                                    <input type="password" class="form-control" v-model="password_confirmation"
-                                                        id="confirmPassword" aria-describedby="bookHelp"
-=======
+
                                                     <input type="password" class="form-control"
                                                         v-model="password_confirmation" id="txtPassword"
                                                         aria-describedby="bookHelp"
->>>>>>> 3002a1f800d601e7326e24b66190ab05759fdb08
                                                         placeholder="Enter Confirm Password">
                                                 </div>
 
@@ -405,11 +401,7 @@ export default {
                         username: this.username,
                         email: this.email,
                         password: this.password,
-<<<<<<< HEAD
-                        password_confirmation:this.password_confirmation,
-=======
                         password_confirmation: this.password_confirmation,
->>>>>>> 3002a1f800d601e7326e24b66190ab05759fdb08
                         gender: this.gender,
                         address: this.address,
                         dob: this.dob,
