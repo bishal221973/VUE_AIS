@@ -110,9 +110,8 @@
                                                 <div class="form-group col-lg-4" v-if="update_record === ''">
                                                     <label for="exampleInputEmail1">Password Confirmation*</label>
                                                     <input type="password" class="form-control" v-model="password_confirmation"
-                                                        id="txtPassword" aria-describedby="bookHelp"
+                                                        id="confirmPassword" aria-describedby="bookHelp"
                                                         placeholder="Enter Confirm Password">
-                                                    <small id="passwordHelp" class="form-text text-danger"></small>
                                                 </div>
 
                                             </div>
@@ -267,6 +266,7 @@ export default {
             document.getElementById('dobHelp').innerHTML = '';
             document.getElementById('phoneHelp').innerHTML = '';
             document.getElementById('profileHelp').innerHTML = '';
+            document.getElementById('passwordHelp').innerHTML = '';
 
             // if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
             if (this.update_record == 'true') {
@@ -392,6 +392,7 @@ export default {
                         username: this.username,
                         email: this.email,
                         password: this.password,
+                        password_confirmation:this.password_confirmation,
                         gender: this.gender,
                         address: this.address,
                         dob: this.dob,
