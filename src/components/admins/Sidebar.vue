@@ -112,26 +112,36 @@
                     <li>
                         <div class="sidebar-small-cap">Users</div>
                     </li>
+                   
                     <li class="dropdown">
-                        <a href="/appoind-hod" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-textarea-resize"></span><span class="mtext">HOD</span>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <i class="micon icon-copy fa fa-user-circle" aria-hidden="true"></i><span
+                                class="mtext">Hod</span>
                         </a>
+                        <ul class="submenu">
+                            <li><a href="/appoind-hod">Manage</a></li>
+                            <li><a href="/assign-teacher">Assign Subject</a></li>
+                            
+                        </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="/teacher" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-bug"></span><span class="mtext">Teacher</span>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <i class="micon icon-copy fa fa-user" aria-hidden="true"></i><span
+                                class="mtext">Teacher</span>
                         </a>
+                        <ul class="submenu">
+                            <li><a href="/teacher">Manage</a></li>
+                            <li><a href="/assign-teacher">Assign Subject</a></li>
+                            
+                        </ul>
+                    </li>
 
-                    </li>
-                    <li class="dropdown">
-                        <a href="/assign-teacher" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-bug"></span><span class="mtext">assign Teacher</span>
-                        </a>
 
-                    </li>
+
                     <li class="dropdown">
+                        <!-- icon-copy bi  -->
                         <a href="/student" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-textarea-resize"></span><span class="mtext">Student</span>
+                            <span class="micon bi bi-people-fill"></span><span class="mtext">Student</span>
                         </a>
                     </li>
                     <li>
@@ -139,38 +149,40 @@
                     </li>
                     <li class="dropdown">
                         <a href="/school-setup" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-table"></span><span class="mtext">School</span>
+                            <i class="micon icon-copy fa fa-building" aria-hidden="true"></i><span
+                                class="mtext">School</span>
                         </a>
 
                     </li>
                     <li class="dropdown">
                         <a href="/faculty" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-table"></span><span class="mtext">Faculty</span>
+                            <i class="micon icon-copy fa fa-fax" aria-hidden="true"></i><span
+                                class="mtext">Faculty</span>
                         </a>
 
                     </li>
                     <li class="dropdown">
                         <a href="/program" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-table"></span><span class="mtext">Program</span>
+                            <i class="micon icon-copy fi-projection-screen"></i><span class="mtext">Program</span>
                         </a>
 
                     </li>
                     <li class="dropdown">
                         <a href="/book" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-table"></span><span class="mtext">Book</span>
+                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
                         </a>
 
                     </li>
                     <li class="dropdown">
                         <a href="/course" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-table"></span><span class="mtext">course</span>
+                            <i class="micon icon-copy bi bi-book-fill"></i><span class="mtext">course</span>
                         </a>
 
                     </li>
                     <li>
                         <div class="sidebar-small-cap">Attendance</div>
                     </li>
-                    
+
                     <li>
                         <a href="/attendance" class="dropdown-toggle no-arrow">
                             <span class="micon bi bi-calendar4-week"></span><span class="mtext">Take Attendance</span>
@@ -179,7 +191,7 @@
 
                     <li>
                         <a href="/attendance-report" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-calendar4-week"></span><span class="mtext">Attendance Report</span>
+                            <i class="micon icon-copy fi-results"></i><span class="mtext">Attendance Report</span>
                         </a>
                     </li>
 

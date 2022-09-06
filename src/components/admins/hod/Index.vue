@@ -185,9 +185,9 @@
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Email</th>
-                                                    <th scope="col">Faculty</th>
+                                                    <!-- <th scope="col">Faculty</th> -->
                                                     <th scope="col">Program</th>
-                                                    <th scope="col">Remove</th>
+                                                    <!-- <th scope="col">Remove</th> -->
                                                     <th scope="col">Action</th>
 
                                                 </tr>
@@ -198,27 +198,34 @@
                                                     <td scope="row">{{ item.user.name }}</td>
                                                     <td scope="row">{{ item.user.username }}</td>
                                                     <td scope="row">{{ item.user.email }}</td>
-                                                    <td scope="row">{{ item.program.faculty.faculty }}</td>
+                                                    <!-- <td scope="row">{{ item.program.faculty.faculty }}</td> -->
                                                     <td scope="row">{{ item.program.program }}</td>
-                                                    <td scope="row">
-                                                        <button class="btn btn-danger btn-sm"
-                                                            v-on:click="remove(item.id,item.user.id)">
-                                                            <i class="icon-copy fa fa-remove" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
+                                                   
 
                                                     <td>
                                                         <div class="row">
-                                                            <a href="#" class="text-success"
+                                                            <button class="btn btn-info btn-sm "
                                                                 v-on:click="assignMore(item.user.id)">
-                                                                <i class="icon-copy dw dw-add-file fa-2x"></i>
-                                                            </a>
-                                                            <a href="#" class="text-warning ml-3" data-toggle="modal"
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                            <button class="btn btn-warning btn-sm ml-1" data-toggle="modal"
                                                                 data-target=".bd-example-modal-lg"
                                                                 v-on:click="edit(item.user.teacher[0].id)">
-                                                                <i class="icon-copy fa fa-edit fa-2x"
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm ml-1"
+                                                                v-on:click="remove(item.id,item.user.id)">
+                                                                <i class="icon-copy fa fa-remove"
                                                                     aria-hidden="true"></i>
-                                                            </a>
+                                                            </button>
+                                                           
+                                                            
+                                                            <button class="btn btn-success btn-sm ml-1" data-toggle="modal"
+                                                                data-target=".bd-example-modal-lg"
+                                                                v-on:click="edit(item.user.teacher[0].id)">
+                                                                <i class="fa fa-eye"></i>
+                                                            </button>
+
                                                         </div>
                                                     </td>
                                                 </tr>
