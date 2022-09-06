@@ -12,6 +12,7 @@ import ListTeacher from './components/admins/teacher/List.vue';
 import EditTeacher from './components/admins/teacher/Edit.vue';
 import ShowTeacher from './components/admins/teacher/Show.vue';
 import AppoindHod from './components/admins/hod/Index.vue';
+import assignHod from './components/admins/hod/assign.vue';
 import AssignTeacher from './components/admins/assignTeacher/Index.vue';
 import Student from './components/admins/student/Index.vue';
 import Attendance from './components/admins/attendance/Index.vue';
@@ -98,6 +99,11 @@ const routes = [
         name: 'AttendanceReport',
         path: '/attendance-report',
         component:AttendanceReport
+    },
+    {
+        name: 'AssignHod',
+        path: '/assign-hod',
+        component:assignHod
     },
 ];
 const router = createRouter({

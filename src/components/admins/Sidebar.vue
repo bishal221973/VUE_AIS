@@ -120,7 +120,7 @@
                         </a>
                         <ul class="submenu">
                             <li><a href="/appoind-hod">Manage</a></li>
-                            <li><a href="/assign-teacher">Assign Subject</a></li>
+                            <li><a href="/assign-hod">Assign Subject</a></li>
                             
                         </ul>
                     </li>

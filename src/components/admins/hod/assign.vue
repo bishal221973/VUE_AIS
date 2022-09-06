@@ -19,7 +19,7 @@
                                         <a href="index.html">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item" aria-current="page">
-                                        Teacher
+                                        HOD
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Assign Subject
@@ -44,8 +44,8 @@
 
                                             <option value="" selected>Please select Teacher</option>
                                             <option v-for="item in teacher_list" v-bind:key="item.id"
-                                                :value="item.teacher[0].id">
-                                                {{ item.name }}
+                                                :value="item.user.teacher[0].id">
+                                                {{ item.user.name}}
                                             </option>
                                         </select>
                                         <small id="teacherHelp" class="form-text text-danger"></small>
@@ -445,7 +445,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/teacher',
+            axios.get('http://127.0.0.1:8000/api/hod',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -453,7 +453,6 @@ export default {
                     }
                 }).then((response) => {
                     this.teacher_list = response.data;
-
 
                 }).catch(error => {
                     console.log('error: ' + error);
@@ -473,7 +472,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/assign-teacher',
+            axios.get('http://127.0.0.1:8000/api/get-hod',
                 {
                     headers: {
                         'Content-type': 'application/json',
