@@ -69,9 +69,10 @@
 
                                             </div>
                                     <div v-for="item in list" v-bind:key="item.id">
-                                        <h1 class="mb-20 pt-20 text-center mt-5">{{ item.school_name }}</h1>
-                                        <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5>
-                                        <h5 class="mb-20 pt-20 text-center">{{ item.address }}</h5>
+                                        <h2 class="pt-20 text-center mt-2">{{ item.school_name }}</h2>
+                                        <!-- <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5> -->
+                                        <p class="pt-20 text-center h4"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> {{ item.address }}</p>
+                                        <p class="mb-20 text-center h5"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> {{ item.phone }}</p>
 
 
                                         <div class="row">
