@@ -1,6 +1,8 @@
 # ais
 
 ## Project setup
+
+Start npm server
 ```
 npm install
 ```
