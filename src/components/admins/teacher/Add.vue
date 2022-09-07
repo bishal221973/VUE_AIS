@@ -1,7 +1,7 @@
 <template>
     <Navbar />
     <Sidebar />
-    <div class="main-container">
+    <div class="main-container" v-if="teacher_profile === ''">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="min-height-200px">
                 <div class="page-header">
@@ -160,13 +160,14 @@
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
-                                                    <th scope="col"></th>
+                                                    <!-- <th scope="col"></th> -->
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Gender</th>
-                                                    <th scope="col">Address</th>
-                                                    <th scope="col">DOB</th>
+                                                    <!-- <th scope="col">Address</th> -->
+                                                    <!-- <th scope="col">DOB</th> -->
                                                     <th scope="col">Phone</th>
+                                                    <th scope="col">Role</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
@@ -184,25 +185,30 @@
                                                 </div>
 
                                                 <tr v-else v-for="item in teacher_list" v-bind:key="item.id">
-                                                    <td scope="row">{{ item.teacher[0].id }}</td>
-                                                    <td scope="row">{{ item.name }}</td>
-                                                    <td scope="row">{{ item.profile }}
+                                                    <td scope="row">{{ item.id }}</td>
+                                                    <td scope="row">{{ item.user.name }}</td>
+                                                    <!-- <td scope="row">{{ item.profile }}
                                                         <span class="user-icon">
                                                             <img :src="'./assets/vendors/images/photo1.jpg'" alt="" />
                                                         </span>
-                                                    </td>
-                                                    <td scope="row">{{ item.username }}</td>
-                                                    <td scope="row">{{ item.email }}</td>
-                                                    <td scope="row">{{ item.teacher[0].gender }}</td>
-                                                    <td scope="row">{{ item.teacher[0].address }}</td>
-                                                    <td scope="row">{{ item.teacher[0].dob }}</td>
-                                                    <td scope="row">{{ item.teacher[0].phone }}</td>
+                                                    </td> -->
+                                                    <td scope="row">{{ item.user.username }}</td>
+                                                    <td scope="row">{{ item.user.email }}</td>
+                                                    <td scope="row">{{ item.gender }}</td>
+                                                    <!-- <td scope="row">{{ item.teacher[0].address }}</td> -->
+                                                    <!-- <td scope="row">{{ item.dob }}</td> -->
+                                                    <td scope="row">{{ item.phone }}</td>
+                                                    <td scope="row" v-if="item.user.role.user_role === 'Teacher'"><span class="badge badge-secondary">Teacher</span></td>
+                                                    <td scope="row" v-else><span class="badge badge-info">HOD</span></td>
                                                     <td>
                                                         <div class="row">
-                                                            <button class="btn btn-warning text-white"
-                                                                v-on:click="edit(item.teacher[0].id)">Edit</button>
+                                                            <a href="#" class="btn btn-info" v-on:click="tprofile(item.id)"><i
+                                                                class="icon-copy fa fa-eye" aria-hidden="true"
+                                                                ></i></a>
+                                                            <button class="btn btn-warning ml-1 text-white"
+                                                                v-on:click="edit(item.id)"><i class="fa fa-edit"></i></button>
                                                             <button class="btn btn-danger text-white ml-1"
-                                                                v-on:click="deleteTeacher(item.teacher[0].id)">Delete</button>
+                                                                v-on:click="deleteTeacher(item.id)"> <i class="fa fa-trash"></i> </button>
 
                                                         </div>
                                                     </td>
@@ -230,6 +236,8 @@
                 <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
             </div> -->
     </div>
+    <Profile v-else :id="teacher_profile"/>
+    
 </template>
 <script>
 
@@ -237,9 +245,11 @@
 import Navbar from '../Navbar.vue';
 import Sidebar from '../Sidebar.vue';
 import axios from 'axios';
+import Profile from '@/components/admins/teacher/Show.vue';
+
 export default {
     name: "Add",
-    components: { Navbar, Sidebar },
+    components: { Navbar, Sidebar,Profile },
     data() {
         return {
             'name': '',
@@ -258,10 +268,13 @@ export default {
             'update_record': '',
             'teacher_id': '',
             'url':'./assets/img/user.png',
+            'teacher_profile':'',
         }
     },
     methods: {
-
+        tprofile(teacher_id){
+               this.teacher_profile=teacher_id;
+        },
         onFileChange(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
@@ -275,7 +288,7 @@ export default {
             document.getElementById('dobHelp').innerHTML = '';
             document.getElementById('phoneHelp').innerHTML = '';
             document.getElementById('profileHelp').innerHTML = '';
-            document.getElementById('passwordHelp').innerHTML = '';
+            // document.getElementById('passwordHelp').innerHTML = '';
 
             // if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
             if (this.update_record == 'true') {
@@ -579,7 +592,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/teacher',
+            axios.get('http://127.0.0.1:8000/api/get-teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',

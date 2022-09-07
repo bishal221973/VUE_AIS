@@ -184,7 +184,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Username</th>
-                                                    <th scope="col">Email</th>
+                                                    <!-- <th scope="col">Email</th> -->
                                                     <!-- <th scope="col">Faculty</th> -->
                                                     <th scope="col">Program</th>
                                                     <!-- <th scope="col">Remove</th> -->
@@ -197,10 +197,10 @@
                                                     <td scope="row">{{ item.id }}</td>
                                                     <td scope="row">{{ item.user.name }}</td>
                                                     <td scope="row">{{ item.user.username }}</td>
-                                                    <td scope="row">{{ item.user.email }}</td>
+                                                    <!-- <td scope="row">{{ item.user.email }}</td> -->
                                                     <!-- <td scope="row">{{ item.program.faculty.faculty }}</td> -->
                                                     <td scope="row">{{ item.program.program }}</td>
-                                                   
+
 
                                                     <td>
                                                         <div class="row">
@@ -208,23 +208,23 @@
                                                                 v-on:click="assignMore(item.user.id)">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>
-                                                            <button class="btn btn-warning btn-sm ml-1" data-toggle="modal"
+                                                            <!-- <button class="btn btn-warning btn-sm ml-1" data-toggle="modal"
                                                                 data-target=".bd-example-modal-lg"
                                                                 v-on:click="edit(item.user.teacher[0].id)">
                                                                 <i class="fa fa-edit"></i>
-                                                            </button>
+                                                            </button> -->
                                                             <button class="btn btn-danger btn-sm ml-1"
                                                                 v-on:click="remove(item.id,item.user.id)">
                                                                 <i class="icon-copy fa fa-remove"
                                                                     aria-hidden="true"></i>
                                                             </button>
-                                                           
-                                                            
-                                                            <button class="btn btn-success btn-sm ml-1" data-toggle="modal"
-                                                                data-target=".bd-example-modal-lg"
+
+
+                                                            <!-- <button class="btn btn-success btn-sm ml-1"
+                                                                data-toggle="modal" data-target=".bd-example-modal-lg"
                                                                 v-on:click="edit(item.user.teacher[0].id)">
                                                                 <i class="fa fa-eye"></i>
-                                                            </button>
+                                                            </button> -->
 
                                                         </div>
                                                     </td>
@@ -256,426 +256,426 @@ import Navbar from '../Navbar.vue';
 import Sidebar from '../Sidebar.vue';
 import axios from 'axios';
 export default {
-name: "Index",
-components: { Navbar, Sidebar },
-data() {
-return {
-'user_id': '',
-'program_id': '',
-'teacher_list': '',
-'program_list': '',
-'hod_list': '',
-'pid': '',
-'btn_hod': 'Assign',
-'teacher_id': '',
-'user_id': '',
-'url': './assets/img/user.png',
-'name': '',
-'username': '',
-'email': '',
-'gender': '',
-'address': '',
-'dob': '',
-'phone': '',
-'profile': '',
-'update_user_id': '',
-}
-},
-methods: {
-updateHod() {
-let url = 'http://127.0.0.1:8000/api/teacher/' + this.update_user_id;
+    name: "Index",
+    components: { Navbar, Sidebar },
+    data() {
+        return {
+            'user_id': '',
+            'program_id': '',
+            'teacher_list': '',
+            'program_list': '',
+            'hod_list': '',
+            'pid': '',
+            'btn_hod': 'Assign',
+            'teacher_id': '',
+            'user_id': '',
+            'url': './assets/img/user.png',
+            'name': '',
+            'username': '',
+            'email': '',
+            'gender': '',
+            'address': '',
+            'dob': '',
+            'phone': '',
+            'profile': '',
+            'update_user_id': '',
+        }
+    },
+    methods: {
+        updateHod() {
+            let url = 'http://127.0.0.1:8000/api/teacher/' + this.update_user_id;
 
 
 
-let result = axios.put(url,
-{
-name: this.name,
-username: this.username,
-email: this.email,
-gender: this.gender,
-address: this.address,
-dob: this.dob,
-phone: this.phone,
-profile: this.profile,
+            let result = axios.put(url,
+                {
+                    name: this.name,
+                    username: this.username,
+                    email: this.email,
+                    gender: this.gender,
+                    address: this.address,
+                    dob: this.dob,
+                    phone: this.phone,
+                    profile: this.profile,
 
-},
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
-if (response.data.status == 'success') {
-Swal.fire({
-title: 'Congratulation',
-text: response.data.message,
-icon: 'success',
-confirmButtonColor: '#3085d6',
-confirmButtonText: 'OK'
-}).then((result) => {
-if (result.isConfirmed) {
-// window.location.reload();
-// this.$router.push({ path: "/teacher-list" });
-this.update_record = '';
-this.btn = 'Save';
-this.name = '';
-this.username = '';
-this.email = '';
-this.password = '';
-this.gender = '';
-this.address = '';
-this.dob = '';
-this.phone = '';
-this.profile = '';
-$('#myModal').modal('hide');
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        Swal.fire({
+                            title: 'Congratulation',
+                            text: response.data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // window.location.reload();
+                                // this.$router.push({ path: "/teacher-list" });
+                                this.update_record = '';
+                                this.btn = 'Save';
+                                this.name = '';
+                                this.username = '';
+                                this.email = '';
+                                this.password = '';
+                                this.gender = '';
+                                this.address = '';
+                                this.dob = '';
+                                this.phone = '';
+                                this.profile = '';
+                                $('#myModal').modal('hide');
 
-}
-})
-this.getUnits();
-} else if (response.data.status == 'failed') {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data.message,
-footer: 'We are sorry'
-})
-} else {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data,
-footer: 'We are sorry'
-})
-}
-}).catch(error => {
-if (error.response.status == 422) {
-$.each(error.response.data.errors, function (key, value) {
-if (key == 'name') {
-document.getElementById('nameHelp').innerHTML = error.response.data.errors.name[0];
+                            }
+                        })
+                        this.getUnits();
+                    } else if (response.data.status == 'failed') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data.message,
+                            footer: 'We are sorry'
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data,
+                            footer: 'We are sorry'
+                        })
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'name') {
+                                document.getElementById('nameHelp').innerHTML = error.response.data.errors.name[0];
 
-}
-if (key == 'username') {
-document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
+                            }
+                            if (key == 'username') {
+                                document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
 
-}
+                            }
 
-if (key == 'email') {
-document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
+                            if (key == 'email') {
+                                document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
 
-}
-if (key == 'password') {
-document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
+                            }
+                            if (key == 'password') {
+                                document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
 
-}
-if (key == 'gender') {
-document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
+                            }
+                            if (key == 'gender') {
+                                document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
 
-}
-if (key == 'address') {
-document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
+                            }
+                            if (key == 'address') {
+                                document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
 
-}
-if (key == 'dob') {
-document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
+                            }
+                            if (key == 'dob') {
+                                document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
 
-}
-if (key == 'phone') {
-document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
+                            }
+                            if (key == 'phone') {
+                                document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
 
-}
-if (key == 'profile') {
-document.getElementById('profileHelp').innerHTML = error.response.data.errors.profile[0];
+                            }
+                            if (key == 'profile') {
+                                document.getElementById('profileHelp').innerHTML = error.response.data.errors.profile[0];
 
-}
+                            }
 
-});
-}
-else {
-Swal.fire(
-'Warning',
-'error: ' + error,
-'error'
-)
-}
-});
+                        });
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
 
-return result;
-},
-remove(hod_id, user_id) {
+            return result;
+        },
+        remove(hod_id, user_id) {
 
-let result = axios.post('http://127.0.0.1:8000/api/region',
-{
-id: hod_id,
-user_id: user_id,
-},
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
+            let result = axios.post('http://127.0.0.1:8000/api/region',
+                {
+                    id: hod_id,
+                    user_id: user_id,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-if (response.data.status == 'success') {
-Swal.fire({
-title: 'Congratulation',
-text: response.data.message,
-icon: 'success',
-confirmButtonColor: '#3085d6',
-confirmButtonText: 'OK'
-}).then((result) => {
-if (result.isConfirmed) {
-// window.location.reload();
-this.getUnits()
+                    if (response.data.status == 'success') {
+                        Swal.fire({
+                            title: 'Congratulation',
+                            text: response.data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // window.location.reload();
+                                this.getUnits()
 
-}
-})
-this.user_id = '';
-this.program_id = '';
-} else {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data,
-footer: 'We are sorry'
-})
-}
-console.log(response.data);
-}).catch(error => {
+                            }
+                        })
+                        this.user_id = '';
+                        this.program_id = '';
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data,
+                            footer: 'We are sorry'
+                        })
+                    }
+                    console.log(response.data);
+                }).catch(error => {
 
-Swal.fire(
-'Warning',
-'error: ' + error,
-'error'
-)
-});
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                });
 
-return result;
-},
-appoind() {
-let result = axios.post('http://127.0.0.1:8000/api/hod',
-{
-user_id: this.user_id,
-program_id: this.program_id,
-},
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
+            return result;
+        },
+        appoind() {
+            let result = axios.post('http://127.0.0.1:8000/api/hod',
+                {
+                    user_id: this.user_id,
+                    program_id: this.program_id,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-if (response.data.status == 'success') {
-Swal.fire({
-title: 'Congratulation',
-text: response.data.message,
-icon: 'success',
-confirmButtonColor: '#3085d6',
-confirmButtonText: 'OK'
-}).then((result) => {
-if (result.isConfirmed) {
-// window.location.reload();
-this.getUnits()
+                    if (response.data.status == 'success') {
+                        Swal.fire({
+                            title: 'Congratulation',
+                            text: response.data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // window.location.reload();
+                                this.getUnits()
 
-}
-})
-this.user_id = '';
-this.program_id = '';
-} else if (response.data.status == 'failed') {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data.message,
-footer: 'We are sorry'
-})
-} else {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data,
-footer: 'We are sorry'
-})
-}
-}).catch(error => {
+                            }
+                        })
+                        this.user_id = '';
+                        this.program_id = '';
+                    } else if (response.data.status == 'failed') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data.message,
+                            footer: 'We are sorry'
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data,
+                            footer: 'We are sorry'
+                        })
+                    }
+                }).catch(error => {
 
-Swal.fire(
-'Warning',
-'error: ' + error,
-'error'
-)
-});
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                });
 
-return result;
-},
-assignMore(user_id) {
-var options = {};
-axios.get('http://127.0.0.1:8000/api/program',
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
+            return result;
+        },
+        assignMore(user_id) {
+            var options = {};
+            axios.get('http://127.0.0.1:8000/api/program',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-for (let item of response.data) {
+                    for (let item of response.data) {
 
-options[item.id] = item.program;
+                        options[item.id] = item.program;
 
-}
-Swal.fire({
-title: 'Select Outage Tier',
-input: 'select',
-inputOptions: options,
-inputPlaceholder: 'Please select a program name',
-showCancelButton: true,
-inputValidator: function (value) {
-return new Promise(function (resolve, reject) {
-if (value !== '') {
-resolve();
-} else {
-resolve('You need to select a Tier');
-}
-});
-}
-}).then(function (result) {
-if (result.isConfirmed) {
+                    }
+                    Swal.fire({
+                        title: 'Select Outage Tier',
+                        input: 'select',
+                        inputOptions: options,
+                        inputPlaceholder: 'Please select a program name',
+                        showCancelButton: true,
+                        inputValidator: function (value) {
+                            return new Promise(function (resolve, reject) {
+                                if (value !== '') {
+                                    resolve();
+                                } else {
+                                    resolve('You need to select a Tier');
+                                }
+                            });
+                        }
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
 
-let val = result.value;
-return axios.post('http://127.0.0.1:8000/api/hod',
-{
-user_id: user_id,
-program_id: result.value,
-},
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
+                            let val = result.value;
+                            return axios.post('http://127.0.0.1:8000/api/hod',
+                                {
+                                    user_id: user_id,
+                                    program_id: result.value,
+                                },
+                                {
+                                    headers: {
+                                        'Content-type': 'application/json',
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    }
+                                }).then((response) => {
 
-if (response.data.status == 'success') {
-Swal.fire({
-title: 'Congratulation',
-text: response.data.message,
-icon: 'success',
-confirmButtonColor: '#3085d6',
-confirmButtonText: 'OK'
-}).then((result) => {
-if (result.isConfirmed) {
-window.location.reload();
-// this.getUnits();
+                                    if (response.data.status == 'success') {
+                                        Swal.fire({
+                                            title: 'Congratulation',
+                                            text: response.data.message,
+                                            icon: 'success',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: 'OK'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.reload();
+                                                // this.getUnits();
 
-}
-})
-} else if (response.data.status == 'failed') {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data.message,
-footer: 'We are sorry'
-})
-} else {
-Swal.fire({
-icon: 'error',
-title: 'Oops...',
-text: response.data,
-footer: 'We are sorry'
-})
-}
-}).catch(error => {
+                                            }
+                                        })
+                                    } else if (response.data.status == 'failed') {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: response.data.message,
+                                            footer: 'We are sorry'
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: response.data,
+                                            footer: 'We are sorry'
+                                        })
+                                    }
+                                }).catch(error => {
 
-Swal.fire(
-'Warning',
-'error: ' + error,
-'error'
-)
-});
+                                    Swal.fire(
+                                        'Warning',
+                                        'error: ' + error,
+                                        'error'
+                                    )
+                                });
 
-}
-});
-this.program_list = response.data;
+                        }
+                    });
+                    this.program_list = response.data;
 
-}).catch(error => {
-console.log('error: ' + error);
-});
-
-
-
-},
-
-getUnits: function () {
-axios.get('http://127.0.0.1:8000/api/teacher',
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
-this.teacher_list = response.data;
-
-}).catch(error => {
-console.log('error: ' + error);
-});
-
-axios.get('http://127.0.0.1:8000/api/program',
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
-this.program_list = response.data;
-
-}).catch(error => {
-console.log('error: ' + error);
-});
-axios.get('http://127.0.0.1:8000/api/hod',
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
-this.hod_list = response.data;
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
 
 
-}).catch(error => {
-console.log('error: ' + error);
-});
-},
-edit(teacher_id) {
-let url = 'http://127.0.0.1:8000/api/teacher/' + teacher_id;
-axios.get(url,
-{
-headers: {
-'Content-type': 'application/json',
-'Authorization': 'Bearer ' + localStorage.getItem('token')
-}
-}).then((response) => {
-// alert(teacher_id);
-// this.name=response.data;
-this.name = response.data.user.name;
-this.username = response.data.user.username;
-this.email = response.data.user.email;
-this.gender = response.data.gender;
-this.address = response.data.address;
-this.dob = response.data.dob;
-this.phone = response.data.phone;
-this.profile = response.data.profile;
-this.btn = 'Update';
-this.update_record = 'true';
-this.teacher_id = response.data.id;
-this.update_user_id = response.data.id;
-console.log(response.data);
-}).catch(error => {
-console.log('error: ' + error);
-});
-},
-},
-mounted() {
-this.getUnits()
-},
-created() {
 
-},
+        },
+
+        getUnits: function () {
+            axios.get('http://127.0.0.1:8000/api/teacher',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.teacher_list = response.data;
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
+
+            axios.get('http://127.0.0.1:8000/api/program',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.program_list = response.data;
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
+            axios.get('http://127.0.0.1:8000/api/hod',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.hod_list = response.data;
+
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
+        },
+        // edit(teacher_id) {
+        //     let url = 'http://127.0.0.1:8000/api/teacher/' + teacher_id;
+        //     axios.get(url,
+        //         {
+        //             headers: {
+        //                 'Content-type': 'application/json',
+        //                 'Authorization': 'Bearer ' + localStorage.getItem('token')
+        //             }
+        //         }).then((response) => {
+        //             // alert(teacher_id);
+        //             // this.name=response.data;
+        //             this.name = response.data.user.name;
+        //             this.username = response.data.user.username;
+        //             this.email = response.data.user.email;
+        //             this.gender = response.data.gender;
+        //             this.address = response.data.address;
+        //             this.dob = response.data.dob;
+        //             this.phone = response.data.phone;
+        //             this.profile = response.data.profile;
+        //             this.btn = 'Update';
+        //             this.update_record = 'true';
+        //             this.teacher_id = response.data.id;
+        //             this.update_user_id = response.data.id;
+        //             console.log(response.data);
+        //         }).catch(error => {
+        //             console.log('error: ' + error);
+        //         });
+        // },
+    },
+    mounted() {
+        this.getUnits()
+    },
+    created() {
+
+    },
 }
 </script>

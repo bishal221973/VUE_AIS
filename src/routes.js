@@ -16,6 +16,7 @@ import assignHod from './components/admins/hod/assign.vue';
 import AssignTeacher from './components/admins/assignTeacher/Index.vue';
 import Student from './components/admins/student/Index.vue';
 import StudentDetail from './components/admins/student/View.vue';
+import TeacherDetail from './components/admins/teacher/Show.vue';
 import Attendance from './components/admins/attendance/Index.vue';
 import AttendanceReport from './components/admins/attendance/report.vue';
 
@@ -95,6 +96,11 @@ const routes = [
         name: 'StudentDetail',
         path: '/student-detail',
         component: StudentDetail
+    },
+    {
+        name: 'TeacherDetail',
+        path: '/teacher-detail',
+        component: TeacherDetail
     },
     {
         name: 'Attendance',
