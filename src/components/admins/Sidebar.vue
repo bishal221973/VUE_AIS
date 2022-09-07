@@ -138,12 +138,22 @@
 
 
 
+                  
+
                     <li class="dropdown">
-                        <!-- icon-copy bi  -->
-                        <a href="/student" class="dropdown-toggle no-arrow">
-                            <span class="micon bi bi-people-fill"></span><span class="mtext">Student</span>
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <i class="micon bi bi-people-fill" aria-hidden="true"></i><span
+                                class="mtext">Student</span>
                         </a>
+                        <ul class="submenu">
+                            <li><a href="/student">Manage</a></li>
+                            <li><a href="#">Prompt</a></li>
+                            
+                        </ul>
                     </li>
+
+
+
                     <li>
                         <div class="sidebar-small-cap">configuration</div>
                     </li>

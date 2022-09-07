@@ -1,7 +1,7 @@
 <template>
     <Navbar />
     <Sidebar />
-    <div class="main-container">
+    <div class="main-container" v-if="student_profile === ''">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="min-height-200px">
                 <div class="page-header">
@@ -169,6 +169,38 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- model -->
+                        <!-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Student's Detail</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Send message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
 
                         <div class="col-lg-12 col-md-12 col-sm-12 mt-5">
                             <div class="product-detail-desc pd-20 card-box">
@@ -244,9 +276,8 @@
                                                 <th scope="col">Gender</th>
                                                 <th scope="col">Program</th>
                                                 <th scope="col">Semester</th>
-                                                <th scope="col">DOB</th>
                                                 <th scope="col">Phone</th>
-                                                <th scope="col">Profile</th>
+                                                <!-- <th scope="col">Profile</th> -->
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -268,14 +299,15 @@
                                                 <td scope="row">{{ item.student[0].program.program }}</td>
                                                 <td scope="row">{{ item.student[0].semester }}</td>
                                                 <!-- <td scope="row">{{ item.student[0].roll_number }}</td> -->
-                                                <td scope="row">{{ item.student[0].dob }}</td>
+                                                <!-- <td scope="row">{{ item.student[0].dob }}</td> -->
                                                 <td scope="row">{{ item.student[0].phone }}</td>
-                                                <td scope="row">{{ item.student[0].profile }}</td>
+                                                <!-- <td scope="row">{{ item.student[0].profile }}</td> -->
                                                 <td>
                                                     <div class="row btn-action">
-                                                        <a href="#" class="btn btn-success btn-sm ml-1"><i
+                                                        
+                                                        <a href="#" class="btn btn-info btn-sm ml-1" v-on:click="sprofile(item.student[0].id)"><i
                                                                 class="icon-copy fa fa-eye" aria-hidden="true"
-                                                                v-on:click="deleteStudent(item.student[0].id)"></i></a>
+                                                                ></i></a>
 
                                                         <a href="#" class="btn btn-danger btn-sm ml-1"><i
                                                                 class="icon-copy fa fa-edit" aria-hidden="true"
@@ -309,20 +341,23 @@
             </div>
         </div>
         <!-- <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-            </div> -->
+            DeskApp - Bootstrap 4 Admin Template By
+            <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+        </div> -->
     </div>
+    <Profile v-else :id="student_profile"/>
 </template>
 <script>
 import Navbar from '../Navbar.vue';
 import Sidebar from '../Sidebar.vue';
 import axios from 'axios';
 import { program } from '@babel/types';
+import Profile from '@/components/admins/student/View.vue';
 export default {
     name: "Index",
     data() {
         return {
+            'student_profile':'',
             'program_list': '',
             'student_list': '',
             'name': '',
@@ -340,15 +375,20 @@ export default {
             'f_name': '',
             'm_name': '',
             'btn': 'Save',
-            'password_confirmation':'',
-            'url':'./assets/img/user.png',
-            'search_semester':'',
-            'search_program':'',
-            'search_data':'',
+            'password_confirmation': '',
+            'url': './assets/img/user.png',
+            'search_semester': '',
+            'search_program': '',
+            'search_data': '',
         }
     },
-    components: { Navbar, Sidebar },
+    components: { Navbar, Sidebar, 
+        Profile 
+    },
     methods: {
+        sprofile(student_id){
+               this.student_profile=student_id;
+        },
         onFileChange(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
@@ -387,87 +427,87 @@ export default {
 
         },
         save() {
-            document.getElementById('firstnameHelp').innerHTML='';
-            document.getElementById('emailHelp').innerHTML='';
-            document.getElementById('genderHelp').innerHTML='';
-            document.getElementById('addressHelp').innerHTML='';
-            document.getElementById('dobHelp').innerHTML='';
-            document.getElementById('phoneHelp').innerHTML='';
-            document.getElementById('programHelp').innerHTML='';
-            document.getElementById('usernameHelp').innerHTML='';
-            document.getElementById('passwordHelp').innerHTML='';
-            document.getElementById('fnameHelp').innerHTML='';
-            document.getElementById('mnameHelp').innerHTML='';
-                if (this.update_student != 'true') {
+            document.getElementById('firstnameHelp').innerHTML = '';
+            document.getElementById('emailHelp').innerHTML = '';
+            document.getElementById('genderHelp').innerHTML = '';
+            document.getElementById('addressHelp').innerHTML = '';
+            document.getElementById('dobHelp').innerHTML = '';
+            document.getElementById('phoneHelp').innerHTML = '';
+            document.getElementById('programHelp').innerHTML = '';
+            document.getElementById('usernameHelp').innerHTML = '';
+            document.getElementById('passwordHelp').innerHTML = '';
+            document.getElementById('fnameHelp').innerHTML = '';
+            document.getElementById('mnameHelp').innerHTML = '';
+            if (this.update_student != 'true') {
 
 
-                    let result = axios.post('http://127.0.0.1:8000/api/student',
-                        {
-                            name: this.name,
-                            username: this.username,
-                            email: this.email,
-                            password: this.password,
-                            password_confirmation:this.password_confirmation,
-                            program_id: this.program_id,
-                            gender: this.gender,
-                            address: this.address,
-                            dob: this.dob,
-                            phone: this.phone,
-                            f_name:this.f_name,
-                            m_name:this.m_name,
-                            profile: this.profile,
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
+                let result = axios.post('http://127.0.0.1:8000/api/student',
+                    {
+                        name: this.name,
+                        username: this.username,
+                        email: this.email,
+                        password: this.password,
+                        password_confirmation: this.password_confirmation,
+                        program_id: this.program_id,
+                        gender: this.gender,
+                        address: this.address,
+                        dob: this.dob,
+                        phone: this.phone,
+                        f_name: this.f_name,
+                        m_name: this.m_name,
+                        profile: this.profile,
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        if (response.data.status == 'success') {
+                            Swal.fire({
+                                title: 'Congratulation',
+                                text: response.data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // window.location.reload();
 
-                                        this.getUnits();
+                                    this.getUnits();
 
-                                    }
-                                })
-                                this.name='';
-                                this.email='';
-                                this.gender='';
-                                this.address='';
-                                this.dob='';
-                                this.phone='';
-                                this.program_id='';
-                                this.f_name='';
-                                this.m_name='';
-                                this.username='';
-                                this.password='';
-                                this.password_confirmation='';
-                            } else if (response.data.status == 'failed') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data.message,
-                                    footer: 'We are sorry'
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data,
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
+                                }
+                            })
+                            this.name = '';
+                            this.email = '';
+                            this.gender = '';
+                            this.address = '';
+                            this.dob = '';
+                            this.phone = '';
+                            this.program_id = '';
+                            this.f_name = '';
+                            this.m_name = '';
+                            this.username = '';
+                            this.password = '';
+                            this.password_confirmation = '';
+                        } else if (response.data.status == 'failed') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data.message,
+                                footer: 'We are sorry'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data,
+                                footer: 'We are sorry'
+                            })
+                        }
+                    }).catch(error => {
 
-                            if (error.response.status == 422) {
+                        if (error.response.status == 422) {
                             $.each(error.response.data.errors, function (key, value) {
                                 if (key == 'name') {
                                     document.getElementById('firstnameHelp').innerHTML = error.response.data.errors.name[0];
@@ -514,7 +554,7 @@ export default {
                                     document.getElementById('mnameHelp').innerHTML = error.response.data.errors.m_name[0];
 
                                 }
-                               
+
                             });
                         } else if (error.response.status == 401) {
                             Swal.fire({
@@ -539,145 +579,145 @@ export default {
                                 'error'
                             )
                         }
-                        });
+                    });
 
-                    return result;
-                }
-                if (this.update_student == 'true') {
-                    let result = axios.put('http://127.0.0.1:8000/api/student/' + this.students_id,
-                        {
-                            name: this.name,
-                            username: this.username,
-                            email: this.email,
-                            password: this.password,
-                            program_id: this.program_id,
-                            gender: this.gender,
-                            address: this.address,
-                            dob: this.dob,
-                            phone: this.phone,
-                            f_name:this.f_name,
-                            m_name:this.m_name,
-                            profile: this.profile,
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-                                        this.getUnits();
-                                        this.btn = 'Save';
-                                        this.name = '';
-                                        this.username = '';
-                                        this.email = '';
-                                        this.password = '';
-                                        this.program_id = '';
-                                        this.gender = '';
-                                        this.address = '';
-                                        this.dob = '';
-                                        this.phone = '';
-                                        this.profile = '';
-                                        this.update_student = '';
-
-                                    }
-                                })
-                                this.name='';
-                                this.email='';
-                                this.gender='';
-                                this.address='';
-                                this.dob='';
-                                this.phone='';
-                                this.program_id='';
-                                this.f_name='';
-                                this.m_name='';
-                                this.username='';
-                                this.password='';
-                                this.password_confirmation='';
-
-                            } else if (response.data.status == 'failed') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data.message,
-                                    footer: 'We are sorry'
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data,
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
-
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        });
-
-                    return result;
-                }
-            // }
-        },
-        filter(){
-           
-            let result = axios.post('http://127.0.0.1:8000/api/student-search',
-                        {
-                           
-                            program_id: this.program_id,
-                            search_data:this.search_data,
-                            semester:this.semester, 
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            this.student_list = response.data;
-                            console.log(response.data);
-                        }).catch(error => {
-
-                            
-                        if (error.response.status == 401) {
+                return result;
+            }
+            if (this.update_student == 'true') {
+                let result = axios.put('http://127.0.0.1:8000/api/student/' + this.students_id,
+                    {
+                        name: this.name,
+                        username: this.username,
+                        email: this.email,
+                        password: this.password,
+                        program_id: this.program_id,
+                        gender: this.gender,
+                        address: this.address,
+                        dob: this.dob,
+                        phone: this.phone,
+                        f_name: this.f_name,
+                        m_name: this.m_name,
+                        profile: this.profile,
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        if (response.data.status == 'success') {
                             Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
+                                title: 'Congratulation',
+                                text: response.data.message,
+                                icon: 'success',
                                 confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
+                                    // window.location.reload();
+                                    this.getUnits();
+                                    this.btn = 'Save';
+                                    this.name = '';
+                                    this.username = '';
+                                    this.email = '';
+                                    this.password = '';
+                                    this.program_id = '';
+                                    this.gender = '';
+                                    this.address = '';
+                                    this.dob = '';
+                                    this.phone = '';
+                                    this.profile = '';
+                                    this.update_student = '';
 
                                 }
                             })
-                        }
-                        else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        }
-                        });
+                            this.name = '';
+                            this.email = '';
+                            this.gender = '';
+                            this.address = '';
+                            this.dob = '';
+                            this.phone = '';
+                            this.program_id = '';
+                            this.f_name = '';
+                            this.m_name = '';
+                            this.username = '';
+                            this.password = '';
+                            this.password_confirmation = '';
 
-                    return result;
+                        } else if (response.data.status == 'failed') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data.message,
+                                footer: 'We are sorry'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data,
+                                footer: 'We are sorry'
+                            })
+                        }
+                    }).catch(error => {
+
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    });
+
+                return result;
+            }
+            // }
+        },
+        filter() {
+
+            let result = axios.post('http://127.0.0.1:8000/api/student-search',
+                {
+
+                    program_id: this.program_id,
+                    search_data: this.search_data,
+                    semester: this.semester,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.student_list = response.data;
+                    console.log(response.data);
+                }).catch(error => {
+
+
+                    if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
+
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
         },
         edit(student_id) {
             axios.get('http://127.0.0.1:8000/api/student/' + student_id,
@@ -762,55 +802,55 @@ export default {
         this.getUnits()
     },
     watch: {
-        search_data: function(val, oldVal) {
-             let result = axios.post('http://127.0.0.1:8000/api/student-search',
-                    {
-                        search_data: this.search_data,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        
-                            this.student_list=response.data;
-                        
-                    }).catch(error => {
+        search_data: function (val, oldVal) {
+            let result = axios.post('http://127.0.0.1:8000/api/student-search',
+                {
+                    search_data: this.search_data,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'faculty') {
-                                    document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+                    this.student_list = response.data;
 
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
+                }).catch(error => {
 
-                                }
-                            })
-                        }
-                        else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        }
-                    });
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
 
-                return result;
+                            }
+                        });
+                    } else if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
+
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
         }
     },
 }
