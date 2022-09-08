@@ -124,12 +124,10 @@
                                                 <div class="form-group">
                                                    
                                                         <img v-if="url" :src="url" class="profile_img"/>
-                                                    <!-- <img :src="'./assets/img/user.png'" alt="" class="school-img" /> -->
                                                 </div>
                                                 <div class="txtprofile form-group">
                                                     <input type="file" :v-model="profile" id="txtprofile"
                                                         class="form-control" @change="onFileChange">
-                                                    <!-- <label class="">Choose your profile</label> -->
                                                     <small id="profileHelp" class="form-text text-danger"></small>
                                                 </div>
                                                 <div class="form-group col-12">
@@ -160,12 +158,9 @@
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
-                                                    <!-- <th scope="col"></th> -->
                                                     <th scope="col">Username</th>
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Gender</th>
-                                                    <!-- <th scope="col">Address</th> -->
-                                                    <!-- <th scope="col">DOB</th> -->
                                                     <th scope="col">Phone</th>
                                                     <th scope="col">Role</th>
                                                     <th scope="col">Action</th>
@@ -187,16 +182,9 @@
                                                 <tr v-else v-for="item in teacher_list" v-bind:key="item.id">
                                                     <td scope="row">{{ item.id }}</td>
                                                     <td scope="row">{{ item.user.name }}</td>
-                                                    <!-- <td scope="row">{{ item.profile }}
-                                                        <span class="user-icon">
-                                                            <img :src="'./assets/vendors/images/photo1.jpg'" alt="" />
-                                                        </span>
-                                                    </td> -->
                                                     <td scope="row">{{ item.user.username }}</td>
                                                     <td scope="row">{{ item.user.email }}</td>
                                                     <td scope="row">{{ item.gender }}</td>
-                                                    <!-- <td scope="row">{{ item.teacher[0].address }}</td> -->
-                                                    <!-- <td scope="row">{{ item.dob }}</td> -->
                                                     <td scope="row">{{ item.phone }}</td>
                                                     <td scope="row" v-if="item.user.role.user_role === 'Teacher'"><span class="badge badge-secondary">Teacher</span></td>
                                                     <td scope="row" v-else><span class="badge badge-info">HOD</span></td>
@@ -231,10 +219,7 @@
 
             </div>
         </div>
-        <!-- <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-            </div> -->
+       
     </div>
     <Profile v-else :id="teacher_profile"/>
     
@@ -680,7 +665,6 @@ export default {
     height: 200px;
     width: 200px;
     margin: 0 auto;
-    /* background-color: rgba(210, 210, 210, 210); */
 }
 
 .div-search {
