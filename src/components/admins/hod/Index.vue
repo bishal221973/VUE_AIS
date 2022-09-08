@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="title">
-                                <h4>Teacher</h4>
+                                <h4>Head Of Department</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
@@ -152,7 +152,7 @@
                                                     {{ item.name }}
                                                 </option>
                                             </select>
-                                            <small id="bookHelp" class="form-text text-danger"></small>
+                                            <small id="teacherHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
                                             <label for="exampleInputEmail1">Program Name</label>
@@ -165,7 +165,7 @@
                                                     {{ item.program }}
                                                 </option>
                                             </select>
-                                            <small id="publicationHelp" class="form-text text-danger"></small>
+                                            <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
                                         <button class="btn btn-success float-right" v-on:click="appoind">{{ btn_hod
                                         }}</button>
@@ -178,16 +178,21 @@
                             <div class="col-lg-9 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
+                                        <div class="col-lg-6">
+
+                                        </div>
+                                        <div class="col-lg-6 form-group">
+                                            <input type="text" class="p-3 form-control" placeholder="Search HOD" v-model="info">
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Username</th>
-                                                    <!-- <th scope="col">Email</th> -->
-                                                    <!-- <th scope="col">Faculty</th> -->
                                                     <th scope="col">Program</th>
-                                                    <!-- <th scope="col">Remove</th> -->
                                                     <th scope="col">Action</th>
 
                                                 </tr>
@@ -197,8 +202,6 @@
                                                     <td scope="row">{{ item.id }}</td>
                                                     <td scope="row">{{ item.user.name }}</td>
                                                     <td scope="row">{{ item.user.username }}</td>
-                                                    <!-- <td scope="row">{{ item.user.email }}</td> -->
-                                                    <!-- <td scope="row">{{ item.program.faculty.faculty }}</td> -->
                                                     <td scope="row">{{ item.program.program }}</td>
 
 
@@ -208,23 +211,11 @@
                                                                 v-on:click="assignMore(item.user.id)">
                                                                 <i class="fa fa-plus"></i>
                                                             </button>
-                                                            <!-- <button class="btn btn-warning btn-sm ml-1" data-toggle="modal"
-                                                                data-target=".bd-example-modal-lg"
-                                                                v-on:click="edit(item.user.teacher[0].id)">
-                                                                <i class="fa fa-edit"></i>
-                                                            </button> -->
                                                             <button class="btn btn-danger btn-sm ml-1"
                                                                 v-on:click="remove(item.id,item.user.id)">
                                                                 <i class="icon-copy fa fa-remove"
                                                                     aria-hidden="true"></i>
                                                             </button>
-
-
-                                                            <!-- <button class="btn btn-success btn-sm ml-1"
-                                                                data-toggle="modal" data-target=".bd-example-modal-lg"
-                                                                v-on:click="edit(item.user.teacher[0].id)">
-                                                                <i class="fa fa-eye"></i>
-                                                            </button> -->
 
                                                         </div>
                                                     </td>
@@ -245,10 +236,7 @@
 
             </div>
         </div>
-        <!-- <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-            </div> -->
+
     </div>
 </template>
 <script>
@@ -279,128 +267,10 @@ export default {
             'phone': '',
             'profile': '',
             'update_user_id': '',
+            'info':'',
         }
     },
     methods: {
-        updateHod() {
-            let url = 'http://127.0.0.1:8000/api/teacher/' + this.update_user_id;
-
-
-
-            let result = axios.put(url,
-                {
-                    name: this.name,
-                    username: this.username,
-                    email: this.email,
-                    gender: this.gender,
-                    address: this.address,
-                    dob: this.dob,
-                    phone: this.phone,
-                    profile: this.profile,
-
-                },
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    if (response.data.status == 'success') {
-                        Swal.fire({
-                            title: 'Congratulation',
-                            text: response.data.message,
-                            icon: 'success',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // window.location.reload();
-                                // this.$router.push({ path: "/teacher-list" });
-                                this.update_record = '';
-                                this.btn = 'Save';
-                                this.name = '';
-                                this.username = '';
-                                this.email = '';
-                                this.password = '';
-                                this.gender = '';
-                                this.address = '';
-                                this.dob = '';
-                                this.phone = '';
-                                this.profile = '';
-                                $('#myModal').modal('hide');
-
-                            }
-                        })
-                        this.getUnits();
-                    } else if (response.data.status == 'failed') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.data.message,
-                            footer: 'We are sorry'
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.data,
-                            footer: 'We are sorry'
-                        })
-                    }
-                }).catch(error => {
-                    if (error.response.status == 422) {
-                        $.each(error.response.data.errors, function (key, value) {
-                            if (key == 'name') {
-                                document.getElementById('nameHelp').innerHTML = error.response.data.errors.name[0];
-
-                            }
-                            if (key == 'username') {
-                                document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
-
-                            }
-
-                            if (key == 'email') {
-                                document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
-
-                            }
-                            if (key == 'password') {
-                                document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
-
-                            }
-                            if (key == 'gender') {
-                                document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
-
-                            }
-                            if (key == 'address') {
-                                document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
-
-                            }
-                            if (key == 'dob') {
-                                document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
-
-                            }
-                            if (key == 'phone') {
-                                document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
-
-                            }
-                            if (key == 'profile') {
-                                document.getElementById('profileHelp').innerHTML = error.response.data.errors.profile[0];
-
-                            }
-
-                        });
-                    }
-                    else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
-
-            return result;
-        },
         remove(hod_id, user_id) {
 
             let result = axios.post('http://127.0.0.1:8000/api/region',
@@ -452,59 +322,76 @@ export default {
             return result;
         },
         appoind() {
-            let result = axios.post('http://127.0.0.1:8000/api/hod',
-                {
-                    user_id: this.user_id,
-                    program_id: this.program_id,
-                },
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            document.getElementById('programHelp').innerHTML = '';
+            document.getElementById('teacherHelp').innerHTML = '';
+            if (this.user_id == '') {
+                document.getElementById('teacherHelp').innerHTML = 'please select teacher ';
 
-                    if (response.data.status == 'success') {
-                        Swal.fire({
-                            title: 'Congratulation',
-                            text: response.data.message,
-                            icon: 'success',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // window.location.reload();
-                                this.getUnits()
+            } else {
+                let result = axios.post('http://127.0.0.1:8000/api/hod',
+                    {
+                        user_id: this.user_id,
+                        program_id: this.program_id,
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
 
-                            }
-                        })
-                        this.user_id = '';
-                        this.program_id = '';
-                    } else if (response.data.status == 'failed') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.data.message,
-                            footer: 'We are sorry'
-                        })
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.data,
-                            footer: 'We are sorry'
-                        })
-                    }
-                }).catch(error => {
+                        if (response.data.status == 'success') {
+                            Swal.fire({
+                                title: 'Congratulation',
+                                text: response.data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // window.location.reload();
+                                    this.getUnits()
 
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
-                });
+                                }
+                            })
+                            this.user_id = '';
+                            this.program_id = '';
+                        } else if (response.data.status == 'failed') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data.message,
+                                footer: 'We are sorry'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data,
+                                footer: 'We are sorry'
+                            })
+                        }
+                    }).catch(error => {
+                        if (error.response.status == 422) {
+                            $.each(error.response.data.errors, function (key, value) {
+                                if (key == 'program_id') {
+                                    document.getElementById('programHelp').innerHTML = error.response.data.errors.program_id[0];
 
-            return result;
+                                }
+
+                            });
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
+
+                    });
+
+                return result;
+            }
         },
         assignMore(user_id) {
             var options = {};
@@ -522,7 +409,7 @@ export default {
 
                     }
                     Swal.fire({
-                        title: 'Select Outage Tier',
+                        title: 'Select a program',
                         input: 'select',
                         inputOptions: options,
                         inputPlaceholder: 'Please select a program name',
@@ -532,7 +419,7 @@ export default {
                                 if (value !== '') {
                                     resolve();
                                 } else {
-                                    resolve('You need to select a Tier');
+                                    resolve('You need to select a Program');
                                 }
                             });
                         }
@@ -677,5 +564,58 @@ export default {
     created() {
 
     },
+    watch: {
+        info: function (val, oldVal) {
+            let result = axios.post('http://127.0.0.1:8000/api/hod-search',
+                {
+                    info: this.info,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+
+                    this.hod_list = response.data;
+
+                }).catch(error => {
+
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+
+                            }
+                        });
+                    } else if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
+
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
+        }
+    },
+    
 }
 </script>

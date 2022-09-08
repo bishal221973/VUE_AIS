@@ -147,9 +147,9 @@
                             <div class="col-lg-12 col-md-12 col-sm-12 mt-5">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
-                                        <h3 class="text-uppercase col-9 mb-3 ml-2">Teachers List</h3>
+                                        <h3 class="text-uppercase col-lg-9 mb-3">Teachers List</h3>
                                         <form class="nosubmit">
-                                            <input class="nosubmit" type="search" placeholder="Search Teacher...">
+                                            <input class="nosubmit" type="search" v-model="info" placeholder="Search Teacher...">
                                         </form>
                                     </div>
 
@@ -269,6 +269,7 @@ export default {
             'teacher_id': '',
             'url':'./assets/img/user.png',
             'teacher_profile':'',
+            'info':'',
         }
     },
     methods: {
@@ -612,6 +613,58 @@ export default {
     },
     beforeMount() {
         this.getUnits()
+    },
+    watch: {
+        info: function (val, oldVal) {
+            let result = axios.post('http://127.0.0.1:8000/api/teacher-search',
+                {
+                    info: this.info,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+
+                    this.teacher_list = response.data;
+
+                }).catch(error => {
+
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+
+                            }
+                        });
+                    } else if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
+
+                            }
+                        })
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
+        }
     },
 }
 </script>
