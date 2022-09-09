@@ -80,11 +80,11 @@
                                         <small id="semesterHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Book Name*</label>
+                                        <label for="exampleInputEmail1">Subject Name*</label>
                                         <select class="form-control select2 " data-select2-id="9" tabindex="-1"
                                             aria-hidden="true" v-model="course_id" id="txtBook">
 
-                                            <option value="" selected>Please select Book</option>
+                                            <option value="" selected>Please select Subject</option>
                                             <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
                                                 {{ item.book.book }}
                                             </option>
@@ -127,10 +127,10 @@
                                         </div>
 
                                         <div class="form-group col-lg-3">
-                                            <label>Book</label>
+                                            <label>Subject</label>
                                             <select class="form-control " v-model="book_filter"
                                                 aria-label="Default select example">
-                                                <option selected disabled>Select Book</option>
+                                                <option selected disabled>Select Subject</option>
                                                 <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
                                                     {{ item.book.book }}
                                                 </option>
@@ -156,7 +156,7 @@
                                                     <th scope="col">Email</th>
                                                     <th scope="col">Program</th>
                                                     <th scope="col">Semester</th>
-                                                    <th scope="col">Book</th>
+                                                    <th scope="col">Subject</th>
                                                     <th scope="col"></th>
                                                 </tr>
                                             </thead>

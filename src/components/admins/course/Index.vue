@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="title">
-                                <h4>Program</h4>
+                                <h4>Course</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
@@ -19,7 +19,7 @@
                                         <a href="index.html">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Program
+                                        Course
                                     </li>
 
                                 </ol>
@@ -63,13 +63,13 @@
                                         <small id="semesterHelp" class="form-text text-danger"></small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Book Name*</label>
+                                        <label for="exampleInputEmail1">Subject Name*</label>
                                         <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                             aria-hidden="true" v-model="book_id" id="txtBook">
 
-                                            <option value="" selected>Please select Book</option>
+                                            <option value="" selected>Please select Subject</option>
                                             <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
-                                                {{ item.book }}
+                                                {{ item.subject }}
                                             </option>
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
@@ -129,7 +129,7 @@
                                                     <th scope="col">#</th>
                                                     <th scope="col">Program</th>
                                                     <th scope="col">Semester</th>
-                                                    <th scope="col">Book</th>
+                                                    <th scope="col">Subject</th>
 
                                                     <th scope="col"></th>
                                                 </tr>
@@ -139,7 +139,7 @@
                                                     <td scope="row">{{ item.id }}</td>
                                                     <td scope="row">{{ item.program.program }}</td>
                                                     <td scope="row">{{ item.semester }}</td>
-                                                    <td scope="row">{{ item.book.book }}</td>
+                                                    <td scope="row">{{ item.book.subject }}</td>
 
 
                                                     <td>
@@ -174,10 +174,7 @@
 
             </div>
         </div>
-        <!-- <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-            </div> -->
+      
     </div>
 </template>
 <script>

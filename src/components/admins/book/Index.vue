@@ -1,7 +1,7 @@
 <template>
     <Navbar />
     <Sidebar />
-  
+
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
             <div class="min-height-200px">
@@ -16,7 +16,7 @@
                                     <li class="breadcrumb-item">
                                         <a href="index.html">Dashboard</a>
                                     </li>
-                                  
+
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Book
                                     </li>
@@ -51,22 +51,9 @@
                                                 aria-describedby="authorHelp" placeholder="Enter Author Name">
                                             <small id="authorHelp" class="form-text text-danger"></small>
                                         </div>
-                                        <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Page Number*</label>
-                                            <input type="number" class="form-control" v-model="page" id="txtPage"
-                                                aria-describedby="pageHelp" placeholder="Enter Page Number">
-                                            <small id="pageHelp" class="form-text text-danger"></small>
-                                        </div>
-
-                                        <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Book Price*</label>
-
-                                            <input type="number" class="form-control" v-model="price" id="txtPrice"
-                                                aria-describedby="priceHelp" placeholder="Enter Book Price">
-                                            <small id="priceHelp" class="form-text text-danger"></small>
-                                        </div>
-                                        <div class="row">
-                                            <button class="btn btn-success float-right" v-on:click="save">{{ btn_save}}</button>
+                                        <div class="col-12">
+                                            <button class="btn btn-success col-12" v-on:click="save">{{
+                                            btn_save}}</button>
                                             <!-- <button class="btn btn-danger float-right ml-2" v-on:click="clear">Clear</button> -->
                                         </div>
                                     </div>
@@ -130,19 +117,16 @@
                                                 <th scope="col">Book</th>
                                                 <th scope="col">Publication</th>
                                                 <th scope="col">Author</th>
-                                                <th scope="col">Page Number</th>
-                                                <th scope="col">Price</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="item in book_list" v-bind:key="item.id">
                                                 <td scope="row">{{ item.id }}</td>
-                                                <td scope="row">{{ item.book }}</td>
+                                                <td scope="row">{{ item.subject }}</td>
                                                 <td scope="row">{{ item.publication }}</td>
+
                                                 <td scope="row">{{ item.author }}</td>
-                                                <td scope="row">{{ item.page }}</td>
-                                                <td scope="row">RS. {{ item.price }} /-</td>
 
                                                 <td>
                                                     <div class="row btn-action">
@@ -173,10 +157,7 @@
 
             </div>
         </div>
-        <!-- <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-            </div> -->
+
     </div>
 </template>
 <script>
@@ -202,20 +183,20 @@ export default {
         }
     },
     methods: {
-        display_all(){
-          this.search_text='';
+        display_all() {
+            this.search_text = '';
         },
         save() {
+
             document.getElementById('bookHelp').innerHTML = '';
             document.getElementById('publicationHelp').innerHTML = '';
             document.getElementById('authorHelp').innerHTML = '';
-            document.getElementById('pageHelp').innerHTML = '';
-            document.getElementById('priceHelp').innerHTML = '';
+
             if (this.update_book == 'true') {
                 let url = 'http://127.0.0.1:8000/api/book/' + this.book_id
                 let result = axios.put(url,
                     {
-                        book: this.book,
+                        subject: this.book,
                         publication: this.publication,
                         author: this.author,
                         page: this.page,
@@ -315,9 +296,10 @@ export default {
 
                 return result;
             } else {
+
                 let result = axios.post('http://127.0.0.1:8000/api/book',
                     {
-                        book: this.book,
+                        subject: this.book,
                         publication: this.publication,
                         author: this.author,
                         page: this.page,
@@ -361,8 +343,8 @@ export default {
                     }).catch(error => {
                         if (error.response.status == 422) {
                             $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'book') {
-                                    document.getElementById('bookHelp').innerHTML = error.response.data.errors.book[0];
+                                if (key == 'subject') {
+                                    document.getElementById('bookHelp').innerHTML = error.response.data.errors.subject[0];
 
                                 }
                                 if (key == 'publication') {
@@ -472,7 +454,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.book = response.data.book;
+                    this.book = response.data.subject;
                     this.publication = response.data.publication;
                     this.author = response.data.author;
                     this.page = response.data.page;

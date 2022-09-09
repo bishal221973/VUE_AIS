@@ -510,6 +510,7 @@ export default {
                 }).then((response) => {
                     // alert(teacher_id);
                     // this.name=response.data;
+                    // console.log(response.data);
                     this.name = response.data.user.name;
                     this.username = response.data.user.username;
                     this.email = response.data.user.email;
@@ -586,7 +587,7 @@ export default {
                     }
                 }).then((response) => {
                     this.teacher_list = response.data;
-                    console.log(response.data);
+                    
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
