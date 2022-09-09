@@ -76,7 +76,54 @@
                     </div>
                 </div>
             </div>
-            
+
+
+            <div class="row">
+                <div v-if="role === 'Admin'"></div>
+                <div v-else-if="role === 'Student'"></div>
+                <div class="col-xl-7 mb-30" v-else>
+                    <div class="card-box height-100-p widget-style1">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Assigned Subjects</h5>
+
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Program</th>
+                                        <th scope="col">Semester</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Attendance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in assigned_sub" v-bind:key="item.id">
+                                        <td scope="row">{{ item.id }}</td>
+                                        <td scope="row">{{ item.course.program.program }}</td>
+                                        <td scope="row">{{ item.course.semester}}</td>
+                                        <td scope="row">{{ item.course.book.subject}}</td>
+                                        <td>
+                                            <a href="/attendance" class="btn btn-info btn-sm">Attendance</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 mb-30">
+                    <div class="card-box height-100-p widget-style1">
+                        <div class="p-5 col-lg-12 m-auto">
+                            <BarChart :chartData="testDatas" />
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         </div>
     </div>
@@ -85,14 +132,69 @@
 <script>
 import Sidebar from './Sidebar.vue';
 import Navbar from './Navbar.vue';
+import axios from 'axios';
+
+
+import {
+    BarChart
+
+} from 'vue-chart-3';
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
+
 export default {
     name: "Dashboard",
-    data(){
-        return{
-            'user_name':localStorage.getItem('name')
+    created() {
+        this.testDatas = {
+            labels: ['Boy', 'Girl'],
+            datasets: [
+                {
+                    data: [20, 10],
+                    backgroundColor: ['#cc0000', '#ff8800'],
+                },
+            ],
+        }
+
+
+    },
+
+    data() {
+        return {
+            'user_name': localStorage.getItem('name'),
+            'role': localStorage.getItem('role'),
+            'assigned_sub': '',
         }
     },
-    components: { Sidebar, Navbar, Sidebar }
+    components: { Sidebar, Navbar, Sidebar, BarChart },
+    beforeMount() {
+
+        let result = axios.post('http://127.0.0.1:8000/api/assigned-teacher',
+            {
+                user_id: localStorage.getItem('id'),
+
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then((response) => {
+                this.assigned_sub = response.data;
+                console.log(response.data);
+
+            }).catch(error => {
+                console.log('error:' + error);
+                Swal.fire(
+                    'Warning',
+                    'error: ' + error,
+                    'error'
+                )
+            });
+
+        return result;
+    },
+
 }
 </script>
 
@@ -101,3 +203,5 @@ export default {
     display: block;
 }
 </style>
+
+

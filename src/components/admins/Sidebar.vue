@@ -113,7 +113,7 @@
                         <div class="sidebar-small-cap">Users</div>
                     </li>
                    
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon icon-copy fa fa-user-circle" aria-hidden="true"></i><span
                                 class="mtext">Hod</span>
@@ -156,35 +156,35 @@
 
 
                     <li>
-                        <div class="sidebar-small-cap">configuration</div>
+                        <div class="sidebar-small-cap" v-if="role === 'Admin'">configuration</div>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/school-setup" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fa fa-building" aria-hidden="true"></i><span
                                 class="mtext">School</span>
                         </a>
 
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/faculty" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fa fa-fax" aria-hidden="true"></i><span
                                 class="mtext">Faculty</span>
                         </a>
 
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/program" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-projection-screen"></i><span class="mtext">Program</span>
                         </a>
 
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/book" class="dropdown-toggle no-arrow">
-                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Subject</span>
+                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
                         </a>
 
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/course" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy bi bi-book-fill"></i><span class="mtext">course</span>
                         </a>
@@ -205,13 +205,13 @@
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Student's Leave</span>
                         </a>
                     </li>
-                    <li>
+                    <li v-if="role === 'Admin'">
                         <a href="/attendance-report" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Attendance Report</span>
                         </a>
                     </li>
 
-                    <li class="dropdown">
+                    <li class="dropdown" v-if="role === 'Admin'">
                         <a href="javascript:;" class="dropdown-toggle">
                             <span class="micon bi bi-bug"></span><span class="mtext">Error Pages</span>
                         </a>
