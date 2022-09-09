@@ -124,7 +124,8 @@
                             
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <li v-if="role === 'Teacher'"></li>
+                    <li class="dropdown" v-else>
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon icon-copy fa fa-user" aria-hidden="true"></i><span
                                 class="mtext">Teacher</span>
@@ -139,7 +140,7 @@
 
 
                   
-
+                   
                     <li class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon bi bi-people-fill" aria-hidden="true"></i><span
@@ -232,6 +233,11 @@
 </template>
 <script>
 export default {
-    name: 'Sidebar'
+    name: 'Sidebar',
+    data(){
+        return{
+            'role':localStorage.getItem('role')
+        }
+    },
 }
 </script>

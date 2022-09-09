@@ -523,6 +523,8 @@ export default {
                     }
                 }).then((response) => {
                     this.hod_list = response.data;
+                    console.log('sdad');
+                    console.log(response.data);
 
 
                 }).catch(error => {
