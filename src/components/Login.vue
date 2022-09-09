@@ -81,6 +81,9 @@ export default {
                     }).then((response) => {
                         if (response.data.status == 'success') {
                             localStorage.setItem('token', response.data.token);
+                            localStorage.setItem('role', response.data.role);
+                            localStorage.setItem('id', response.data.id);
+                            localStorage.setItem('name', response.data.name);
                             this.$router.push({name: "Dashboard"});
                             console.log(response.data.token);
 

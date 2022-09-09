@@ -142,10 +142,10 @@
                                                     aria-hidden="true"></i> Filter</button>
 
                                         </div>
-                                        <div class="form-group ml-3">
+                                        <!-- <div class="form-group col-lg-12 ">
                                             <input type="text" class="form-control col-lg-12" v-model="data_filter"
                                             placeholder="Search Teacher">
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <div class="row  mt-4">
                                         <table class="table">

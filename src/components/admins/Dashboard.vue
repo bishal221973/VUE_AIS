@@ -11,7 +11,7 @@
                     <div class="col-md-8">
                         <h4 class="font-20 weight-500 mb-10 text-capitalize">
                             Welcome
-                            <div class="weight-600 font-30 text-blue">Bishal Chaudhary</div>
+                            <div class="weight-600 font-30 text-blue">{{user_name}}</div>
                         </h4>
                         <p class="font-18 max-width-600">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde
@@ -87,6 +87,11 @@ import Sidebar from './Sidebar.vue';
 import Navbar from './Navbar.vue';
 export default {
     name: "Dashboard",
+    data(){
+        return{
+            'user_name':localStorage.getItem('name')
+        }
+    },
     components: { Sidebar, Navbar, Sidebar }
 }
 </script>

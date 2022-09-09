@@ -98,6 +98,55 @@
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
+                                        <div class="form-group  col-lg-3">
+                                            <label>Program</label>
+                                            <select class="form-control" v-model="program_filter"
+                                                aria-label="Default select example">
+                                                <option selected disabled>Select Program</option>
+                                                <option v-for="item in program_list" v-bind:key="item.id"
+                                                    :value="item.id">
+                                                    {{ item.program }}
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-lg-3">
+                                            <label>Semester</label>
+                                            <select class="form-control " v-model="semester_filter"
+                                                aria-label="Default select example">
+                                                <option selected disabled>Select Semester</option>
+                                                <option value="1">First Semester</option>
+                                                <option value="2">Second Semester</option>
+                                                <option value="3">Third Semester</option>
+                                                <option value="4">Fourth Semester</option>
+                                                <option value="5">Fifth Semester</option>
+                                                <option value="6">Sixth Semester</option>
+                                                <option value="7">Seventh Semester</option>
+                                                <option value="8">Eighth Semester</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-lg-3">
+                                            <label>Book</label>
+                                            <select class="form-control " v-model="book_filter"
+                                                aria-label="Default select example">
+                                                <option selected disabled>Select Book</option>
+                                                <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
+                                                    {{ item.book.book }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-lg-3 mt-4">
+                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i class="icon-copy fa fa-filter"
+                                                    aria-hidden="true"></i> Filter</button>
+
+                                        </div>
+                                        <!-- <div class="form-group col-lg-12 ">
+                                            <input type="text" class="form-control col-lg-12" v-model="data_filter"
+                                            placeholder="Search Teacher">
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -174,14 +223,71 @@ export default {
             'program_id': '',
             'semester': '',
             'book_list': '',
+            'book_list1': '',
             'teacher_id': '',
             'course_id': '',
             'assigned_teachers': '',
             'update_assign': '',
             'assigned_id': '',
+            'program_filter': '',
+            'semester_filter': '',
+            'book_filter': '',
+            'data_filter': '',
         }
     },
     watch: {
+        semester_filter(newValue, oldValue) {
+            if (this.program_filter == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select a program first!',
+                })
+                this.semester = '';
+            } else {
+                axios.post('http://127.0.0.1:8000/api/select-subject',
+                    {
+                        program_id: this.program_filter,
+                        semester: this.semester_filter,
+
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        this.book_list1 = response.data;
+
+
+                    }).catch(error => {
+                        console.log('error: ' + error);
+                    });
+            }
+        },
+
+        program_filter(newValue, oldValue) {
+
+            axios.post('http://127.0.0.1:8000/api/select-subject',
+                {
+                    program_id: this.program_id,
+                    semester: this.semester,
+
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.book_list1 = response.data;
+
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
+
+        },
         semester(newValue, oldValue) {
             if (this.program_id == '') {
                 Swal.fire({
@@ -236,6 +342,29 @@ export default {
         }
     },
     methods: {
+        filter(){
+            axios.post('http://127.0.0.1:8000/api/hod-filter',
+                {
+                    program: this.program_filter,
+                    semester: this.semester_filter,
+                    book: this.book_filter,
+
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.assigned_teachers =response.data;
+
+                    console.log();
+
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
+        },
         save() {
             document.getElementById('teacherHelp').innerHTML='';
             document.getElementById('bookHelp').innerHTML='';

@@ -200,6 +200,11 @@
                     </li>
 
                     <li>
+                        <a href="#" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fi-results"></i><span class="mtext">Student's Leave</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="/attendance-report" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Attendance Report</span>
                         </a>
