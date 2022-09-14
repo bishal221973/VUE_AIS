@@ -13,7 +13,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Fculty
@@ -133,6 +133,7 @@ export default {
           this.search_text='';
         },
         save() {
+            document.getElementById('facultyHelp').innerHTML='';
             if (this.updated == 'true') {
                 let url = 'http://127.0.0.1:8000/api/faculty/' + this.faculty_id;
                 let result = axios.put(url,
@@ -155,12 +156,13 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.updated = '';
+                                    
+
+                                }
+                                this.updated = '';
                                     this.faculty = '';
                                     this.btn_submit = 'Save';
                                     this.getUnits();
-
-                                }
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -232,9 +234,11 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
+                                    
 
                                 }
+                                this.getUnits();
+                                this.faculty='';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -319,10 +323,11 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
+                                       
 
 
                                     }
+                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({

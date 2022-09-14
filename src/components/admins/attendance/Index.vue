@@ -29,127 +29,146 @@
                     <div class="product-detail-wrap mb-30">
 
 
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <div class="product-detail-desc pd-20 card-box">
-                                <div class="row">
-
-                                    <div class="form-group col-lg-4" v-if="role === 'Admin'">
-                                        <label for="exampleInputEmail1">Program Name</label>
-                                        <select class="form-control select2" data-select2-id="9" tabindex="-1"
-                                            aria-hidden="true" v-model="program_id" id="txtProgram">
-
-                                            <option value="" selected>Please select Faculty</option>
-                                            <option v-for="item in program_list" v-bind:key="item.id" :value="item.id">
-                                                {{ item.program }}
-                                            </option>
-                                        </select>
-                                        <small id="programHelp" class="form-text text-danger"></small>
-                                    </div>
-                                    <div class="form-group col-lg-4" v-if="role === 'Admin'">
-                                        <label for="exampleInputEmail1">Semester</label>
-                                        <select class="form-control" data-select2-id="9" v-model="semester"
-                                            id="txtSemester">
-
-                                            <option value="" selected>Please select Faculty</option>
-                                            <option value="1">First Semester</option>
-                                            <option value="2">Second Semester</option>
-                                            <option value="3">Third Semester</option>
-                                            <option value="4">Fourth Semester</option>
-                                            <option value="5">Fifth Semester</option>
-                                            <option value="6">Sixth Semester</option>
-                                            <option value="7">Seven Semester</option>
-                                            <option value="8">Eight Semester</option>
-                                        </select>
-                                        <small id="semesterHelp" class="form-text text-danger"></small>
-                                    </div>
-                                    <div class="form-group col-lg-4" v-if="role === 'Admin'">
-                                        <label for="exampleInputEmail1">Subject</label>
-                                        <select class="form-control select2" data-select2-id="9" tabindex="-1"
-                                            aria-hidden="true" v-model="course_id" id="txtBook">
-
-                                            <option value="" selected>Please select Faculty</option>
-                                            <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
-                                                {{ item.book.subject}}
-                                            </option>
-                                        </select>
-                                        <small id="bookHelp" class="form-text text-danger"></small>
-                                    </div>
-
-                                    <div v-if="role === 'Admin'"></div>
-                                    <div v-else-if="role === 'Student'"></div>
-                                    <div v-else class="row col-12">
-                                        <div class="col-lg-8">
-                                            <h3>Take student's Attendance</h3>
-                                            <label>{{new_program}}</label>
-                                            <label> {{new_semester}}</label>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <label for="">Appoinded Subjects</label>
-                                            <select class="form-control" aria-label="Default select example"
-                                                v-model="subject">
-                                                <option selected>Select a subject</option>
-                                                <option :value="item.course.id" v-for="item in assigned_sub"
-                                                    v-bind:key="item.id">
-                                                    {{item.course.book.subject}}
-                                                </option>
-
-                                            </select>
-                                        </div>
-
-
-                                    </div>
-                                    <button v-if="role === 'Admin'" class="col-3 btn btn-success"
-                                        v-on:click="getStudent">OK</button>
-
-
-
-                                    <table class="table mt-5">
-                                        <thead class="thead-light">
-                                            <tr>
-
-                                                <th scope="col">Roll number</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Username</th>
-                                                <th scope="col">
-                                                    Attendance
-                                                </th>
-                                                <th scope="col"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="item in student_list" v-bind:key="item.id">
-                                                <input type="hidden" v-model="item.id">
-
-                                                <td>{{ item.user.student[0].roll_number }}</td>
-                                                <td scope="row">{{ item.user.name }}</td>
-                                                <td scope="row">{{ item.user.username }}</td>
-                                                <td>
-                                                    <select class="form-control" data-select2-id="9"
-                                                        v-model="item.user.id" id="txtSemester">
-                                                        <option value="Persent">Persent</option>
-                                                        <option value="Absent">Absent</option>
-                                                        <option value="Leave">Leave</option>
-
-                                                    </select>
-
-                                                </td>
-
-                                            </tr>
-
-
-
-                                        </tbody>
-
-                                    </table>
-
-                                </div>
-                                <div class="row  btn-attendance">
-                                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-12 mb-30">
+                                <div class="pd-20 card-box height-100-p">
+                                    <h4 class="mb-20 h4">Student's on leave</h4>
+                                    <ul class="list-group list-group-flush">
                                         
+                                        <li class="list-group-item" v-for="item in leave_list" v-bind:key="item.id">
+                                            {{item.student.user.name}}
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-7 col-md-12 col-sm-12">
+                                <div class="product-detail-desc pd-20 card-box">
+                                    <div class="row">
+
+                                        <div class="form-group col-lg-4" v-if="role === 'Admin'">
+                                            <label for="exampleInputEmail1">Program Name</label>
+                                            <select class="form-control select2" data-select2-id="9" tabindex="-1"
+                                                aria-hidden="true" v-model="program_id" id="txtProgram">
+
+                                                <option value="" selected>Please select Faculty</option>
+                                                <option v-for="item in program_list" v-bind:key="item.id"
+                                                    :value="item.id">
+                                                    {{ item.program }}
+                                                </option>
+                                            </select>
+                                            <small id="programHelp" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="form-group col-lg-4" v-if="role === 'Admin'">
+                                            <label for="exampleInputEmail1">Semester</label>
+                                            <select class="form-control" data-select2-id="9" v-model="semester"
+                                                id="txtSemester">
+
+                                                <option value="" selected>Please select Faculty</option>
+                                                <option value="1">First Semester</option>
+                                                <option value="2">Second Semester</option>
+                                                <option value="3">Third Semester</option>
+                                                <option value="4">Fourth Semester</option>
+                                                <option value="5">Fifth Semester</option>
+                                                <option value="6">Sixth Semester</option>
+                                                <option value="7">Seven Semester</option>
+                                                <option value="8">Eight Semester</option>
+                                            </select>
+                                            <small id="semesterHelp" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="form-group col-lg-4" v-if="role === 'Admin'">
+                                            <label for="exampleInputEmail1">Subject</label>
+                                            <select class="form-control select2" data-select2-id="9" tabindex="-1"
+                                                aria-hidden="true" v-model="course_id" id="txtBook">
+
+                                                <option value="" selected>Please select Faculty</option>
+                                                <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
+                                                    {{ item.book.subject}}
+                                                </option>
+                                            </select>
+                                            <small id="bookHelp" class="form-text text-danger"></small>
+                                        </div>
+                                        <div class="form-group col-lg-12" v-if="role === 'Admin'">
+                                            <label for="exampleInputEmail1">Date</label>
+                                            <input type="date" class="form-control">
+                                            <small id="bookHelp" class="form-text text-danger"></small>
+                                        </div>
+
+                                        <div v-if="role === 'Admin'"></div>
+                                        <div v-else-if="role === 'Student'"></div>
+                                        <div v-else class="row col-12">
+                                            <div class="col-lg-8">
+                                                <h3>Take student's Attendance</h3>
+                                                <label>{{new_program}}</label>
+                                                <label> {{new_semester}}</label>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <label for="">Appoinded Subjects</label>
+                                                <select class="form-control" aria-label="Default select example"
+                                                    v-model="subject">
+                                                    <option selected>Select a subject</option>
+                                                    <option :value="item.course.id" v-for="item in assigned_sub"
+                                                        v-bind:key="item.id">
+                                                        {{item.course.book.subject}}
+                                                    </option>
+
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+                                        <button v-if="role === 'Admin'" class="col-3 btn btn-success"
+                                            v-on:click="getStudent">OK</button>
+
+
+
+                                        <table class="table mt-5">
+                                            <thead class="thead-light">
+                                                <tr>
+
+                                                    <th scope="col">Roll number</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Username</th>
+                                                    <th scope="col">
+                                                        Attendance
+                                                    </th>
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr v-for="item in student_list" v-bind:key="item.id">
+
+                                                    <td>{{ item.user.student[0].roll_number }}</td>
+                                                    <td scope="row">{{ item.user.name }}</td>
+                                                    <td scope="row">{{ item.user.username }}</td>
+                                                    <td>
+                                                        <select class="form-control" data-select2-id="9"
+                                                            v-model="item.user.id" id="txtSemester">
+                                                            <option value="Persent">Persent</option>
+                                                            <option value="Absent">Absent</option>
+                                                            <option value="Leave">Leave</option>
+
+                                                        </select>
+
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
                                     </div>
-                                    <div class="col-lg-3" v-if="student_list">
-                                        <button class="btn btn-warning mt-4 ml-5" v-on:click="takeAttendance">Take
-                                            Attendance</button>
+                                    <div class="row  btn-attendance">
+                                        <div class="col-lg-9">
+
+                                        </div>
+                                        <div class="col-lg-3" v-if="student_list">
+                                            <button class="btn btn-warning mt-4 ml-5" v-on:click="takeAttendance">Take
+                                                Attendance</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -191,6 +210,8 @@ export default {
             'new_program': '',
             'new_semester': '',
             'new_subject_id': '',
+            'role': localStorage.getItem('role'),
+            'leave_list': '',
         }
     },
     components: { Navbar, Sidebar },
@@ -390,6 +411,29 @@ export default {
                 });
 
 
+                axios.post('http://127.0.0.1:8000/api/get-leave',
+                {
+                    program_id: this.program_id,
+                    semester: this.semester,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.leave_list = response.data;
+                    // console.log(this.);
+                }).catch(error => {
+
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                });
+
+
 
         },
         getStudent() {
@@ -419,7 +463,8 @@ export default {
                     )
                 });
 
-            return result;
+            
+
         },
     },
     beforeMount() {

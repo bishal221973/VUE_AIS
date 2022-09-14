@@ -109,7 +109,8 @@
                         </a>
 
                     </li>
-                    <li>
+                    <li v-if="role === 'Student'"></li>
+                    <li v-else>
                         <div class="sidebar-small-cap">Users</div>
                     </li>
                    
@@ -125,6 +126,7 @@
                         </ul>
                     </li>
                     <li v-if="role === 'Teacher'"></li>
+                    <li v-else-if="role === 'Student'"></li>
                     <li class="dropdown" v-else>
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon icon-copy fa fa-user" aria-hidden="true"></i><span
@@ -139,9 +141,9 @@
 
 
 
-                  
+                    <li v-if="role === 'Student'"></li>
                    
-                    <li class="dropdown">
+                    <li v-else class="dropdown">
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon bi bi-people-fill" aria-hidden="true"></i><span
                                 class="mtext">Student</span>
@@ -157,6 +159,7 @@
 
                     <li>
                         <div class="sidebar-small-cap" v-if="role === 'Admin'">configuration</div>
+                        <div class="sidebar-small-cap" v-if="role === 'HOD'">configuration</div>
                     </li>
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/school-setup" class="dropdown-toggle no-arrow">
@@ -165,26 +168,58 @@
                         </a>
 
                     </li>
+                    
+                    <!-- =========Faculty=============== -->
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/faculty" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fa fa-fax" aria-hidden="true"></i><span
-                                class="mtext">Faculty</span>
+                            class="mtext">Faculty</span>
                         </a>
-
+                        
                     </li>
+                    <li class="dropdown" v-if="role === 'HOD'">
+                        <a href="/faculty" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fa fa-fax" aria-hidden="true"></i><span
+                            class="mtext">Faculty</span>
+                        </a>
+                        
+                    </li>
+                    <!-- =========Program=============== -->
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/program" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-projection-screen"></i><span class="mtext">Program</span>
                         </a>
 
                     </li>
+                    <li class="dropdown" v-if="role === 'HOD'">
+                        <a href="/program" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fi-projection-screen"></i><span class="mtext">Program</span>
+                        </a>
+
+                    </li>
+
+                    <!-- ========Book============ -->
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/book" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
                         </a>
 
                     </li>
+                    <li class="dropdown" v-if="role === 'HOD'">
+                        <a href="/book" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
+                        </a>
+
+                    </li>
+
+                    <!-- =========Course========== -->
                     <li class="dropdown" v-if="role === 'Admin'">
+                        <a href="/course" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy bi bi-book-fill"></i><span class="mtext">course</span>
+                        </a>
+
+                    </li>
+                    <li class="dropdown" v-if="role === 'HOD'">
                         <a href="/course" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy bi bi-book-fill"></i><span class="mtext">course</span>
                         </a>
@@ -193,21 +228,40 @@
                     <li>
                         <div class="sidebar-small-cap">Attendance</div>
                     </li>
-
-                    <li>
+                    <li v-if="role==='Student'"></li>
+                    <li v-else>
                         <a href="/attendance" class="dropdown-toggle no-arrow">
                             <span class="micon bi bi-calendar4-week"></span><span class="mtext">Take Attendance</span>
                         </a>
                     </li>
 
-                    <li>
+                    <li v-if="role === 'Admin'">
+                        <a href="/leave-approve" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fi-results"></i><span class="mtext">Student's Leave</span>
+                        </a>
+                    </li>
+                    <li v-if="role === 'HOD'">
                         <a href="#" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Student's Leave</span>
                         </a>
                     </li>
-                    <li v-if="role === 'Admin'">
+
+                    <li v-if="role==='Student'"></li>
+                    <li v-else>
                         <a href="/attendance-report" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Attendance Report</span>
+                        </a>
+                    </li>
+
+                    <li v-if="role==='Student'">
+                        <a href="/attendance-report" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fi-results"></i><span class="mtext">My Attendance Report</span>
+                        </a>
+                    </li>
+
+                    <li v-if="role==='Student'">
+                        <a href="/apply-leave" class="dropdown-toggle no-arrow">
+                            <i class="micon icon-copy fi-results"></i><span class="mtext">Apply Leave</span>
                         </a>
                     </li>
 

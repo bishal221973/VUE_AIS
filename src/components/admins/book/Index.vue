@@ -14,7 +14,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
 
                                     <li class="breadcrumb-item active" aria-current="page">
@@ -219,7 +219,11 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.book = '';
+                                   
+
+                                }
+                            })
+                            this.book = '';
                                     this.publication = '';
                                     this.author = '';
                                     this.page = '';
@@ -227,9 +231,6 @@ export default {
 
                                     this.btn_save = 'Save'
                                     this.getUnits();
-
-                                }
-                            })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
                                 icon: 'error',
@@ -321,9 +322,12 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
-
+                                    
                                 }
+                                this.getUnits();
+                                this.book='';
+                                this.publication='';
+                                this.author='';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -423,10 +427,11 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
+                                        
 
 
                                     }
+                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({

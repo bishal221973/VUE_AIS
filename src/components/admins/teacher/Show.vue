@@ -13,10 +13,10 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item" aria-current="page">
-                                        Teacher
+                                        <a href="/teacher">Teacher</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Profile
@@ -310,14 +310,14 @@ export default {
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
                 }
             }).then((response) => {
-                this.name = response.data.teacher.user.name;
-                this.email = response.data.teacher.user.email;
-                this.phone = response.data.teacher.phone;
-                this.address = response.data.teacher.address;
-                this.username = response.data.teacher.user.username;
-                this.dob = response.data.teacher.dob;
-                this.gender = response.data.teacher.gender;
-                this.role = response.data.teacher.user.role.user_role;
+                this.name = response.data.user.name;
+                this.email = response.data.user.email;
+                this.phone = response.data.phone;
+                this.address = response.data.address;
+                this.username = response.data.user.username;
+                this.dob = response.data.dob;
+                this.gender = response.data.gender;
+                this.role = response.data.user.role.user_role;
                 this.assign_subject = response.data.teacher.assign;
                 this.hod=response.data.teacher.user.hod;
 

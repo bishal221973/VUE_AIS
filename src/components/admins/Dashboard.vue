@@ -85,17 +85,16 @@
                     <div class="card-box height-100-p widget-style1">
 
                         <div class="card-body">
-                            <h5 class="card-title">Assigned Subjects</h5>
+                            <h3 class="mb-4">Assigned Subjects</h3>
 
 
-                            <table class="table">
+                            <table class="table mt-4">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Program</th>
                                         <th scope="col">Semester</th>
                                         <th scope="col">Subject</th>
-                                        <th scope="col">Attendance</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,9 +103,7 @@
                                         <td scope="row">{{ item.course.program.program }}</td>
                                         <td scope="row">{{ item.course.semester}}</td>
                                         <td scope="row">{{ item.course.book.subject}}</td>
-                                        <td>
-                                            <a href="/attendance" class="btn btn-info btn-sm">Attendance</a>
-                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,11 +112,34 @@
                 </div>
                 <div class="col-xl-5 mb-30">
                     <div class="card-box height-100-p widget-style1">
-                        <div class="p-5 col-lg-12 m-auto">
+                        <h3 class="text-center mb-4">Numbers of student's</h3>
+                        <div class="p-1 col-lg-12 m-auto mt-4">
                             <BarChart :chartData="testDatas" />
 
 
                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-8" v-if="role==='HOD'">
+                    <div class="card-box height-100-p widget-style1">
+                        <h3 class="text-center mb-4">Other Information</h3>
+                        <div class="p-1 col-lg-12 m-auto mt-4">
+                            <LineChart :chartData="testDatas1" />
+
+
+                        </div>
+                    </div>>
+
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-30" v-if="role==='HOD'">
+                    <div class="pd-20 card-box height-100-p">
+                        <h4 class="mb-20 h4">Head of Department</h4>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" v-for="item in hod_list" v-bind:key="item.id">
+                                {{item.program.program}}
+                            </li>
+                           
+                        </ul>
                     </div>
                 </div>
 
@@ -135,10 +155,8 @@ import Navbar from './Navbar.vue';
 import axios from 'axios';
 
 
-import {
-    BarChart
-
-} from 'vue-chart-3';
+import {LineChart} from 'vue-chart-3';
+import {BarChart} from 'vue-chart-3';
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
@@ -156,6 +174,16 @@ export default {
             ],
         }
 
+        this.testDatas1 = {
+            labels: ['Faculty', 'Program','Teacher','HOD'],
+            datasets: [
+                {
+                    data: [20, 25,50,27],
+                    backgroundColor: ['#cc0000', '#ff8800', 'pink','yellow'],
+                },
+            ],
+        }
+
 
     },
 
@@ -164,12 +192,13 @@ export default {
             'user_name': localStorage.getItem('name'),
             'role': localStorage.getItem('role'),
             'assigned_sub': '',
+            'hod_list': '',
         }
     },
-    components: { Sidebar, Navbar, Sidebar, BarChart },
+    components: { Sidebar, Navbar, Sidebar, LineChart,BarChart },
     beforeMount() {
 
-        let result = axios.post('http://127.0.0.1:8000/api/assigned-teacher',
+        axios.post('http://127.0.0.1:8000/api/assigned-teacher',
             {
                 user_id: localStorage.getItem('id'),
 
@@ -192,7 +221,29 @@ export default {
                 )
             });
 
-        return result;
+            axios.post('http://127.0.0.1:8000/api/hod-list',
+            {
+                user_id: localStorage.getItem('id'),
+
+            },
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then((response) => {
+                this.hod_list = response.data;
+                console.log(response.data);
+
+            }).catch(error => {
+                console.log('error:' + error);
+                Swal.fire(
+                    'Warning',
+                    'error: ' + error,
+                    'error'
+                )
+            });
+            
     },
 
 }

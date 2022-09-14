@@ -16,7 +16,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Course
@@ -31,7 +31,7 @@
                     <div class="product-detail-wrap mb-30">
 
                         <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Program Name*</label>
@@ -74,7 +74,7 @@
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
                                     </div>
-                                    <button class="btn btn-success col-12" v-on:click="save">Submit</button>
+                                    <button class="btn btn-success col-12" v-on:click="save">{{btn}}</button>
 
 
 
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
 
@@ -196,6 +196,7 @@ export default {
             'book_id': '',
             'update_course': '',
             'search_text': '',
+            'btn':'Save',
         }
     },
     methods: {
@@ -250,9 +251,14 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
-
+                                        
                                     }
+                                    this.getUnits();
+                                    this.program_id='';
+                                    this.semester='';
+                                    this.book_id='';
+                                    this.update_course='';
+                                    this.btn='Save';
                                 })
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
@@ -303,9 +309,12 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
-
+                                        
                                     }
+                                    this.getUnits();
+                                    this.program_id='';
+                                    this.semester='';
+                                    this.book_id='';
                                 })
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
@@ -365,10 +374,10 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
-
-
+                                        
+                                        
                                     }
+                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({
@@ -401,6 +410,7 @@ export default {
                     this.book_id = response.data.book_id;
                     this.course_id = response.data.id;
                     this.update_course = 'true';
+                    this.btn='Update';
                 }).catch(error => {
                     console.log('error: ' + error);
                 });

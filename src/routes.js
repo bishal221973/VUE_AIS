@@ -16,9 +16,11 @@ import assignHod from './components/admins/hod/assign.vue';
 import AssignTeacher from './components/admins/assignTeacher/Index.vue';
 import Student from './components/admins/student/Index.vue';
 import StudentDetail from './components/admins/student/View.vue';
+import ApplyLeave from './components/admins/student/Leave.vue';
 import TeacherDetail from './components/admins/teacher/Show.vue';
 import Attendance from './components/admins/attendance/Index.vue';
 import AttendanceReport from './components/admins/attendance/report.vue';
+import LeaveApprove from './components/admins/leave/Index.vue';
 
 import UserLogin from './components/MainPage.vue';
 const routes = [
@@ -98,6 +100,11 @@ const routes = [
         component: StudentDetail
     },
     {
+        name: 'ApplyLeave',
+        path: '/apply-leave',
+        component: ApplyLeave
+    },
+    {
         name: 'TeacherDetail',
         path: '/teacher-detail',
         component: TeacherDetail
@@ -116,6 +123,12 @@ const routes = [
         name: 'AssignHod',
         path: '/assign-hod',
         component:assignHod
+    },
+
+    {
+        name: 'LeaveApprove',
+        path: '/leave-approve',
+        component:LeaveApprove
     },
 ];
 const router = createRouter({

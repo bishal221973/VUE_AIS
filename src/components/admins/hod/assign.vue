@@ -168,7 +168,7 @@
                                                     <td scope="row">{{ item.teacher.user.email }}</td>
                                                     <td scope="row">{{ item.course.program.program }}</td>
                                                     <td scope="row">{{ item.course.semester }}</td>
-                                                    <td scope="row">{{ item.course.book.book }}</td>
+                                                    <td scope="row">{{ item.course.book.subject }}</td>
 
                                                     <td>
                                                         <div class="row btn-action">

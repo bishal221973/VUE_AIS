@@ -155,7 +155,9 @@ export default {
                                 confirmButtonText: 'OK'
                             }).then((result) => {
                                 
-                                    this.btn = 'Save';
+                                   
+                            })
+                            this.btn = 'Save';
                                     this.getUnits();
                                     // window.location.reload();
 
@@ -163,7 +165,7 @@ export default {
                                 this.reg_number='';
                                 this.phone='';
                                 this.address='';
-                            })
+                                this.edit='';
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
                                 icon: 'error',
@@ -342,11 +344,12 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
-
+                                        
 
                                     }
                                 })
+                                this.getUnits();
+
                             } else {
                                 Swal.fire({
                                     icon: 'error',

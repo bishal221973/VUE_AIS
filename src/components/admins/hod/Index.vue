@@ -295,9 +295,9 @@ export default {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 // window.location.reload();
-                                this.getUnits()
-
+                                
                             }
+                            this.getUnits()
                         })
                         this.user_id = '';
                         this.program_id = '';
@@ -350,10 +350,10 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits()
-
+                                    
                                 }
                             })
+                            this.getUnits()
                             this.user_id = '';
                             this.program_id = '';
                         } else if (response.data.status == 'failed') {
@@ -448,10 +448,10 @@ export default {
                                             confirmButtonText: 'OK'
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                window.location.reload();
                                                 // this.getUnits();
-
+                                                
                                             }
+                                            window.location.reload();
                                         })
                                     } else if (response.data.status == 'failed') {
                                         Swal.fire({

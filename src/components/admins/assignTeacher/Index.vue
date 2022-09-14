@@ -91,7 +91,7 @@
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
                                     </div>
-                                    <button class="btn btn-success col-12" v-on:click="save">Submit</button>
+                                    <button class="btn btn-success col-12" v-on:click="save">{{btn}}</button>
                                 </div>
                             </div>
 
@@ -132,14 +132,16 @@
                                             <select class="form-control " v-model="book_filter"
                                                 aria-label="Default select example">
                                                 <option selected disabled>Select Subject</option>
-                                                <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
+                                                <option v-for="item in book_list1" v-bind:key="item.id"
+                                                    :value="item.id">
                                                     {{ item.book.subject }}
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-3 mt-4">
-                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i class="icon-copy fa fa-filter"
-                                                    aria-hidden="true"></i> Filter</button>
+                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i
+                                                    class="icon-copy fa fa-filter" aria-hidden="true"></i>
+                                                Filter</button>
 
                                         </div>
                                         <!-- <div class="form-group col-lg-12 ">
@@ -232,16 +234,13 @@ export default {
             'semester_filter': '',
             'book_filter': '',
             'data_filter': '',
+            'btn': 'Save',
         }
     },
     watch: {
         semester_filter(newValue, oldValue) {
             if (this.program_filter == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please select a program first!',
-                })
+                this.book_list1='';
                 this.semester = '';
             } else {
                 axios.post('http://127.0.0.1:8000/api/select-subject',
@@ -291,11 +290,7 @@ export default {
 
         semester(newValue, oldValue) {
             if (this.program_id == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please select a program first!',
-                })
+                this.book_list='';
                 this.semester = '';
             } else {
                 axios.post('http://127.0.0.1:8000/api/select-subject',
@@ -343,7 +338,7 @@ export default {
         }
     },
     methods: {
-        filter(){
+        filter() {
             axios.post('http://127.0.0.1:8000/api/teacher-filter',
                 {
                     program: this.program_filter,
@@ -357,7 +352,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.assigned_teachers =response.data;
+                    this.assigned_teachers = response.data;
 
                     console.log();
 
@@ -393,10 +388,17 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
 
                                 }
+                                this.teacher_id = '';
+                                this.program_id = '';
+                                this.semester = '';
+                                this.course_id = '';
+                                this.btn = 'Save';
+                                this.getUnits();
+
                             })
+
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
                                 icon: 'error',
@@ -445,9 +447,13 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
 
                                 }
+                                this.getUnits();
+                                this.teacher_id = '';
+                                this.program_id = '';
+                                this.semester = '';
+                                this.course_id = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -531,10 +537,10 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
 
 
                                     }
+                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({
@@ -567,7 +573,7 @@ export default {
                     this.update_assign = 'true';
                     this.assigned_id = response.data.id;
 
-
+                    this.btn = 'Update';
                 }).catch(error => {
                     console.log('error: ' + error);
                 });

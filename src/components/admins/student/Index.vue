@@ -720,13 +720,14 @@ export default {
             return result;
         },
         edit(student_id) {
-            axios.get('http://127.0.0.1:8000/api/student/' + student_id,
+            axios.get('http://127.0.0.1:8000/api/edit-students/' + student_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
+                    console.log(response.data.user);
                     this.name = response.data.user.name;
                     this.username = response.data.user.username;
                     this.email = response.data.user.email;

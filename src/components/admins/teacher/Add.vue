@@ -13,7 +13,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Teacher
@@ -37,7 +37,7 @@
                                                     class="col-12 mb-4 text-black-50 text-uppercase text-monospace">Personal
                                                     Informations</label>
                                                 <div class="form-group col-lg-4">
-                                                    <label for="exampleInputEmail1">Name*</label>
+                                                    <label for="exampleInputEmail1">Full name*</label>
                                                     <input type="text" class="form-control" v-model="name" name="name"
                                                         id="txtName" aria-describedby="bookHelp"
                                                         placeholder="Enter Name">
@@ -122,8 +122,8 @@
                                         <div class="col-lg-3 ">
                                             <div class="rounded-circle border-secondary teacher-profile">
                                                 <div class="form-group">
-                                                   
-                                                        <img v-if="url" :src="url" class="profile_img"/>
+
+                                                    <img v-if="url" :src="url" class="profile_img" />
                                                 </div>
                                                 <div class="txtprofile form-group">
                                                     <input type="file" :v-model="profile" id="txtprofile"
@@ -147,7 +147,8 @@
                                     <div class="row">
                                         <h3 class="text-uppercase col-lg-9 mb-3">Teachers List</h3>
                                         <form class="nosubmit">
-                                            <input class="nosubmit" type="search" v-model="info" placeholder="Search Teacher...">
+                                            <input class="nosubmit" type="search" v-model="info"
+                                                placeholder="Search Teacher...">
                                         </form>
                                     </div>
 
@@ -186,17 +187,22 @@
                                                     <td scope="row">{{ item.user.email }}</td>
                                                     <td scope="row">{{ item.gender }}</td>
                                                     <td scope="row">{{ item.phone }}</td>
-                                                    <td scope="row" v-if="item.user.role.user_role === 'Teacher'"><span class="badge badge-secondary">Teacher</span></td>
-                                                    <td scope="row" v-else><span class="badge badge-info">HOD</span></td>
+                                                    <td scope="row" v-if="item.user.role.user_role === 'Teacher'"><span
+                                                            class="badge badge-secondary">Teacher</span></td>
+                                                    <td scope="row" v-else><span class="badge badge-info">HOD</span>
+                                                    </td>
                                                     <td>
                                                         <div class="row">
-                                                            <a href="#" class="btn btn-info" v-on:click="tprofile(item.id)"><i
-                                                                class="icon-copy fa fa-eye" aria-hidden="true"
-                                                                ></i></a>
+                                                            <a href="#" class="btn btn-info"
+                                                                v-on:click="tprofile(item.id)"><i
+                                                                    class="icon-copy fa fa-eye"
+                                                                    aria-hidden="true"></i></a>
                                                             <button class="btn btn-warning ml-1 text-white"
-                                                                v-on:click="edit(item.id)"><i class="fa fa-edit"></i></button>
+                                                                v-on:click="edit(item.id)"><i
+                                                                    class="fa fa-edit"></i></button>
                                                             <button class="btn btn-danger text-white ml-1"
-                                                                v-on:click="deleteTeacher(item.id)"> <i class="fa fa-trash"></i> </button>
+                                                                v-on:click="deleteTeacher(item.id)"> <i
+                                                                    class="fa fa-trash"></i> </button>
 
                                                         </div>
                                                     </td>
@@ -219,10 +225,10 @@
 
             </div>
         </div>
-       
+
     </div>
-    <Profile v-else :id="teacher_profile"/>
-    
+    <Profile v-else :id="teacher_profile" />
+
 </template>
 <script>
 
@@ -234,7 +240,7 @@ import Profile from '@/components/admins/teacher/Show.vue';
 
 export default {
     name: "Add",
-    components: { Navbar, Sidebar,Profile },
+    components: { Navbar, Sidebar, Profile },
     data() {
         return {
             'name': '',
@@ -252,14 +258,14 @@ export default {
             'btn': 'Save',
             'update_record': '',
             'teacher_id': '',
-            'url':'./assets/img/user.png',
-            'teacher_profile':'',
-            'info':'',
+            'url': './assets/img/user.png',
+            'teacher_profile': '',
+            'info': '',
         }
     },
     methods: {
-        tprofile(teacher_id){
-               this.teacher_profile=teacher_id;
+        tprofile(teacher_id) {
+            this.teacher_profile = teacher_id;
         },
         onFileChange(e) {
             const file = e.target.files[0];
@@ -311,19 +317,20 @@ export default {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
                                     // this.$router.push({ path: "/teacher-list" });
-                                    this.update_record = '';
-                                    this.btn = 'Save';
-                                    this.name = '';
-                                    this.username = '';
-                                    this.email = '';
-                                    this.password = '';
-                                    this.gender = '';
-                                    this.address = '';
-                                    this.dob = '';
-                                    this.phone = '';
-                                    this.profile = '';
-                                    this.getUnits();
+
                                 }
+                                this.update_record = '';
+                                this.btn = 'Save';
+                                this.name = '';
+                                this.username = '';
+                                this.email = '';
+                                this.password = '';
+                                this.gender = '';
+                                this.address = '';
+                                this.dob = '';
+                                this.phone = '';
+                                this.profile = '';
+                                this.getUnits();
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -423,9 +430,21 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
 
                                 }
+                                this.getUnits();
+                                this.name = '';
+                                this.email = '';
+                                this.gender = '';
+                                this.address = '';
+                                this.dob = '';
+                                this.phone = '';
+                                this.username = '';
+                                this.password = '';
+                                this.password_confirmation = '';
+                                document.getElementById('passwordHelp').innerHTML = '';
+
+
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -556,10 +575,10 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
-
-
+                                        
+                                        
                                     }
+                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({
@@ -587,7 +606,7 @@ export default {
                     }
                 }).then((response) => {
                     this.teacher_list = response.data;
-                    
+
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
@@ -695,7 +714,8 @@ input.nosubmit {
 .div-empity-table {
     height: 110px;
 }
-.profile_img{
+
+.profile_img {
     border-radius: 50%;
     height: 200px;
     width: 200px;

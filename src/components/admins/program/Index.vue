@@ -14,7 +14,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Program
@@ -71,8 +71,8 @@
                                                 <button  class="dropdown-item" type="button" v-for="item in faculty_list" v-bind:key="item.id" :value="item.id">{{item.faculty}}</button>     
                                             </b-form-select>
                                         </div> -->
-                                        
-                                        <input type="text"  class="form-control col-10 search-input  m-3"
+
+                                        <input type="text" class="form-control col-10 search-input  m-3"
                                             v-model="search_text" v-on:change="search" placeholder="Search program" />
                                         <a href="#" class="btn btn-danger form-control mt-3 col-1"
                                             v-on:click="display_all">
@@ -152,8 +152,8 @@ export default {
         }
     },
     methods: {
-         display_all(){
-          this.search_text='';
+        display_all() {
+            this.search_text = '';
         },
         save() {
             document.getElementById('facultyHelp').innerHTML = '';
@@ -181,13 +181,15 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.btn_save = 'Save';
-                                    this.faculty_id = '';
-                                    this.program = '';
-                                    this.update_program = '';
-                                    this.getUnits();
+
 
                                 }
+
+                                this.btn_save = 'Save';
+                                this.faculty_id = '';
+                                this.program = '';
+                                this.update_program = '';
+                                this.getUnits();
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -264,9 +266,12 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    this.getUnits();
+                                   
 
                                 }
+                                this.getUnits();
+                                this.faculty_id='';
+                                this.program='';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -355,11 +360,13 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        this.getUnits();
+                                        
 
 
                                     }
+
                                 })
+                                this.getUnits();
                             } else {
                                 Swal.fire({
                                     icon: 'error',
