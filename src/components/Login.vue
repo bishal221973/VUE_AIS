@@ -69,7 +69,7 @@ export default {
                 document.getElementById('err_password').innerHTML = "password can not be empity";
             }
             else {
-                let result = axios.post('http://127.0.0.1:8000/api/login',
+                let result = axios.post( localStorage.getItem("url")+'login',
                     {
                         username: this.username,
                         password: this.password

@@ -185,7 +185,7 @@ export default {
             if (this.update_student == '') {
 
 
-                let result = axios.post('http://127.0.0.1:8000/api/leave',
+                let result = axios.post(localStorage.getItem("url")+'leave',
                     {
                         user_id: localStorage.getItem('id'),
                         reason: this.reason,
@@ -278,7 +278,7 @@ export default {
                 return result;
             }
             else {
-                let result = axios.put('http://127.0.0.1:8000/api/leave/' + this.leave_id,
+                let result = axios.put(localStorage.getItem("url")+'leave/' + this.leave_id,
                     {
                         user_id: localStorage.getItem('id'),
                         reason: this.reason,
@@ -378,7 +378,7 @@ export default {
             // }
         },
         deleteLeave(leave_id) {
-            let url = 'http://127.0.0.1:8000/api/leave/' + leave_id;
+            let url = localStorage.getItem("url")+'leave/' + leave_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -428,7 +428,7 @@ export default {
             })
         },
         edit(leave_id) {
-            axios.get('http://127.0.0.1:8000/api/get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -446,7 +446,7 @@ export default {
                 });
         },
         view(leave_id) {
-            axios.get('http://127.0.0.1:8000/api/get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -465,7 +465,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/leave/' + localStorage.getItem('id'),
+            axios.get(localStorage.getItem("url")+'leave/' + localStorage.getItem('id'),
                 {
                     headers: {
                         'Content-type': 'application/json',

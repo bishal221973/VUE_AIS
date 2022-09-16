@@ -86,7 +86,7 @@
 
                                             <option value="" selected>Please select Subject</option>
                                             <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
-                                                {{ item.book.book }}
+                                                {{ item.book.subject}}
                                             </option>
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
@@ -132,7 +132,7 @@
                                                 aria-label="Default select example">
                                                 <option selected disabled>Select Subject</option>
                                                 <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
-                                                    {{ item.book.book }}
+                                                    {{ item.book.subject }}
                                                 </option>
                                             </select>
                                         </div>
@@ -245,7 +245,7 @@ export default {
                 })
                 this.semester = '';
             } else {
-                axios.post('http://127.0.0.1:8000/api/select-subject',
+                axios.post(localStorage.getItem("url")+'select-subject',
                     {
                         program_id: this.program_filter,
                         semester: this.semester_filter,
@@ -268,7 +268,7 @@ export default {
 
         program_filter(newValue, oldValue) {
 
-            axios.post('http://127.0.0.1:8000/api/select-subject',
+            axios.post(localStorage.getItem("url")+'select-subject',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
@@ -297,7 +297,7 @@ export default {
                 })
                 this.semester = '';
             } else {
-                axios.post('http://127.0.0.1:8000/api/select-subject',
+                axios.post(localStorage.getItem("url")+'select-subject',
                     {
                         program_id: this.program_id,
                         semester: newValue,
@@ -320,7 +320,7 @@ export default {
 
         program_id(newValue, oldValue) {
 
-            axios.post('http://127.0.0.1:8000/api/select-subject',
+            axios.post(localStorage.getItem("url")+'select-subject',
                 {
                     program_id: newValue,
                     semester: this.semester,
@@ -343,7 +343,7 @@ export default {
     },
     methods: {
         filter(){
-            axios.post('http://127.0.0.1:8000/api/hod-filter',
+            axios.post(localStorage.getItem("url")+'hod-filter',
                 {
                     program: this.program_filter,
                     semester: this.semester_filter,
@@ -370,7 +370,7 @@ export default {
             document.getElementById('bookHelp').innerHTML='';
             // alert('book ID='+this.course_id);
             if (this.update_assign == 'true') {
-                let result = axios.put('http://127.0.0.1:8000/api/assign-teacher/' + this.assigned_id,
+                let result = axios.put(localStorage.getItem("url")+'assign-teacher/' + this.assigned_id,
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -422,7 +422,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/assign-teacher',
+                let result = axios.post(localStorage.getItem("url")+'assign-teacher',
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -502,7 +502,8 @@ export default {
 
         },
         deleteAssign(assign_id) {
-            let url = 'http://127.0.0.1:8000/api/assign-teacher/' + assign_id;
+            alert("sdf");
+            let url = localStorage.getItem("url")+'assign-teacher/' + assign_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -552,7 +553,7 @@ export default {
             })
         },
         edit(assign_id) {
-            axios.get('http://127.0.0.1:8000/api/assign-teacher/' + assign_id,
+            axios.get(localStorage.getItem("url")+'assign-teacher/' + assign_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -574,7 +575,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/hod',
+            axios.get(localStorage.getItem("url")+'hod',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -587,7 +588,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -601,7 +602,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/get-hod',
+            axios.get(localStorage.getItem("url")+'get-hod',
                 {
                     headers: {
                         'Content-type': 'application/json',

@@ -179,7 +179,7 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.put('http://127.0.0.1:8000/api/update-status/' + l_id,
+                    let result = axios.put(localStorage.getItem("url")+'update-status/' + l_id,
                         {
                             choice: 'Rejected'
                         },
@@ -249,7 +249,7 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.put('http://127.0.0.1:8000/api/update-status/' + l_id,
+                    let result = axios.put(localStorage.getItem("url")+'update-status/' + l_id,
                         {
                             choice: 'Accepted'
                         },
@@ -306,7 +306,7 @@ export default {
         },
 
         view(leave_id) {
-            axios.get('http://127.0.0.1:8000/api/get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -325,7 +325,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/leave',
+            axios.get(localStorage.getItem("url")+'leave',
                 {
                     headers: {
                         'Content-type': 'application/json',

@@ -13,7 +13,7 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Student
@@ -282,41 +282,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <div v-if="!student_list || !student_list.length">
-                                                <div class="div-empity-table">
-
-                                                    <p class="col-12 text-center empity-table text-black-50"> Oops! No
-                                                        record found.</p>
-                                                </div>
-
-
-                                            </div>
-                                            <tr v-else v-for="item in student_list" v-bind:key="item.id">
+                                            <tr  v-for="item in student_list" v-bind:key="item.id">
                                                 <td scope="row">{{ item.id }}</td>
-                                                <td scope="row">{{ item.name }}</td>
+                                                 <td scope="row">{{ item.name }}</td>
                                                 <td scope="row">{{ item.username }}</td>
-                                                <td scope="row">{{ item.student[0].gender }}</td>
-                                                <td scope="row">{{ item.student[0].program.program }}</td>
-                                                <td scope="row">{{ item.student[0].semester }}</td>
+                                                <td scope="row">{{ item.student.gender}}</td>
+                                                <td scope="row">{{ item.student.program.program }}</td>
+                                                <td scope="row">{{ item.student.semester }}</td>
                                                 <!-- <td scope="row">{{ item.student[0].roll_number }}</td> -->
                                                 <!-- <td scope="row">{{ item.student[0].dob }}</td> -->
-                                                <td scope="row">{{ item.student[0].phone }}</td>
+                                                <td scope="row">{{ item.student.phone }}</td>
                                                 <!-- <td scope="row">{{ item.student[0].profile }}</td> -->
                                                 <td>
                                                     <div class="row btn-action">
                                                         
-                                                        <a href="#" class="btn btn-info btn-sm ml-1" v-on:click="sprofile(item.student[0].id)"><i
+                                                        <a href="#" class="btn btn-info btn-sm ml-1" v-on:click="sprofile(item.student.id)"><i
                                                                 class="icon-copy fa fa-eye" aria-hidden="true"
                                                                 ></i></a>
 
                                                         <a href="#" class="btn btn-danger btn-sm ml-1"><i
                                                                 class="icon-copy fa fa-edit" aria-hidden="true"
-                                                                v-on:click="edit(item.student[0].id)"></i></a>
+                                                                v-on:click="edit(item.student.id)"></i></a>
 
 
                                                         <a href="#" class="btn btn-warning btn-sm ml-1"><i
                                                                 class="icon-copy fa fa-trash" aria-hidden="true"
-                                                                v-on:click="deleteStudent(item.student[0].id)"></i></a>
+                                                                v-on:click="deleteStudent(item.student.id)"></i></a>
 
 
 
@@ -396,7 +387,7 @@ export default {
         getUnits: function () {
 
 
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -410,7 +401,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/student',
+            axios.get(localStorage.getItem("url")+'student',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -418,7 +409,6 @@ export default {
                     }
                 }).then((response) => {
                     this.student_list = response.data;
-                    console.log(response.data);
 
                 }).catch(error => {
                     console.log('error: ' + error);
@@ -441,7 +431,7 @@ export default {
             if (this.update_student != 'true') {
 
 
-                let result = axios.post('http://127.0.0.1:8000/api/student',
+                let result = axios.post(localStorage.getItem("url")+'student',
                     {
                         name: this.name,
                         username: this.username,
@@ -584,7 +574,7 @@ export default {
                 return result;
             }
             if (this.update_student == 'true') {
-                let result = axios.put('http://127.0.0.1:8000/api/student/' + this.students_id,
+                let result = axios.put(localStorage.getItem("url")+'student/' + this.students_id,
                     {
                         name: this.name,
                         username: this.username,
@@ -674,7 +664,7 @@ export default {
         },
         filter() {
 
-            let result = axios.post('http://127.0.0.1:8000/api/student-search',
+            let result = axios.post(localStorage.getItem("url")+'student-search',
                 {
 
                     program_id: this.program_id,
@@ -720,7 +710,7 @@ export default {
             return result;
         },
         edit(student_id) {
-            axios.get('http://127.0.0.1:8000/api/edit-students/' + student_id,
+            axios.get(localStorage.getItem("url")+'edit-students/' + student_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -749,7 +739,7 @@ export default {
                 });
         },
         deleteStudent(student_id) {
-            let url = 'http://127.0.0.1:8000/api/student/' + student_id;
+            let url = localStorage.getItem("url")+'student/' + student_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -804,7 +794,7 @@ export default {
     },
     watch: {
         search_data: function (val, oldVal) {
-            let result = axios.post('http://127.0.0.1:8000/api/student-search',
+            let result = axios.post(localStorage.getItem("url")+'student-search',
                 {
                     search_data: this.search_data,
                 },

@@ -135,7 +135,7 @@ export default {
         save() {
             document.getElementById('facultyHelp').innerHTML='';
             if (this.updated == 'true') {
-                let url = 'http://127.0.0.1:8000/api/faculty/' + this.faculty_id;
+                let url = localStorage.getItem("url")+'faculty/' + this.faculty_id;
                 let result = axios.put(url,
                     {
                         faculty: this.faculty,
@@ -214,7 +214,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/faculty',
+                let result = axios.post(localStorage.getItem("url")+'faculty',
                     {
                         faculty: this.faculty,
                     },
@@ -295,7 +295,7 @@ export default {
         },
         deleteFaculty(faculty_id) {
 
-            let url = 'http://127.0.0.1:8000/api/faculty/' + faculty_id;
+            let url = localStorage.getItem("url")+'faculty/' + faculty_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete Faculty ?",
@@ -346,7 +346,7 @@ export default {
             })
         },
         edit(faculty_id) {
-            let url = 'http://127.0.0.1:8000/api/faculty/' + faculty_id;
+            let url = localStorage.getItem("url")+'faculty/' + faculty_id;
 
             let result = axios.get(url,
                 {
@@ -364,14 +364,15 @@ export default {
                 });
         },
         getUnits: function () {
-            let result = axios.get('http://127.0.0.1:8000/api/faculty',
+            let result = axios.get(localStorage.getItem("url")+'faculty',
                 {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.list = response.data;
+                    this.list = response.data.data;
+                   
 
                 }).catch(error => {
                     console.log('error: ' + error);
@@ -385,7 +386,7 @@ export default {
     },
     watch: {
         search_text: function(val, oldVal) {
-             let result = axios.post('http://127.0.0.1:8000/api/faculty-search',
+             let result = axios.post(localStorage.getItem("url")+'faculty-search',
                     {
                         search: this.search_text,
                     },

@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="title">
-                                <h4>Book</h4>
+                                <h4>Subject</h4>
                             </div>
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
@@ -18,7 +18,7 @@
                                     </li>
 
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Book
+                                        Subject
                                     </li>
                                 </ol>
                             </nav>
@@ -33,9 +33,9 @@
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Book Name*</label>
+                                            <label for="exampleInputEmail1">Subject Name*</label>
                                             <input type="text" class="form-control" v-model="book" id="txtBook"
-                                                aria-describedby="bookHelp" placeholder="Enter Book Name">
+                                                aria-describedby="bookHelp" placeholder="Enter subject Name">
                                             <small id="bookHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
@@ -103,7 +103,7 @@
                                     <div class="row m-2">
 
                                         <input type="text" class="form-control col-3 search-input  m-3"
-                                            v-model="search_text" placeholder="Search book" />
+                                            v-model="search_text" placeholder="Search subject" />
                                         <!-- <a href="#" class="btn btn-danger form-control mt-3 col-1"
                                             v-on:click="display_all">
                                             <i class="icon-copy fi-x"></i>
@@ -193,7 +193,7 @@ export default {
             document.getElementById('authorHelp').innerHTML = '';
 
             if (this.update_book == 'true') {
-                let url = 'http://127.0.0.1:8000/api/book/' + this.book_id
+                let url = localStorage.getItem("url")+'book/' + this.book_id
                 let result = axios.put(url,
                     {
                         subject: this.book,
@@ -298,7 +298,7 @@ export default {
                 return result;
             } else {
 
-                let result = axios.post('http://127.0.0.1:8000/api/book',
+                let result = axios.post(localStorage.getItem("url")+'book',
                     {
                         subject: this.book,
                         publication: this.publication,
@@ -399,7 +399,7 @@ export default {
         },
         deleteBook(book_id) {
 
-            let url = 'http://127.0.0.1:8000/api/book/' + book_id;
+            let url = localStorage.getItem("url")+'book/' + book_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected Book ?",
@@ -450,7 +450,7 @@ export default {
             })
         },
         edit(book_id) {
-            let url = 'http://127.0.0.1:8000/api/book/' + book_id;
+            let url = localStorage.getItem("url")+'book/' + book_id;
 
             let result = axios.get(url,
                 {
@@ -473,7 +473,7 @@ export default {
         },
         getUnits: function () {
 
-            return axios.get('http://127.0.0.1:8000/api/book',
+            return axios.get(localStorage.getItem("url")+'book',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -496,8 +496,8 @@ export default {
     },
     watch: {
         search_text: function (val, oldVal) {
-
-            let result = axios.post('http://127.0.0.1:8000/api/book-search',
+            
+            let result = axios.post(localStorage.getItem("url")+'book-search',
                 {
                     search: this.search_text,
                 },
@@ -507,7 +507,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-
+                    console.log(response.data);
                     this.book_list = response.data;
 
                 }).catch(error => {

@@ -284,7 +284,7 @@ export default {
 
             // if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
             if (this.update_record == 'true') {
-                let url = 'http://127.0.0.1:8000/api/teacher/' + this.teacher_id;
+                let url = localStorage.getItem("url")+'teacher/' + this.teacher_id;
 
 
 
@@ -401,7 +401,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/teacher',
+                let result = axios.post(localStorage.getItem("url")+'teacher',
                     {
                         name: this.name,
                         username: this.username,
@@ -519,7 +519,7 @@ export default {
             // }
         },
         edit(teacher_id) {
-            let url = 'http://127.0.0.1:8000/api/teacher/' + teacher_id;
+            let url = localStorage.getItem("url")+'teacher/' + teacher_id;
             axios.get(url,
                 {
                     headers: {
@@ -547,7 +547,7 @@ export default {
         },
         deleteTeacher(teacher_id) {
 
-            let url = 'http://127.0.0.1:8000/api/teacher/' + teacher_id;
+            let url = localStorage.getItem("url")+'teacher/' + teacher_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -598,7 +598,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/get-teacher',
+            axios.get(localStorage.getItem("url")+'get-teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -621,7 +621,7 @@ export default {
     },
     watch: {
         info: function (val, oldVal) {
-            let result = axios.post('http://127.0.0.1:8000/api/teacher-search',
+            let result = axios.post(localStorage.getItem("url")+'teacher-search',
                 {
                     info: this.info,
                 },

@@ -201,13 +201,13 @@
                     <!-- ========Book============ -->
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="/book" class="dropdown-toggle no-arrow">
-                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
+                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Subject</span>
                         </a>
 
                     </li>
                     <li class="dropdown" v-if="role === 'HOD'">
                         <a href="/book" class="dropdown-toggle no-arrow">
-                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Book</span>
+                            <i class="micon icon-copy fa fa-book" aria-hidden="true"></i><span class="mtext">Subject</span>
                         </a>
 
                     </li>

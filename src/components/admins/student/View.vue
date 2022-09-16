@@ -13,10 +13,10 @@
                             <nav aria-label="breadcrumb" role="navigation">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="index.html">Dashboard</a>
+                                        <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item" aria-current="page">
-                                        Student
+                                        <a href="/student">Student</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Profile
@@ -410,7 +410,7 @@ export default {
 
     methods: {
         update() {
-            let result = axios.put('http://127.0.0.1:8000/api/student/' + this.s_id,
+            let result = axios.put(localStorage.getItem("url")+'student/' + this.s_id,
                 {
                     name: this.name,
                     username: this.username,
@@ -472,7 +472,7 @@ export default {
         }
     },
     created() {
-        axios.get('http://127.0.0.1:8000/api/program',
+        axios.get(localStorage.getItem("url")+'program',
             {
                 headers: {
                     'Content-type': 'application/json',
@@ -486,7 +486,7 @@ export default {
                 console.log('error: ' + error);
             });
 
-        axios.get('http://127.0.0.1:8000/api/student/' + this.id,
+        axios.get(localStorage.getItem("url")+'student/' + this.id,
             {
                 headers: {
                     'Content-type': 'application/json',

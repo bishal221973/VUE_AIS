@@ -34,7 +34,7 @@
                                 <div class="pd-20 card-box height-100-p">
                                     <h4 class="mb-20 h4">Student's on leave</h4>
                                     <ul class="list-group list-group-flush">
-                                        
+
                                         <li class="list-group-item" v-for="item in leave_list" v-bind:key="item.id">
                                             {{item.student.user.name}}
                                         </li>
@@ -83,7 +83,7 @@
                                             <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                                 aria-hidden="true" v-model="course_id" id="txtBook">
 
-                                                <option value="" selected>Please select Faculty</option>
+                                                <option value="" selected>Please select Subject</option>
                                                 <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
                                                     {{ item.book.subject}}
                                                 </option>
@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="form-group col-lg-12" v-if="role === 'Admin'">
                                             <label for="exampleInputEmail1">Date</label>
-                                            <input type="date" class="form-control">
+                                            <input type="date" v-model="date" class="form-control">
                                             <small id="bookHelp" class="form-text text-danger"></small>
                                         </div>
 
@@ -141,7 +141,7 @@
 
                                                 <tr v-for="item in student_list" v-bind:key="item.id">
 
-                                                    <td>{{ item.user.student[0].roll_number }}</td>
+                                                    <td>{{ item.user.student.roll_number }}</td>
                                                     <td scope="row">{{ item.user.name }}</td>
                                                     <td scope="row">{{ item.user.username }}</td>
                                                     <td>
@@ -212,6 +212,7 @@ export default {
             'new_subject_id': '',
             'role': localStorage.getItem('role'),
             'leave_list': '',
+            'date': '',
         }
     },
     components: { Navbar, Sidebar },
@@ -225,7 +226,7 @@ export default {
                 })
                 this.semester = '';
             } else {
-                axios.post('http://127.0.0.1:8000/api/select-subject',
+                axios.post(localStorage.getItem("url") + 'select-subject',
                     {
                         program_id: this.program_id,
                         semester: newValue,
@@ -246,7 +247,7 @@ export default {
             }
         },
         subject(newValue, oldValue) {
-            let result = axios.post('http://127.0.0.1:8000/api/select-sub',
+            let result = axios.post(localStorage.getItem("url") + 'select-sub',
                 {
                     course_id: newValue,
 
@@ -265,7 +266,7 @@ export default {
                     this.semester = response.data.semester;
                     this.course_id = response.data.id;
 
-                    let result = axios.post('http://127.0.0.1:8000/api/get-students',
+                    let result = axios.post(localStorage.getItem("url") + 'get-students',
                         {
                             program_id: response.data.program.id,
                             semester: response.data.semester,
@@ -307,7 +308,7 @@ export default {
 
         program_id(newValue, oldValue) {
 
-            axios.post('http://127.0.0.1:8000/api/select-subject',
+            axios.post(localStorage.getItem("url") + 'select-subject',
                 {
                     program_id: newValue,
                     semester: this.semester,
@@ -335,13 +336,14 @@ export default {
                 alert(item.user.id);
                 // console.log();
                 if (item.user.id != 'Persent' || item.user.id != 'Absent' || item.user.id != 'Leave') {
-                    let result = axios.post('http://127.0.0.1:8000/api/attendance',
+                    let result = axios.post(localStorage.getItem("url") + 'attendance',
                         {
                             student_id: item.id,
                             program_id: this.program_id,
                             semester: this.semester,
                             course_id: this.course_id,
                             attendance: item.user.id,
+                            date: this.date,
                         },
                         {
                             headers: {
@@ -349,6 +351,7 @@ export default {
                                 'Authorization': 'Bearer ' + localStorage.getItem('token')
                             }
                         }).then((response) => {
+                            console.log(response.data);
                             if (response.data.status == 'success') {
                                 Swal.fire({
                                     title: 'Congratulation',
@@ -364,6 +367,7 @@ export default {
                                     }
                                 })
                             } else if (response.data.status == 'failed') {
+                                console.log(response.data);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -396,7 +400,7 @@ export default {
         getUnits: function () {
 
 
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url") + 'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -411,7 +415,7 @@ export default {
                 });
 
 
-                axios.post('http://127.0.0.1:8000/api/get-leave',
+            axios.post(localStorage.getItem("url") + 'get-leave',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
@@ -437,10 +441,13 @@ export default {
 
         },
         getStudent() {
-            let result = axios.post('http://127.0.0.1:8000/api/get-students',
+
+            let result = axios.post(localStorage.getItem("url") + 'get-students',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
+                    course_id:this.course_id,
+                    date: this.date,
                 },
                 {
                     headers: {
@@ -448,12 +455,25 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    let num = 0;
-                    for (let item of response.data) {
-                        num = num + 1;
+                    console.log(response.data);
+                    if (response.data.status == "failed") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data.message,
+                            footer: 'We are sorry'
+                        })
+                    } else {
+                        let num = 0;
+                        for (let item of response.data.data) {
+                            num = num + 1;
+                        }
+                        this.i = num;
+                        this.student_list = response.data.data;
+
+                        console.log(response.data);
                     }
-                    this.i = num;
-                    this.student_list = response.data;
+
                 }).catch(error => {
 
                     Swal.fire(
@@ -463,13 +483,13 @@ export default {
                     )
                 });
 
-            
+
 
         },
     },
     beforeMount() {
         this.getUnits()
-        let result = axios.post('http://127.0.0.1:8000/api/assigned-teacher',
+        let result = axios.post(localStorage.getItem("url") + 'assigned-teacher',
             {
                 user_id: localStorage.getItem('id'),
 

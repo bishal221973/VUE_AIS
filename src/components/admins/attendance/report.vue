@@ -45,7 +45,7 @@
                                                 <button  class="dropdown-item" type="button" v-for="item in attendance_list" v-bind:key="item.id" :value="item.id">{{item.faculty}}</button>     
                                             </b-form-select>
                                         </div> -->
-                                    <div class="form-group col-lg-2">
+                                    <!-- <div class="form-group col-lg-2">
                                         <select class="form-control select2" data-select2-id="9" tabindex="-1"
                                             aria-hidden="true" v-model="program_id" id="txtProgram">
 
@@ -55,10 +55,96 @@
                                             </option>
                                         </select>
                                         <small id="programHelp" class="form-text text-danger"></small>
+                                    </div> -->
+
+
+                                    <!-- ======================Model================= -->
+                                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Filter Student
+                                                        Attendance
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="form-group  col-lg-4">
+                                                            <label>Program</label>
+                                                            <select class="form-control" v-model="program_id"
+                                                                aria-label="Default select example">
+                                                                <option selected disabled>Select Program</option>
+                                                                <option v-for="item in program_list"
+                                                                    v-bind:key="item.id" :value="item.id">
+                                                                    {{ item.program }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-4">
+                                                            <label>Semester</label>
+                                                            <select class="form-control " v-model="semester"
+                                                                aria-label="Default select example">
+                                                                <option selected disabled>Select Semester</option>
+                                                                <option value="1">First Semester</option>
+                                                                <option value="2">Second Semester</option>
+                                                                <option value="3">Third Semester</option>
+                                                                <option value="4">Fourth Semester</option>
+                                                                <option value="5">Fifth Semester</option>
+                                                                <option value="6">Sixth Semester</option>
+                                                                <option value="7">Seventh Semester</option>
+                                                                <option value="8">Eighth Semester</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-4">
+                                                            <label>Subject</label>
+                                                            <select class="form-control " v-model="course_id"
+                                                                aria-label="Default select example">
+                                                                <option selected disabled>Select Subject</option>
+                                                                <option v-for="item in book_list" v-bind:key="item.id"
+                                                                    :value="item.id">
+                                                                    {{ item.book.subject }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group col-lg-3">
+
+                                                            <button class=" btn btn-info mt-2"
+                                                                v-on:click="normal_filter" aria-hidden="true"
+                                                                data-dismiss="modal" aria-label="Close"><i
+                                                                    class="icon-copy fa fa-filter"
+                                                                    aria-hidden="true"></i> Filter</button>
+
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="modal-body">
+                                                           <h3>Date Filter</h3>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-header">
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control col-10 search-input  m-3"
+                                    <!-- =================End Model================== -->
+                                    <input type="text" class="form-control col-lg-5 search-input  m-3"
                                         v-model="search_text" v-on:change="search" placeholder="Search program" />
-                                    <a href="#" class="btn btn-danger form-control mt-3 col-1" v-on:click="display_all">
+                                    <div class="col-lg-4"></div>
+                                    <a href="#" class=" text-white btn btn-info form-control mt-3 col-1"
+                                        v-on:click="display_all" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                        Filter
+                                    </a>
+                                    <a href="#" class="btn btn-danger ml-3 form-control mt-3 col-1"
+                                        v-on:click="display_all">
                                         <i class="icon-copy fi-x"></i>
                                     </a>
 
@@ -103,7 +189,7 @@
                                                 <td>{{ data.course.program.faculty.faculty }}</td>
                                                 <td>{{ data.course.program.program }}</td>
                                                 <td>{{ data.course.semester }}</td>
-                                                <td>{{ data.course.book.book }}</td>
+                                                <td>{{ data.course.book.subject }}</td>
                                                 <td>{{ data.attendance }}</td>
                                                 <!-- <td>
                                                     <div class="row btn-action">
@@ -161,18 +247,97 @@ export default {
     data() {
         return {
             'attendance_list': '',
-            'program_list':'',
+            'program_list': '',
+            'program_id': '',
+            'semester': '',
+            'course_id': '',
+            'book_list': '',
         }
+    },
+    watch: {
+        semester(newValue, oldValue) {
+            alert('fdf');
+            if (this.program_id == '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select a program first!',
+                })
+                this.semester = '';
+            } else {
+                axios.post(localStorage.getItem("url") + 'select-subject',
+                    {
+                        program_id: this.program_id,
+                        semester: newValue,
+
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        this.book_list = response.data;
+
+
+                    }).catch(error => {
+                        console.log('error: ' + error);
+                    });
+            }
+        },
     },
     methods: {
         display_all() {
             this.search_text = '';
         },
 
+        normal_filter() {
+            let result = axios.post(localStorage.getItem("url") + 'attendance-filter',
+                {
+                    program: this.program_id,
+                    semester: this.semester,
+                    subject: this.course_id,
+
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        console.log(response.data.data);
+                        this.attendance_list = response.data.data;
+                    } else if (response.data.status == 'failed') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data.message,
+                            footer: 'We are sorry'
+                        })
+
+                    } else {
+                        console.log(response.data.message)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data,
+                            footer: 'We are sorry'
+                        })
+                    }
+                }).catch(error => {
+                    console.log('error: ' + error,);
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                });
+        },
 
 
         getUnits: function () {
-            let result = axios.get('http://127.0.0.1:8000/api/attendance',
+            let result = axios.get(localStorage.getItem("url") + 'attendance',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -185,7 +350,19 @@ export default {
                     console.log('error: ' + error);
                 });
 
+            axios.get(localStorage.getItem("url") + 'program',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.program_list = response.data;
 
+
+                }).catch(error => {
+                    console.log('error: ' + error);
+                });
 
         },
     },

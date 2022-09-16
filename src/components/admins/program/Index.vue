@@ -159,7 +159,7 @@ export default {
             document.getElementById('facultyHelp').innerHTML = '';
             document.getElementById('programHelp').innerHTML = '';
             if (this.update_program == 'true') {
-                let url = 'http://127.0.0.1:8000/api/program/' + this.program_id;
+                let url = localStorage.getItem("url")+'program/' + this.program_id;
                 let result = axios.put(url,
                     {
                         faculty_id: this.faculty_id,
@@ -245,7 +245,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/program',
+                let result = axios.post(localStorage.getItem("url")+'program',
                     {
                         faculty_id: this.faculty_id,
                         program: this.program,
@@ -332,7 +332,7 @@ export default {
         },
         deleteProgram(program_id) {
 
-            let url = 'http://127.0.0.1:8000/api/program/' + program_id;
+            let url = localStorage.getItem("url")+'program/' + program_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete program ?",
@@ -384,7 +384,7 @@ export default {
             })
         },
         edit(program_id) {
-            let url = 'http://127.0.0.1:8000/api/program/' + program_id;
+            let url = localStorage.getItem("url")+'program/' + program_id;
 
             let result = axios.get(url,
                 {
@@ -403,20 +403,20 @@ export default {
                 });
         },
         getUnits: function () {
-            let result = axios.get('http://127.0.0.1:8000/api/faculty',
+            let result = axios.get(localStorage.getItem("url")+'faculty',
                 {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.faculty_list = response.data;
+                    this.faculty_list = response.data.data;
 
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
 
-            return axios.get('http://127.0.0.1:8000/api/program',
+            return axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -440,7 +440,7 @@ export default {
     watch: {
         search_text: function (val, oldVal) {
 
-            let result = axios.post('http://127.0.0.1:8000/api/program-search',
+            let result = axios.post(localStorage.getItem("url")+'program-search',
                 {
                     search: this.search_text,
                 },

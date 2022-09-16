@@ -303,7 +303,7 @@ export default {
     },
     created() {
 
-        axios.get('http://127.0.0.1:8000/api/teacher/' + this.id,
+        axios.get(localStorage.getItem("url")+'teacher/' + this.id,
             {
                 headers: {
                     'Content-type': 'application/json',

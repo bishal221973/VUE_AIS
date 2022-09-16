@@ -198,7 +198,7 @@ export default {
     components: { Sidebar, Navbar, Sidebar, LineChart,BarChart },
     beforeMount() {
 
-        axios.post('http://127.0.0.1:8000/api/assigned-teacher',
+        axios.post(localStorage.getItem("url")+'assigned-teacher',
             {
                 user_id: localStorage.getItem('id'),
 
@@ -221,7 +221,7 @@ export default {
                 )
             });
 
-            axios.post('http://127.0.0.1:8000/api/hod-list',
+            axios.post(localStorage.getItem("url")+'hod-list',
             {
                 user_id: localStorage.getItem('id'),
 

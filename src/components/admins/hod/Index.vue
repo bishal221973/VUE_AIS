@@ -273,7 +273,7 @@ export default {
     methods: {
         remove(hod_id, user_id) {
 
-            let result = axios.post('http://127.0.0.1:8000/api/region',
+            let result = axios.post(localStorage.getItem("url")+'region',
                 {
                     id: hod_id,
                     user_id: user_id,
@@ -328,7 +328,7 @@ export default {
                 document.getElementById('teacherHelp').innerHTML = 'please select teacher ';
 
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/hod',
+                let result = axios.post(localStorage.getItem("url")+'hod',
                     {
                         user_id: this.user_id,
                         program_id: this.program_id,
@@ -395,7 +395,7 @@ export default {
         },
         assignMore(user_id) {
             var options = {};
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -427,7 +427,7 @@ export default {
                         if (result.isConfirmed) {
 
                             let val = result.value;
-                            return axios.post('http://127.0.0.1:8000/api/hod',
+                            return axios.post(localStorage.getItem("url")+'hod',
                                 {
                                     user_id: user_id,
                                     program_id: result.value,
@@ -490,7 +490,7 @@ export default {
         },
 
         getUnits: function () {
-            axios.get('http://127.0.0.1:8000/api/teacher',
+            axios.get(localStorage.getItem("url")+'teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -503,7 +503,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -515,7 +515,7 @@ export default {
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
-            axios.get('http://127.0.0.1:8000/api/hod',
+            axios.get(localStorage.getItem("url")+'hod',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -568,7 +568,7 @@ export default {
     },
     watch: {
         info: function (val, oldVal) {
-            let result = axios.post('http://127.0.0.1:8000/api/hod-search',
+            let result = axios.post(localStorage.getItem("url")+'hod-search',
                 {
                     info: this.info,
                 },

@@ -87,12 +87,14 @@
                                     <div class="row">
 
                                         <div class="form-group col-4">
-                                            <select class="custom-select text-white select2 my-select bg-info" data-select2-id="9" tabindex="-1"
-                                                aria-hidden="true" v-model="search_text" id="txtProgram">
+                                            <!-- <label>Program</label> -->
+                                            <select class="custom-select  select2 my-select"
+                                                data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                                v-model="search_program" id="txtProgram">
 
-                                                <option value="" selected class="bg-white text-dark">Program</option>
-                                                <option class="bg-white text-dark" v-for="item in program_list" v-bind:key="item.id"
-                                                    :value="item.program">
+                                                <option value="" selected disabled class="bg-white text-dark">Program</option>
+                                                <option class="bg-white text-dark" v-for="item in program_list"
+                                                    v-bind:key="item.id" :value="item.program">
                                                     {{ item.program }}
                                                 </option>
                                             </select>
@@ -100,27 +102,37 @@
                                         </div>
 
                                         <div class="form-group col-4">
-                                            <select class="custom-select text-white select2 my-select bg-info" data-select2-id="9" tabindex="-1"
-                                                aria-hidden="true" v-model="search_semester" id="txtProgram">
+                                            <!-- <label>Semester</label> -->
+                                            <select class="custom-select  select2 my-select"
+                                                data-select2-id="9" tabindex="-1" aria-hidden="true"
+                                                v-model="search_semester" id="txtProgram">
 
-                                                <option value="" selected class="bg-white text-dark">Semester</option>
-                                                <option class="bg-white text-dark" href="#">First semester</option>
-                                                <option class="bg-white text-dark" href="#">Second semester</option>
-                                                <option class="bg-white text-dark" href="#">Third semester</option>
-                                                <option class="bg-white text-dark" href="#">Fourth semester</option>
-                                                <option class="bg-white text-dark" href="#">Fifth semester</option>
-                                                <option class="bg-white text-dark" href="#">Sixth semester</option>
-                                                <option class="bg-white text-dark" href="#">Seventh semester</option>
+                                                <option value="" selected disabled class="bg-white text-dark">Semester</option>
+                                                <option class="bg-white text-dark" href="#" value="1">First semester</option>
+                                                <option class="bg-white text-dark" href="#" value="2">Second semester</option>
+                                                <option class="bg-white text-dark" href="#" value="3">Third semester</option>
+                                                <option class="bg-white text-dark" href="#" value="4">Fourth semester</option>
+                                                <option class="bg-white text-dark" href="#" value="5">Fifth semester</option>
+                                                <option class="bg-white text-dark" href="#" value="6">Sixth semester</option>
+                                                <option class="bg-white text-dark" href="#" value="7">Seventh semester</option>
                                             </select>
                                             <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
 
 
-                                       
 
 
-                                      
+                                        <div class="form-group col-lg-2">
+                                            <button class=" btn btn-info mt-2 btn_filter" v-on:click="filter"><i
+                                                    class="icon-copy fa fa-filter" aria-hidden="true"></i>
+                                                Filter</button>
 
+                                        </div>
+                                        
+                                        <div class="form-group col-lg-2">
+                                            <button class=" btn btn-danger mt-2 btn_filter" v-on:click="displayAll"><i class="icon-copy fi-x"></i></button>
+
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <table class="table">
@@ -174,7 +186,7 @@
 
             </div>
         </div>
-      
+
     </div>
 </template>
 <script>
@@ -196,7 +208,9 @@ export default {
             'book_id': '',
             'update_course': '',
             'search_text': '',
-            'btn':'Save',
+            'btn': 'Save',
+            'search_program':'',
+            'search_semester':'',
         }
     },
     methods: {
@@ -227,7 +241,7 @@ export default {
 
             if (this.program_id != '' && this.semester != '' && this.book_id != '') {
                 if (this.update_course == 'true') {
-                    let url = 'http://127.0.0.1:8000/api/course/' + this.course_id;
+                    let url = localStorage.getItem("url") + 'course/' + this.course_id;
                     let result = axios.put(url,
                         {
                             program_id: this.program_id,
@@ -251,14 +265,14 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
+
                                     }
                                     this.getUnits();
-                                    this.program_id='';
-                                    this.semester='';
-                                    this.book_id='';
-                                    this.update_course='';
-                                    this.btn='Save';
+                                    this.program_id = '';
+                                    this.semester = '';
+                                    this.book_id = '';
+                                    this.update_course = '';
+                                    this.btn = 'Save';
                                 })
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
@@ -286,7 +300,7 @@ export default {
 
                     return result;
                 } else {
-                    let result = axios.post('http://127.0.0.1:8000/api/course',
+                    let result = axios.post(localStorage.getItem("url") + 'course',
                         {
                             program_id: this.program_id,
                             semester: this.semester,
@@ -309,12 +323,12 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
+
                                     }
                                     this.getUnits();
-                                    this.program_id='';
-                                    this.semester='';
-                                    this.book_id='';
+                                    this.program_id = '';
+                                    this.semester = '';
+                                    this.book_id = '';
                                 })
                             } else if (response.data.status == 'failed') {
                                 Swal.fire({
@@ -346,7 +360,7 @@ export default {
         },
         deleteCourse(course_id) {
 
-            let url = 'http://127.0.0.1:8000/api/course/' + course_id;
+            let url = localStorage.getItem("url") + 'course/' + course_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -374,8 +388,8 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
-                                        
+
+
                                     }
                                     this.getUnits();
                                 })
@@ -396,7 +410,7 @@ export default {
             })
         },
         edit(course_id) {
-            let url = 'http://127.0.0.1:8000/api/course/' + course_id;
+            let url = localStorage.getItem("url") + 'course/' + course_id;
 
             let result = axios.get(url,
                 {
@@ -410,14 +424,17 @@ export default {
                     this.book_id = response.data.book_id;
                     this.course_id = response.data.id;
                     this.update_course = 'true';
-                    this.btn='Update';
+                    this.btn = 'Update';
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
         },
+        displayAll(){
+            this.getUnits();
+        },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/book',
+            axios.get(localStorage.getItem("url") + 'book',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -431,7 +448,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url") + 'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -445,14 +462,14 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/course',
+            axios.get(localStorage.getItem("url") + 'course',
                 {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.course_list = response.data;
+                    this.course_list = response.data.data;
 
 
                 }).catch(error => {
@@ -462,16 +479,12 @@ export default {
 
 
         },
-    },
-    beforeMount() {
-        this.getUnits()
-    },
-    watch: {
-        search_text: function (val, oldVal) {
-            // alert(search_text);
-            let result = axios.post('http://127.0.0.1:8000/api/course-search',
+        filter() {
+            
+            let result = axios.post(localStorage.getItem("url") + 'course-search',
                 {
-                    search: this.search_text,
+                    program: this.search_program,
+                    semester:this.search_semester
                 },
                 {
                     headers: {
@@ -519,8 +532,16 @@ export default {
             return result;
         }
     },
+    beforeMount() {
+        this.getUnits()
+    },
+    
 }
 </script>
 
 <style>
+.btn_filter {
+    position: relative;
+    top: -10px;
+}
 </style>

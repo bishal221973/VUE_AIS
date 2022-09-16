@@ -60,31 +60,17 @@
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box height-100-p">
                                     <img :src="'./assets/img/school.jpg'" alt="" class="school-img" />
-                                    <div v-if="!list || !list.length">
-                                                <div class="div-empity-table">
-
-                                                    <p class="col-12 text-center empity-table text-black-50">Please setup your school</p>
-                                                </div>
-
-
-                                            </div>
-                                    <div v-for="item in list" v-bind:key="item.id">
-                                        <h2 class="pt-20 text-center mt-2">{{ item.school_name }}</h2>
+                                     <div>
+                                        <h2 class="pt-20 text-center mt-2" id="txt_school_name"></h2>
                                         <!-- <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5> -->
-                                        <p class="pt-20 text-center h4"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> {{ item.address }}</p>
-                                        <p class="mb-20 text-center h5"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> {{ item.phone }}</p>
-
-
+                                        <p class="pt-20 text-center h4" id="txt_school_reg"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i></p>
+                                        <p class="mb-20 text-center h5" id="txt_phone"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> </p>
                                         <div class="row">
                                             <div class="col-md-6 col-6">
                                                 <a href="#" class="btn btn-primary btn-block"
-                                                    v-on:click="edit_school(item.id)">Edit</a>
+                                                    v-on:click="edit_school()">Edit</a>
                                             </div>
 
-                                            <div class="col-md-6 col-6">
-                                                <a href="#" class="btn btn-outline-primary btn-block"
-                                                    v-on:click="delete_school(item.id)">Delete</a>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +104,9 @@ export default {
             list: '',
             edit: '',
             school_id: '',
+            s_id:'',
             btn: 'Save',
+            school_list:'',
         }
     },
     components: { Sidebar, Navbar },
@@ -132,7 +120,7 @@ export default {
 
 
             if (this.edit == 'true') {
-                let url = 'http://127.0.0.1:8000/api/school/' + this.school_id;
+                let url = localStorage.getItem("url")+'school/' + this.school_id;
                 let result = axios.put(url,
                     {
                         school_name: this.school_name,
@@ -217,7 +205,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/school',
+                let result = axios.post(localStorage.getItem("url")+'school',
                     {
                         school_name: this.school_name,
                         reg_number: this.reg_number,
@@ -316,7 +304,7 @@ export default {
 
         },
         delete_school(school_id) {
-            let url = 'http://127.0.0.1:8000/api/school/' + school_id;
+            let url = localStorage.getItem("url")+'school/' + this.s_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete school ?",
@@ -367,9 +355,9 @@ export default {
             })
 
         },
-        edit_school(school_id) {
-            let url = 'http://127.0.0.1:8000/api/school/' + school_id;
-
+        edit_school() {
+            let url = localStorage.getItem("url")+'school/' +this.s_id;
+            
             let result = axios.get(url,
                 {
                     headers: {
@@ -391,17 +379,19 @@ export default {
         },
         getUnits: function () {
 
-            let result = axios.get('http://127.0.0.1:8000/api/school',
+            let result = axios.get(localStorage.getItem("url")+'school',
                 {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.list = response.data;
-                    // document.getElementById('txt_school_name').innerHTML = response.data[0].school_name;
-                    // document.getElementById('txt_school_reg').innerHTML = response.data[0].reg_number + ', ' + response.data[0].address;
-                    // document.getElementById('txt_phone').innerHTML = response.data[0].phone;
+                    this.school_list = response.data.school_name;
+                    
+                    this.s_id=response.data.id;
+                    document.getElementById('txt_school_name').innerHTML = response.data.school_name;
+                    document.getElementById('txt_school_reg').innerHTML = response.data.reg_number + ', ' + response.data.address;
+                    document.getElementById('txt_phone').innerHTML = response.data.phone;
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
