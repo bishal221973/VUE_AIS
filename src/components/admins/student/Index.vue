@@ -205,7 +205,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 mt-5">
                             <div class="product-detail-desc pd-20 card-box">
                                 <div class="row">
-                                    <h3 class="text-uppercase mb-3 ml-2 col-4">Students List</h3>
+                                    <h3 class="text-uppercase mb-3 ml-2 col-5">Students List</h3>
 
 
                                     <!-- Program -->
@@ -224,39 +224,6 @@
                                         <small id="programHelp" class="form-text text-danger"></small>
                                     </div>
 
-                                    <!-- Semester -->
-
-                                    <div class="form-group col-2">
-                                        <select class="custom-select text-white select2 my-select bg-info"
-                                            data-select2-id="9" tabindex="-1" aria-hidden="true"
-                                            v-model="search_semester" id="txtProgram">
-
-                                            <option value="" selected class="bg-white text-dark" disabled>Semester
-                                            </option>
-                                            <option value="1" selected class="bg-white text-dark">First Semester
-                                            </option>
-                                            <option value="2" selected class="bg-white text-dark">Second Semester
-                                            </option>
-                                            <option value="3" selected class="bg-white text-dark">Third Semester
-                                            </option>
-                                            <option value="4" selected class="bg-white text-dark">Fourth Semester
-                                            </option>
-                                            <option value="5" selected class="bg-white text-dark">Fifth Semester
-                                            </option>
-                                            <option value="6" selected class="bg-white text-dark">Sixth Semester
-                                            </option>
-                                            <option value="7" selected class="bg-white text-dark">Seventh Semester
-                                            </option>
-
-                                        </select>
-                                        <small id="programHelp" class="form-text text-danger"></small>
-                                    </div>
-
-                                    <form class="nosubmit">
-                                        <input class="nosubmit" type="search" placeholder="Search Teacher..."
-                                            v-model="search_data">
-                                    </form>
-
                                     <div class="form-group">
 
                                         <button class="btn btn-success btn-sm ml-2" v-on:click="filter"><i
@@ -264,6 +231,12 @@
 
 
                                     </div>
+                                    <form class="nosubmit ml-5">
+                                        <input class="nosubmit" type="search" placeholder="Search Teacher..."
+                                            v-model="search_data">
+                                    </form>
+
+
 
                                 </div>
                                 <div class="row">
@@ -665,11 +638,11 @@ export default {
             // }
         },
         filter() {
-            let result = axios.post(localStorage.getItem("url") + 'student-search',
+            let result = axios.put(localStorage.getItem("url") + 'student-search',
                 {
 
                     program_id: this.program_id,
-                    semester: this.semester,
+
                 },
                 {
                     headers: {
@@ -795,7 +768,7 @@ export default {
     },
     watch: {
         search_data: function (val, oldVal) {
-            
+
             let result = axios.put(localStorage.getItem("url") + 'student-search',
                 {
                     search_data: this.search_data,
