@@ -140,16 +140,16 @@
                                                         <input type="date" v-model="endDate" class="form-control">
 
                                                     </div>
-                                                   
+
                                                 </div>
-                                                 <div class="form-group col-lg-3">
+                                                <div class="form-group col-lg-3">
 
-                                                        <button class=" btn btn-info mt-2" v-on:click="date_filter"
-                                                            aria-hidden="true" data-dismiss="modal"
-                                                            aria-label="Close"><i class="icon-copy fa fa-filter"
-                                                                aria-hidden="true"></i> Filter</button>
+                                                    <button class=" btn btn-info mt-2" v-on:click="date_filter"
+                                                        aria-hidden="true" data-dismiss="modal" aria-label="Close"><i
+                                                            class="icon-copy fa fa-filter" aria-hidden="true"></i>
+                                                        Filter</button>
 
-                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -168,70 +168,65 @@
 
                                 </div>
                                 <div class="row">
+                                    <!-- <table class="col-12">
+                                        
+                                        <thead class="col-12">
+                                            <tr class="col-12">
+                                                <th class="col-1">#</th>
+                                                <th class="col-2">Attendance Date</th>
+                                                <th v-for="item in attendance_list" v-bind:key="item.id" class="col-1">
+
+                                                    {{item[0].course.book.subject}}
+                                                    
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="item in attendance_list1" v-bind:key="item.id">
+                                                <td>1</td>
+                                                <td>{{item[0].attendance_date}}</td>
+
+
+                                                <td v-for="item1 in attendance_list1" v-bind:key="item.id">
+                                                <td v-if="item[0].course.book.subject=='Math'" >
+                                                    {{item[0].course.book.subject}}</td>
+                                                <td v-else class="text-black-50 font-weight-light font-italic">Empity
+                                                </td>
+
+                                                </td>
+                                                <td v-if="item[0].course.book.subject=='Accoutnt'">
+                                                    {{item[0].course.book.subject}}</td>
+                                                <td v-else class="text-black-50 font-weight-light font-italic">Empity
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table> -->
                                     <table class="table">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Username</th>
-                                                <th scope="col">Profile</th>
-                                                <th scope="col">Class roll number</th>
-                                                <th scope="col">Faculty</th>
-                                                <th scope="col">Program</th>
-                                                <th scope="col">Semester</th>
                                                 <th scope="col">Subject</th>
+                                               
                                                 <th scope="col">Attendance</th>
-                                                <!-- <th scope="col">Action</th> -->
                                             </tr>
                                         </thead>
-                                        <tbody v-for="item in attendance_list" v-bind:key="item.id">
-                                            <!-- <tr v-for="item in attendance_list" v-bind:key="item.id"> -->
+                                        <tbody v-for="item in attendance_list1" v-bind:key="item.id">
                                             <tr class="col-12">
-                                                <td scope="row" class="col-1">{{ item[0].attendance_date }}</td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
-                                                <td scope="row" class="col-1"></td>
+                                                <td scope="row" class="col-3">{{ item[0].attendance_date }}</td>
+                                                
+                                                <td scope="row" class="col-3"></td>
+                                                <td scope="row" class="col-3"></td>
                                             </tr>
                                             <tr v-for="data in item">
                                                 <td>{{ data.id }}</td>
-                                                <td>{{ data.student.user.name }}</td>
-                                                <td>{{ data.student.user.username }}</td>
-                                                <td>{{ data.student.profile }}</td>
-                                                <td>{{ data.student.roll_number }}</td>
-                                                <td>{{ data.course.program.faculty.faculty }}</td>
-                                                <td>{{ data.course.program.program }}</td>
-                                                <td>{{ data.course.semester }}</td>
                                                 <td>{{ data.course.book.subject }}</td>
                                                 <td>{{ data.attendance }}</td>
-                                                <!-- <td>
-                                                    <div class="row btn-action">
-                                                        <a href="#" class="text-warning"><i
-                                                                class="icon-copy fa fa-edit fa-2x" aria-hidden="true"
-                                                                v-on:click="edit(item.id)"></i></a>
-                                                        <a href="#" class="text-danger ml-3"><i
-                                                                class="icon-copy fa fa-trash fa-2x" aria-hidden="true"
-                                                                v-on:click="deleteProgram(item.id)"></i></a>
-                                                    </div>
-                                                </td> -->
+                                                
                                             </tr>
-                                            <!-- <td scope="row">{{ item[0].student.user.name}}</td> -->
-                                            <!-- <td scope="row">{{ item[0].student.user.username}}</td>
-                                                <td scope="row">{{ item[0].student.profile}}</td>
-                                                <td scope="row">{{ item[0].student.roll_number}}</td>
-                                                <td scope="row">{{ item[0].course.program.faculty.faculty}}</td>
-                                                <td scope="row">{{ item[0].course.program.program}}</td>
-                                                <td scope="row">{{ item[0].semester}}</td>
-                                                <td scope="row">{{ item[0].course.book.book}}</td>
-                                                <td scope="row">{{ item[0].attendance}}</td> -->
-
-
-                                            <!-- </tr> -->
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -265,11 +260,13 @@ export default {
     data() {
         return {
             'attendance_list': '',
+            'attendance_list1': '',
             'program_list': '',
             'program_id': '',
             'semester': '',
             'course_id': '',
             'book_list': '',
+            
         }
     },
     watch: {
@@ -398,7 +395,7 @@ export default {
 
 
         getUnits: function () {
-            let result = axios.get(localStorage.getItem("url") + 'attendance',
+            let result = axios.get(localStorage.getItem("url") + 'my-report',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -406,6 +403,7 @@ export default {
                     }
                 }).then((response) => {
                     this.attendance_list = response.data.data;
+                    this.attendance_list1 = response.data.date;
 
                 }).catch(error => {
                     console.log('error: ' + error);

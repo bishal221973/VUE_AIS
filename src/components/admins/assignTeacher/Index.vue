@@ -2,7 +2,7 @@
     <Navbar />
     <Sidebar />
 
-
+   
 
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -19,7 +19,7 @@
                                         <a href="index.html">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item" aria-current="page">
-                                        Teacher
+                                        HOD
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         Assign Subject
@@ -44,8 +44,9 @@
 
                                             <option value="" selected>Please select Teacher</option>
                                             <option v-for="item in teacher_list" v-bind:key="item.id"
-                                                :value="item.teacher[0].id">
-                                                {{ item.name }}
+                                            :value="item.teacher[0].id"
+                                                >
+                                                {{item.name }}
                                             </option>
                                         </select>
                                         <small id="teacherHelp" class="form-text text-danger"></small>
@@ -86,17 +87,16 @@
 
                                             <option value="" selected>Please select Subject</option>
                                             <option v-for="item in book_list" v-bind:key="item.id" :value="item.id">
-                                                {{ item.book.subject }}
+                                                {{ item.book.subject}}
                                             </option>
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
                                     </div>
-                                    <button class="btn btn-success col-12" v-on:click="save">{{btn}}</button>
+                                    <button class="btn btn-success col-12" v-on:click="save">Submit</button>
                                 </div>
                             </div>
 
                             <div class="col-lg-8 col-md-12 col-sm-12">
-
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="row">
                                         <div class="form-group  col-lg-3">
@@ -132,16 +132,14 @@
                                             <select class="form-control " v-model="book_filter"
                                                 aria-label="Default select example">
                                                 <option selected disabled>Select Subject</option>
-                                                <option v-for="item in book_list1" v-bind:key="item.id"
-                                                    :value="item.id">
+                                                <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
                                                     {{ item.book.subject }}
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-3 mt-4">
-                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i
-                                                    class="icon-copy fa fa-filter" aria-hidden="true"></i>
-                                                Filter</button>
+                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i class="icon-copy fa fa-filter"
+                                                    aria-hidden="true"></i> Filter</button>
 
                                         </div>
                                         <!-- <div class="form-group col-lg-12 ">
@@ -149,13 +147,14 @@
                                             placeholder="Search Teacher">
                                         </div> -->
                                     </div>
-                                    <div class="row  mt-4">
+                                    <div class="row">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Username</th>
+                                                    <th scope="col">Email</th>
                                                     <th scope="col">Program</th>
                                                     <th scope="col">Semester</th>
                                                     <th scope="col">Subject</th>
@@ -167,6 +166,7 @@
                                                     <td scope="row">{{ item.id }}</td>
                                                     <td scope="row">{{ item.teacher.user.name }}</td>
                                                     <td scope="row">{{ item.teacher.user.username }}</td>
+                                                    <td scope="row">{{ item.teacher.user.email }}</td>
                                                     <td scope="row">{{ item.course.program.program }}</td>
                                                     <td scope="row">{{ item.course.semester }}</td>
                                                     <td scope="row">{{ item.course.book.subject }}</td>
@@ -234,16 +234,19 @@ export default {
             'semester_filter': '',
             'book_filter': '',
             'data_filter': '',
-            'btn': 'Save',
         }
     },
     watch: {
         semester_filter(newValue, oldValue) {
             if (this.program_filter == '') {
-                this.book_list1='';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select a program first!',
+                })
                 this.semester = '';
             } else {
-                axios.post('http://127.0.0.1:8000/api/select-subject',
+                axios.post(localStorage.getItem("url")+'select-subject',
                     {
                         program_id: this.program_filter,
                         semester: this.semester_filter,
@@ -266,7 +269,7 @@ export default {
 
         program_filter(newValue, oldValue) {
 
-            axios.post('http://127.0.0.1:8000/api/select-subject',
+            axios.post(localStorage.getItem("url")+'select-subject',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
@@ -286,14 +289,16 @@ export default {
                 });
 
         },
-
-
         semester(newValue, oldValue) {
             if (this.program_id == '') {
-                this.book_list='';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select a program first!',
+                })
                 this.semester = '';
             } else {
-                axios.post('http://127.0.0.1:8000/api/select-subject',
+                axios.post(localStorage.getItem("url")+'select-subject',
                     {
                         program_id: this.program_id,
                         semester: newValue,
@@ -316,7 +321,7 @@ export default {
 
         program_id(newValue, oldValue) {
 
-            axios.post('http://127.0.0.1:8000/api/select-subject',
+            axios.post(localStorage.getItem("url")+'select-subject',
                 {
                     program_id: newValue,
                     semester: this.semester,
@@ -338,8 +343,8 @@ export default {
         }
     },
     methods: {
-        filter() {
-            axios.post('http://127.0.0.1:8000/api/teacher-filter',
+        filter(){
+            axios.post(localStorage.getItem("url")+'hod-filter',
                 {
                     program: this.program_filter,
                     semester: this.semester_filter,
@@ -352,7 +357,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.assigned_teachers = response.data;
+                    this.assigned_teachers =response.data;
 
                     console.log();
 
@@ -362,11 +367,11 @@ export default {
                 });
         },
         save() {
-            document.getElementById('teacherHelp').innerHTML = '';
-            document.getElementById('bookHelp').innerHTML = '';
+            document.getElementById('teacherHelp').innerHTML='';
+            document.getElementById('bookHelp').innerHTML='';
             // alert('book ID='+this.course_id);
             if (this.update_assign == 'true') {
-                let result = axios.put('http://127.0.0.1:8000/api/assign-teacher/' + this.assigned_id,
+                let result = axios.put(localStorage.getItem("url")+'assign-teacher/' + this.assigned_id,
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -378,6 +383,7 @@ export default {
                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                         }
                     }).then((response) => {
+                        console.log(response);
                         if (response.data.status == 'success') {
                             Swal.fire({
                                 title: 'Congratulation',
@@ -388,18 +394,12 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
+                                    this.getUnits();
 
                                 }
-                                this.teacher_id = '';
-                                this.program_id = '';
-                                this.semester = '';
-                                this.course_id = '';
-                                this.btn = 'Save';
-                                this.getUnits();
-
                             })
-
                         } else if (response.data.status == 'failed') {
+                            console.log(response);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -407,6 +407,7 @@ export default {
                                 footer: 'We are sorry'
                             })
                         } else {
+                            console.log(response);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -415,7 +416,7 @@ export default {
                             })
                         }
                     }).catch(error => {
-
+                        console.log('error: ' + error);
                         Swal.fire(
                             'Warning',
                             'error: ' + error,
@@ -425,7 +426,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post('http://127.0.0.1:8000/api/assign-teacher',
+                let result = axios.post(localStorage.getItem("url")+'assign-teacher',
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -437,6 +438,7 @@ export default {
                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                         }
                     }).then((response) => {
+                        console.log(response);
                         if (response.data.status == 'success') {
                             Swal.fire({
                                 title: 'Congratulation',
@@ -447,13 +449,9 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
+                                    this.getUnits();
 
                                 }
-                                this.getUnits();
-                                this.teacher_id = '';
-                                this.program_id = '';
-                                this.semester = '';
-                                this.course_id = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -509,7 +507,8 @@ export default {
 
         },
         deleteAssign(assign_id) {
-            let url = 'http://127.0.0.1:8000/api/assign-teacher/' + assign_id;
+            alert("sdf");
+            let url = localStorage.getItem("url")+'assign-teacher/' + assign_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -537,10 +536,10 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
+                                        this.getUnits();
 
 
                                     }
-                                    this.getUnits();
                                 })
                             } else {
                                 Swal.fire({
@@ -559,7 +558,7 @@ export default {
             })
         },
         edit(assign_id) {
-            axios.get('http://127.0.0.1:8000/api/assign-teacher/' + assign_id,
+            axios.get(localStorage.getItem("url")+'assign-teacher/' + assign_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -573,7 +572,7 @@ export default {
                     this.update_assign = 'true';
                     this.assigned_id = response.data.id;
 
-                    this.btn = 'Update';
+
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
@@ -581,7 +580,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get('http://127.0.0.1:8000/api/teacher',
+            axios.get(localStorage.getItem("url")+"teacher",
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -590,27 +589,14 @@ export default {
                 }).then((response) => {
                     this.teacher_list = response.data;
 
+                    console.log("rssss");
+                    console.log(this.teacher_list);
 
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/course',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.book_list = response.data;
-                    this.book_list1 = response.data;
-
-
-                }).catch(error => {
-                    console.log('error: ' + error);
-                });
-
-            axios.get('http://127.0.0.1:8000/api/program',
+            axios.get(localStorage.getItem("url")+'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -624,7 +610,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get('http://127.0.0.1:8000/api/assign-teacher',
+            axios.get(localStorage.getItem("url")+'assign-teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',

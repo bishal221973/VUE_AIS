@@ -39,14 +39,14 @@
                                             <small id="bookHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Publication*</label>
+                                            <label for="exampleInputEmail1">Publication Name*</label>
                                             <input type="text" class="form-control" v-model="publication"
                                                 id="txtPublication" aria-describedby="publicationHelp"
                                                 placeholder="Enter Publication">
                                             <small id="publicationHelp" class="form-text text-danger"></small>
                                         </div>
                                         <div class="form-group col-12">
-                                            <label for="exampleInputEmail1">Author*</label>
+                                            <label for="exampleInputEmail1">Author Name*</label>
                                             <input type="text" class="form-control" v-model="author" id="txtAuthor"
                                                 aria-describedby="authorHelp" placeholder="Enter Author Name">
                                             <small id="authorHelp" class="form-text text-danger"></small>
@@ -228,7 +228,7 @@ export default {
                                     this.author = '';
                                     this.page = '';
                                     this.price = '';
-
+                                    this.update_book='';
                                     this.btn_save = 'Save'
                                     this.getUnits();
                         } else if (response.data.status == 'failed') {

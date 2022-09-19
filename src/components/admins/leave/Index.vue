@@ -332,7 +332,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.leave_list = response.data;
+                    this.leave_list = response.data.data;
 
                 }).catch(error => {
                     console.log('error: ' + error);

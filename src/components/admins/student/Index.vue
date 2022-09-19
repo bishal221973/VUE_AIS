@@ -282,9 +282,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr  v-for="item in student_list" v-bind:key="item.id">
+                                            <tr v-for="item in student_list" v-bind:key="item.id">
                                                 <td scope="row">{{ item.id }}</td>
-                                                 <td scope="row">{{ item.name }}</td>
+                                                <td scope="row">{{ item.name }}</td>
                                                 <td scope="row">{{ item.username }}</td>
                                                 <td scope="row">{{ item.student.gender}}</td>
                                                 <td scope="row">{{ item.student.program.program }}</td>
@@ -295,19 +295,20 @@
                                                 <!-- <td scope="row">{{ item.student[0].profile }}</td> -->
                                                 <td>
                                                     <div class="row btn-action">
-                                                        
-                                                        <a href="#" class="btn btn-info btn-sm ml-1" v-on:click="sprofile(item.student.id)"><i
-                                                                class="icon-copy fa fa-eye" aria-hidden="true"
-                                                                ></i></a>
 
-                                                        <a href="#" class="btn btn-danger btn-sm ml-1"><i
-                                                                class="icon-copy fa fa-edit" aria-hidden="true"
-                                                                v-on:click="edit(item.student.id)"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm ml-1"
+                                                            v-on:click="sprofile(item.student.id)"><i
+                                                                class="icon-copy fa fa-eye" aria-hidden="true"></i></a>
+
+                                                        <a href="#" class="btn btn-danger btn-sm ml-1"
+                                                            v-on:click="edit(item.student.id)"><i
+                                                                class="icon-copy fa fa-edit" aria-hidden="true"></i></a>
 
 
-                                                        <a href="#" class="btn btn-warning btn-sm ml-1"><i
-                                                                class="icon-copy fa fa-trash" aria-hidden="true"
-                                                                v-on:click="deleteStudent(item.student.id)"></i></a>
+                                                        <a href="#" class="btn btn-warning btn-sm ml-1"
+                                                            v-on:click="deleteStudent(item.student.id)"><i
+                                                                class="icon-copy fa fa-trash"
+                                                                aria-hidden="true"></i></a>
 
 
 
@@ -336,7 +337,7 @@
             <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
         </div> -->
     </div>
-    <Profile v-else :id="student_profile"/>
+    <Profile v-else :id="student_profile" />
 </template>
 <script>
 import Navbar from '../Navbar.vue';
@@ -348,7 +349,7 @@ export default {
     name: "Index",
     data() {
         return {
-            'student_profile':'',
+            'student_profile': '',
             'program_list': '',
             'student_list': '',
             'name': '',
@@ -373,12 +374,13 @@ export default {
             'search_data': '',
         }
     },
-    components: { Navbar, Sidebar, 
-        Profile 
+    components: {
+        Navbar, Sidebar,
+        Profile
     },
     methods: {
-        sprofile(student_id){
-               this.student_profile=student_id;
+        sprofile(student_id) {
+            this.student_profile = student_id;
         },
         onFileChange(e) {
             const file = e.target.files[0];
@@ -387,7 +389,7 @@ export default {
         getUnits: function () {
 
 
-            axios.get(localStorage.getItem("url")+'program',
+            axios.get(localStorage.getItem("url") + 'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -401,7 +403,7 @@ export default {
                     console.log('error: ' + error);
                 });
 
-            axios.get(localStorage.getItem("url")+'student',
+            axios.get(localStorage.getItem("url") + 'student',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -431,7 +433,7 @@ export default {
             if (this.update_student != 'true') {
 
 
-                let result = axios.post(localStorage.getItem("url")+'student',
+                let result = axios.post(localStorage.getItem("url") + 'student',
                     {
                         name: this.name,
                         username: this.username,
@@ -574,7 +576,7 @@ export default {
                 return result;
             }
             if (this.update_student == 'true') {
-                let result = axios.put(localStorage.getItem("url")+'student/' + this.students_id,
+                let result = axios.put(localStorage.getItem("url") + 'student/' + this.students_id,
                     {
                         name: this.name,
                         username: this.username,
@@ -663,12 +665,10 @@ export default {
             // }
         },
         filter() {
-
-            let result = axios.post(localStorage.getItem("url")+'student-search',
+            let result = axios.post(localStorage.getItem("url") + 'student-search',
                 {
 
                     program_id: this.program_id,
-                    search_data: this.search_data,
                     semester: this.semester,
                 },
                 {
@@ -699,6 +699,7 @@ export default {
                         })
                     }
                     else {
+                        console.log('error: ' + error);
                         Swal.fire(
                             'Warning',
                             'error: ' + error,
@@ -710,7 +711,7 @@ export default {
             return result;
         },
         edit(student_id) {
-            axios.get(localStorage.getItem("url")+'edit-students/' + student_id,
+            axios.get(localStorage.getItem("url") + 'edit-students/' + student_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -739,7 +740,7 @@ export default {
                 });
         },
         deleteStudent(student_id) {
-            let url = localStorage.getItem("url")+'student/' + student_id;
+            let url = localStorage.getItem("url") + 'student/' + student_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -794,7 +795,8 @@ export default {
     },
     watch: {
         search_data: function (val, oldVal) {
-            let result = axios.post(localStorage.getItem("url")+'student-search',
+            
+            let result = axios.put(localStorage.getItem("url") + 'student-search',
                 {
                     search_data: this.search_data,
                 },

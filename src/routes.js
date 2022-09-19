@@ -15,6 +15,7 @@ import AppoindHod from './components/admins/hod/Index.vue';
 import assignHod from './components/admins/hod/assign.vue';
 import AssignTeacher from './components/admins/assignTeacher/Index.vue';
 import Student from './components/admins/student/Index.vue';
+import StudentReport from './components/admins/student/Report.vue';
 import StudentDetail from './components/admins/student/View.vue';
 import ApplyLeave from './components/admins/student/Leave.vue';
 import TeacherDetail from './components/admins/teacher/Show.vue';
@@ -129,6 +130,11 @@ const routes = [
         name: 'LeaveApprove',
         path: '/leave-approve',
         component:LeaveApprove
+    },
+    {
+        name:'StudentReport',
+        path:'/my-report',
+        component:StudentReport
     },
 ];
 const router = createRouter({

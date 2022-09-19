@@ -109,14 +109,23 @@
                                                 <select class="form-control" aria-label="Default select example"
                                                     v-model="subject">
                                                     <option selected>Select a subject</option>
-                                                    <option :value="item.course.id" v-for="item in assigned_sub"
-                                                        v-bind:key="item.id">
+                                                    <!-- <option :value="item.course.id"  v-for="item in assigned_sub" v-bind:key="item.id" :value="item.id">
                                                         {{item.course.book.subject}}
-                                                    </option>
+                                                    </option> -->
+
+                                                    <option v-for="item in assigned_sub" v-bind:key="item.id"
+                                                        :value="item.course.id">
+                                                        {{item.course.book.subject}} </option>
 
                                                 </select>
                                             </div>
-
+                                            <div class="form-group col-lg-12" v-if="role === 'Teacher'">
+                                                <label for="exampleInputEmail1">Date</label>
+                                                <input type="date" v-model="date" class="form-control">
+                                                <small id="bookHelp" class="form-text text-danger"></small>
+                                                <button class="btn btn-success" v-on:click="attend">Take
+                                                    Attendance</button>
+                                            </div>
 
                                         </div>
                                         <button v-if="role === 'Admin'" class="col-3 btn btn-success"
@@ -247,10 +256,10 @@ export default {
             }
         },
         subject(newValue, oldValue) {
+            
             let result = axios.post(localStorage.getItem("url") + 'select-sub',
                 {
                     course_id: newValue,
-
                 },
                 {
                     headers: {
@@ -259,40 +268,44 @@ export default {
                     }
                 }).then((response) => {
                     // this.assigned_sub = response.data;
-                    // console.log();
+
                     this.program_id = response.data.program.id;
                     this.new_program = response.data.program.program;
                     this.new_semester = response.data.semester;
                     this.semester = response.data.semester;
                     this.course_id = response.data.id;
 
-                    let result = axios.post(localStorage.getItem("url") + 'get-students',
-                        {
-                            program_id: response.data.program.id,
-                            semester: response.data.semester,
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            let num = 0;
-                            for (let item of response.data) {
-                                num = num + 1;
-                            }
-                            this.i = num;
-                            this.student_list = response.data;
-                        }).catch(error => {
 
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        });
+                    console.log(response.data.program.id);
 
-                    return result;
+                    // let result = axios.post(localStorage.getItem("url") + 'get-students',
+                    //     {
+                    //         program_id: response.data.program.id,
+                    //         semester: response.data.semester,
+                    //         date:this.date,
+                    //     },
+                    //     {
+                    //         headers: {
+                    //             'Content-type': 'application/json',
+                    //             'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    //         }
+                    //     }).then((response) => {
+                    //         let num = 0;
+                    //         for (let item of response.data) {
+                    //             num = num + 1;
+                    //         }
+                    //         this.i = num;
+                    //         this.student_list = response.data;
+                    //     }).catch(error => {
+
+                    //         Swal.fire(
+                    //             'Warning',
+                    //             'error: ' + error,
+                    //             'error'
+                    //         )
+                    //     });
+
+                    // return result;
 
                 }).catch(error => {
                     console.log('error:' + error);
@@ -330,6 +343,48 @@ export default {
         }
     },
     methods: {
+        attend() {
+            let result = axios.post(localStorage.getItem("url") + 'get-students',
+                {
+                    program_id: this.program_id,
+                    semester: this.semester,
+                    course_id: this.course_id,
+                    date: this.date,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    console.log(response.data);
+                    if (response.data.status == "failed") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.data.message,
+                            footer: 'We are sorry'
+                        })
+                    } else {
+                        let num = 0;
+                        for (let item of response.data.data) {
+                            num = num + 1;
+                        }
+                        this.i = num;
+                        this.student_list = response.data.data;
+
+                        console.log(response.data);
+                    }
+
+                }).catch(error => {
+
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                });
+        },
         takeAttendance() {
 
             for (let item of this.student_list) {
@@ -446,7 +501,7 @@ export default {
                 {
                     program_id: this.program_id,
                     semester: this.semester,
-                    course_id:this.course_id,
+                    course_id: this.course_id,
                     date: this.date,
                 },
                 {

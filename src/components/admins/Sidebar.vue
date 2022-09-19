@@ -246,7 +246,8 @@
                         </a>
                     </li>
 
-                    <li v-if="role==='Student'"></li>
+                    <li v-if="role==='Student'">
+                    </li>
                     <li v-else>
                         <a href="/attendance-report" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Attendance Report</span>
@@ -254,7 +255,7 @@
                     </li>
 
                     <li v-if="role==='Student'">
-                        <a href="/attendance-report" class="dropdown-toggle no-arrow">
+                        <a href="/my-report" class="dropdown-toggle no-arrow">
                             <i class="micon icon-copy fi-results"></i><span class="mtext">My Attendance Report</span>
                         </a>
                     </li>
