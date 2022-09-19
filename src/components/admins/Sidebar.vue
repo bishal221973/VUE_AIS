@@ -92,9 +92,9 @@
     </div>
     <div class="left-side-bar">
         <div class="brand-logo">
-            <a href="index.html">
-                <img :src="'./assets/vendors/images/deskapp-logo.svg'" alt="" class="dark-logo" />
-                <img :src="'./assets/vendors/images/deskapp-logo-white.svg'" alt="" class="light-logo" />
+            <a href="#">
+                <img :src="'./assets/vendors/images/icon.png'" alt="" class="dark-logo" />
+                <!-- <img :src="'./assets/vendors/images/deskapp-logo-white.svg'" alt="" class="light-logo" /> -->
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
@@ -117,7 +117,7 @@
                     <li class="dropdown" v-if="role === 'Admin'">
                         <a href="javascript:;" class="dropdown-toggle">
                             <i class="micon icon-copy fa fa-user-circle" aria-hidden="true"></i><span
-                                class="mtext">Hod</span>
+                                class="mtext">HOD</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="/appoind-hod">Manage</a></li>
@@ -265,21 +265,6 @@
                             <i class="micon icon-copy fi-results"></i><span class="mtext">Apply Leave</span>
                         </a>
                     </li>
-
-                    <li class="dropdown" v-if="role === 'Admin'">
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon bi bi-bug"></span><span class="mtext">Error Pages</span>
-                        </a>
-                        <ul class="submenu">
-                            <li><a href="400.html">400</a></li>
-                            <li><a href="403.html">403</a></li>
-                            <li><a href="404.html">404</a></li>
-                            <li><a href="500.html">500</a></li>
-                            <li><a href="503.html">503</a></li>
-                        </ul>
-                    </li>
-
-
                 </ul>
             </div>
         </div>
