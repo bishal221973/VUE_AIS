@@ -79,7 +79,7 @@
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Application</th>
 
-                                                <th scope="col">Action</th>
+                                                <th scope="col" >Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -110,12 +110,12 @@
                                                 </td>
 
                                                 <td>
-                                                    <div class="row btn-action">
-                                                        <button class="btn btn-success btn-sm"
-                                                            v-on:click="accept(item.id)">Accept</button>
-                                                        <button class="btn btn-danger btn-sm mt-1"
-                                                            v-on:click="reject(item.id)">Reject</button>
-
+                                                    <div class="row btn-action" >
+                                                        <button class="btn btn-success btn-sm mr-2" 
+                                                            v-on:click="accept(item.id)" v-if="item.status=='Pending'"><i class="icon-copy ion-checkmark-round"></i></button>
+                                                            <button class="btn btn-danger btn-sm" 
+                                                            v-on:click="reject(item.id)" v-if="item.status=='Pending'"><i class="icon-copy ion-close-round"></i></button>
+                                                        
 
                                                     </div>
                                                 </td>
@@ -176,10 +176,10 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.put(localStorage.getItem("url")+'update-status/' + l_id,
+                    let result = axios.put(localStorage.getItem("url") + 'update-status/' + l_id,
                         {
                             choice: 'Rejected'
                         },
@@ -222,11 +222,16 @@ export default {
                             }
                         }).catch(error => {
 
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
 
                         });
 
@@ -246,10 +251,10 @@ export default {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.put(localStorage.getItem("url")+'update-status/' + l_id,
+                    let result = axios.put(localStorage.getItem("url") + 'update-status/' + l_id,
                         {
                             choice: 'Accepted'
                         },
@@ -292,11 +297,16 @@ export default {
                             }
                         }).catch(error => {
 
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
 
                         });
 
@@ -306,7 +316,7 @@ export default {
         },
 
         view(leave_id) {
-            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url") + 'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -320,12 +330,21 @@ export default {
                     console.log(response.data);
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url")+'leave',
+            axios.get(localStorage.getItem("url") + 'leave',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -335,7 +354,16 @@ export default {
                     this.leave_list = response.data.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 

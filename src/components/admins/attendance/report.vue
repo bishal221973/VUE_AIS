@@ -140,16 +140,16 @@
                                                         <input type="date" v-model="endDate" class="form-control">
 
                                                     </div>
-                                                   
+
                                                 </div>
-                                                 <div class="form-group col-lg-3">
+                                                <div class="form-group col-lg-3">
 
-                                                        <button class=" btn btn-info mt-2" v-on:click="date_filter"
-                                                            aria-hidden="true" data-dismiss="modal"
-                                                            aria-label="Close"><i class="icon-copy fa fa-filter"
-                                                                aria-hidden="true"></i> Filter</button>
+                                                    <button class=" btn btn-info mt-2" v-on:click="date_filter"
+                                                        aria-hidden="true" data-dismiss="modal" aria-label="Close"><i
+                                                            class="icon-copy fa fa-filter" aria-hidden="true"></i>
+                                                        Filter</button>
 
-                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +299,16 @@ export default {
 
 
                     }).catch(error => {
-                        console.log('error: ' + error);
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     });
             }
         },
@@ -344,12 +353,16 @@ export default {
                         })
                     }
                 }).catch(error => {
-                    console.log('error: ' + error,);
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
 
@@ -387,12 +400,16 @@ export default {
                         })
                     }
                 }).catch(error => {
-                    console.log('error: ' + error,);
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
 
@@ -408,7 +425,16 @@ export default {
                     this.attendance_list = response.data.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             axios.get(localStorage.getItem("url") + 'program',
@@ -422,7 +448,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         },

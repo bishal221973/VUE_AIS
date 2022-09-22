@@ -63,25 +63,28 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Student Leave Application</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Student Leave Application
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
 
                                         <div class="modal-body">
-                                            
-                                            <label >To,</label> <br>
-                                            <label >The Head of Department</label><br>
-                                            <label >Dhangadhi Engineering College</label><br>
+
+                                            <label>To,</label> <br>
+                                            <label>The Head of Department</label><br>
+                                            <label>Dhangadhi Engineering College</label><br>
                                             <p class="text-center mt-4">Subject: About leave</p>
                                             <p class="mt-3">Dear Sir/Madam,</p>
                                             <div>
-                                            <label> With due respect, i beg to state that, i am a regular student of our class. Due to {{view_reason}}, i will not able to present in my class. I need leave for {{view_day}} day.</label>
-                                            <label class="float-right mt-5" >{{student_name}}</label>
+                                                <label> With due respect, i beg to state that, i am a regular student of
+                                                    our class. Due to {{view_reason}}, i will not able to present in my
+                                                    class. I need leave for {{view_day}} day.</label>
+                                                <label class="float-right mt-5">{{student_name}}</label>
 
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -119,9 +122,9 @@
 
                                                 <td>
                                                     <div class="row btn-action">
-                                                        <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" v-on:click="view(item.id)"><i
-                                                                class="icon-copy fa fa-eye" aria-hidden="true"
-                                                                ></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm" data-toggle="modal"
+                                                            data-target="#myModal" v-on:click="view(item.id)"><i
+                                                                class="icon-copy fa fa-eye" aria-hidden="true"></i></a>
                                                         <a href="#" class="btn btn-warning btn-sm ml-1"
                                                             v-on:click="edit(item.id)"><i class="icon-copy fa fa-edit"
                                                                 aria-hidden="true"></i></a>
@@ -177,7 +180,7 @@ export default {
             'view_to': '',
             'view_reason': '',
             'view_day': '',
-            'student_name':localStorage.getItem('name'),
+            'student_name': localStorage.getItem('name'),
         }
     },
     methods: {
@@ -185,7 +188,7 @@ export default {
             if (this.update_student == '') {
 
 
-                let result = axios.post(localStorage.getItem("url")+'leave',
+                let result = axios.post(localStorage.getItem("url") + 'leave',
                     {
                         user_id: localStorage.getItem('id'),
                         reason: this.reason,
@@ -267,18 +270,23 @@ export default {
                             })
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
                 return result;
             }
             else {
-                let result = axios.put(localStorage.getItem("url")+'leave/' + this.leave_id,
+                let result = axios.put(localStorage.getItem("url") + 'leave/' + this.leave_id,
                     {
                         user_id: localStorage.getItem('id'),
                         reason: this.reason,
@@ -378,7 +386,7 @@ export default {
             // }
         },
         deleteLeave(leave_id) {
-            let url = localStorage.getItem("url")+'leave/' + leave_id;
+            let url = localStorage.getItem("url") + 'leave/' + leave_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -420,7 +428,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -428,7 +445,7 @@ export default {
             })
         },
         edit(leave_id) {
-            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url") + 'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -442,11 +459,20 @@ export default {
                     this.update_student = 'true';
                     this.leave_id = response.data.id;
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         view(leave_id) {
-            axios.get(localStorage.getItem("url")+'get-leave/' + leave_id,
+            axios.get(localStorage.getItem("url") + 'get-leave/' + leave_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -460,12 +486,21 @@ export default {
                     console.log(response.data);
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url")+'leave/' + localStorage.getItem('id'),
+            axios.get(localStorage.getItem("url") + 'leave/' + localStorage.getItem('id'),
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -475,7 +510,16 @@ export default {
                     this.leave_list = response.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 

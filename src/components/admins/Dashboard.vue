@@ -13,7 +13,7 @@
                             Welcome
                             <div class="weight-600 font-30 text-blue">{{user_name}}</div>
                         </h4>
-                       
+
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                                 <div id="chart"></div>
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">2020</div>
+                                <div class="h4 mb-0" id="p_num">2020</div>
                                 <div class="weight-600 font-14">Program</div>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                                 <div id="chart2"></div>
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">400</div>
+                                <div class="h4 mb-0" id="h_num">400</div>
                                 <div class="weight-600 font-14">HOD</div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                 <div id="chart3"></div>
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">350</div>
+                                <div class="h4 mb-0" id="t_num">350</div>
                                 <div class="weight-600 font-14">Teacher</div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 <div id="chart4"></div>
                             </div>
                             <div class="widget-data">
-                                <div class="h4 mb-0">$6060</div>
+                                <div class="h4 mb-0" id="s_num">$6060</div>
                                 <div class="weight-600 font-14">Student</div>
                             </div>
                         </div>
@@ -105,16 +105,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-5 mb-30">
-                    <div class="card-box height-100-p widget-style1">
-                        <h3 class="text-center mb-4">Numbers of student's</h3>
-                        <div class="p-1 col-lg-12 m-auto mt-4">
-                            <BarChart :chartData="testDatas" />
 
-
-                        </div>
-                    </div>
-                </div>
                 <div class="col-lg-8" v-if="role==='HOD'">
                     <div class="card-box height-100-p widget-style1">
                         <h3 class="text-center mb-4">Other Information</h3>
@@ -133,7 +124,7 @@
                             <li class="list-group-item" v-for="item in hod_list" v-bind:key="item.id">
                                 {{item.program.program}}
                             </li>
-                           
+
                         </ul>
                     </div>
                 </div>
@@ -150,8 +141,8 @@ import Navbar from './Navbar.vue';
 import axios from 'axios';
 
 
-import {LineChart} from 'vue-chart-3';
-import {BarChart} from 'vue-chart-3';
+import { LineChart } from 'vue-chart-3';
+import { BarChart } from 'vue-chart-3';
 import { Chart, registerables } from "chart.js";
 
 Chart.register(...registerables);
@@ -159,22 +150,64 @@ Chart.register(...registerables);
 export default {
     name: "Dashboard",
     created() {
-        this.testDatas = {
-            labels: ['Boy', 'Girl'],
-            datasets: [
-                {
-                    data: [20, 10],
-                    backgroundColor: ['#cc0000', '#ff8800'],
-                },
-            ],
-        }
+
+        axios.get(localStorage.getItem("url") + 'count',
+
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then((response) => {
+                console.log(response.data);
+
+                this.program_num = response.data.program;
+                document.getElementById("p_num").innerHTML = response.data.program;
+                document.getElementById("h_num").innerHTML = response.data.hod;
+                document.getElementById("t_num").innerHTML = response.data.teacher;
+                document.getElementById("s_num").innerHTML = response.data.student;
+
+                this.boy = response.data.student;
+
+
+
+
+            }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({name: "login"});
+
+                }
+                
+            });
+
+
+        // this.testDatas = {
+        //     labels: ['Boy', 'Girl'],
+        //     datasets: [
+        //         {
+        //             data: [this.boy, 10],
+        //             backgroundColor: ['#cc0000', '#ff8800'],
+        //         },
+        //     ],
+        // }
+
+
+        // this.testDatas = {
+        //     labels: ['Boy', 'Girl'],
+        //     datasets: [
+        //         {
+        //             data: [this.boy, 10],
+        //             backgroundColor: ['#cc0000', '#ff8800'],
+        //         },
+        //     ],
+        // }
 
         this.testDatas1 = {
-            labels: ['Faculty', 'Program','Teacher','HOD'],
+            labels: ['Faculty', 'Program', 'Teacher', 'HOD'],
             datasets: [
                 {
-                    data: [20, 25,50,27],
-                    backgroundColor: ['#cc0000', '#ff8800', 'pink','yellow'],
+                    data: [20, 25, 50, 27],
+                    backgroundColor: ['#cc0000', '#ff8800', 'pink', 'yellow'],
                 },
             ],
         }
@@ -188,12 +221,18 @@ export default {
             'role': localStorage.getItem('role'),
             'assigned_sub': '',
             'hod_list': '',
+            'program_num': '',
+            'hod_num': '',
+            'teacher_num': '',
+            'student_num': '',
+            'boy': '',
+            'girl': '',
         }
     },
-    components: { Sidebar, Navbar, Sidebar, LineChart,BarChart },
+    components: { Sidebar, Navbar, Sidebar, LineChart, BarChart },
     beforeMount() {
 
-        axios.post(localStorage.getItem("url")+'assigned-teacher',
+        axios.post(localStorage.getItem("url") + 'assigned-teacher',
             {
                 user_id: localStorage.getItem('id'),
 
@@ -205,18 +244,18 @@ export default {
                 }
             }).then((response) => {
                 this.assigned_sub = response.data;
-                console.log(response.data);
+                // console.log(response.data);
 
             }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({name: "login"});
+
+                }
                 console.log('error:' + error);
-                Swal.fire(
-                    'Warning',
-                    'error: ' + error,
-                    'error'
-                )
+                
             });
 
-            axios.post(localStorage.getItem("url")+'hod-list',
+        axios.post(localStorage.getItem("url") + 'hod-list',
             {
                 user_id: localStorage.getItem('id'),
 
@@ -228,17 +267,56 @@ export default {
                 }
             }).then((response) => {
                 this.hod_list = response.data;
-                console.log(response.data);
+                // console.log(response.data);
 
             }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({name: "login"});
+
+                }
                 console.log('error:' + error);
-                Swal.fire(
-                    'Warning',
-                    'error: ' + error,
-                    'error'
-                )
+                
             });
-            
+
+
+        axios.get(localStorage.getItem("url") + 'count',
+
+            {
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+            }).then((response) => {
+                console.log(response.data);
+                this.program_num = response.data.program;
+                document.getElementById("p_num").innerHTML = response.data.program;
+                document.getElementById("h_num").innerHTML = response.data.hod;
+                document.getElementById("t_num").innerHTML = response.data.teacher;
+                document.getElementById("s_num").innerHTML = response.data.student;
+
+                this.boy = response.data.boy;
+                this.girl = response.data.girl;
+                console.log(this.boy);
+                // this.testDatas = {
+                //     labels: ['Boy', 'Girl'],
+                //     datasets: [
+                //         {
+                //             data: [10, 5],
+                //             backgroundColor: ['#cc0000', '#ff8800'],
+                //         },
+                //     ],
+                // }
+
+
+            }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({name: "login"});
+
+                }
+                console.log('error:' + error);
+               
+            });
+
     },
 
 }

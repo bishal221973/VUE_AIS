@@ -16,7 +16,7 @@
                                         <a href="/">Dashboard</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
-                                        Fculty
+                                        Faculty
                                     </li>
 
                                 </ol>
@@ -50,13 +50,14 @@
                                     <!-- <input type="text" placeholder="Search"/> -->
 
                                     <div class="row">
-                                        
-                                        <input type="text" class="form-control col-10 search-input  m-3" v-model="search_text"
-                                            v-on:change="search" placeholder="Search Faculty" />
-                                        <a href="#" class="btn btn-danger form-control mt-3 col-1" v-on:click="display_all">
+
+                                        <input type="text" class="form-control col-10 search-input  m-3"
+                                            v-model="search_text" v-on:change="search" placeholder="Search Faculty" />
+                                        <a href="#" class="btn btn-danger form-control mt-3 col-1"
+                                            v-on:click="display_all">
                                             <i class="icon-copy fi-x"></i>
                                         </a>
-                                       
+
                                     </div>
 
                                     <div class="row mt-1">
@@ -75,12 +76,14 @@
                                                     <td scope="row">{{ item.faculty }}</td>
                                                     <td>
                                                         <div class="row btn-action">
-                                                            <a href="#" class="text-warning"><i class="icon-copy fa fa-edit fa-2x"
+                                                            <a href="#" class="text-warning"><i
+                                                                    class="icon-copy fa fa-edit fa-2x"
                                                                     aria-hidden="true"
                                                                     v-on:click="edit(item.id)"></i></a>
-                                                            <a href="#" class="text-danger ml-3"><i class="icon-copy fa fa-trash fa-2x"
+                                                            <a href="#" class="text-danger ml-3"><i
+                                                                    class="icon-copy fa fa-trash fa-2x"
                                                                     aria-hidden="true"
-                                                                     v-on:click="deleteFaculty(item.id)"></i></a>
+                                                                    v-on:click="deleteFaculty(item.id)"></i></a>
 
                                                         </div>
                                                     </td>
@@ -122,20 +125,20 @@ export default {
             'updated': '',
             'faculty_id': '',
             'btn_submit': 'Save',
-            'search_text':'',
+            'search_text': '',
 
         }
     },
     components: { Navbar, Sidebar },
     methods: {
-       
-        display_all(){
-          this.search_text='';
+
+        display_all() {
+            this.search_text = '';
         },
         save() {
-            document.getElementById('facultyHelp').innerHTML='';
+            document.getElementById('facultyHelp').innerHTML = '';
             if (this.updated == 'true') {
-                let url = localStorage.getItem("url")+'faculty/' + this.faculty_id;
+                let url = localStorage.getItem("url") + 'faculty/' + this.faculty_id;
                 let result = axios.put(url,
                     {
                         faculty: this.faculty,
@@ -156,13 +159,13 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    
+
 
                                 }
                                 this.updated = '';
-                                    this.faculty = '';
-                                    this.btn_submit = 'Save';
-                                    this.getUnits();
+                                this.faculty = '';
+                                this.btn_submit = 'Save';
+                                this.getUnits();
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -204,17 +207,22 @@ export default {
                             })
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
                 return result;
             } else {
-                let result = axios.post(localStorage.getItem("url")+'faculty',
+                let result = axios.post(localStorage.getItem("url") + 'faculty',
                     {
                         faculty: this.faculty,
                     },
@@ -234,11 +242,11 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    
+
 
                                 }
                                 this.getUnits();
-                                this.faculty='';
+                                this.faculty = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -281,11 +289,16 @@ export default {
                             })
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
@@ -295,7 +308,7 @@ export default {
         },
         deleteFaculty(faculty_id) {
 
-            let url = localStorage.getItem("url")+'faculty/' + faculty_id;
+            let url = localStorage.getItem("url") + 'faculty/' + faculty_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete Faculty ?",
@@ -323,7 +336,7 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                       
+
 
 
                                     }
@@ -338,7 +351,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -346,7 +368,7 @@ export default {
             })
         },
         edit(faculty_id) {
-            let url = localStorage.getItem("url")+'faculty/' + faculty_id;
+            let url = localStorage.getItem("url") + 'faculty/' + faculty_id;
 
             let result = axios.get(url,
                 {
@@ -360,11 +382,20 @@ export default {
                     this.updated = 'true';
                     this.btn_submit = 'Update'
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         getUnits: function () {
-            let result = axios.get(localStorage.getItem("url")+'faculty',
+            let result = axios.get(localStorage.getItem("url") + 'faculty',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -372,10 +403,19 @@ export default {
                     }
                 }).then((response) => {
                     this.list = response.data.data;
-                   
+
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             return result;
@@ -385,55 +425,60 @@ export default {
         this.getUnits();
     },
     watch: {
-        search_text: function(val, oldVal) {
-             let result = axios.post(localStorage.getItem("url")+'faculty-search',
-                    {
-                        search: this.search_text,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        
-                            this.list=response.data;
-                        
-                    }).catch(error => {
+        search_text: function (val, oldVal) {
+            let result = axios.post(localStorage.getItem("url") + 'faculty-search',
+                {
+                    search: this.search_text,
+                },
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
 
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'faculty') {
-                                    document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+                    this.list = response.data;
 
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
+                }).catch(error => {
 
-                                }
-                            })
-                        }
-                        else {
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
+
+                            }
+                        });
+                    } else if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
+
+                            }
+                        })
+                    }
+                    else {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
                             Swal.fire(
                                 'Warning',
                                 'error: ' + error,
                                 'error'
                             )
                         }
-                    });
+                    }
+                });
 
-                return result;
+            return result;
         }
     },
 }

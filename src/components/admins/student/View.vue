@@ -56,7 +56,7 @@
                             </div>
                             <h5 class="text-center h5 mb-0">{{name}}</h5>
                             <label class=" col-12 text-center mb-0 font-weight-bold text-black-50">Student
-                                ID: {{student_detail.id}}</label>
+                                ID: {{student_detail.data.id}}</label>
                             <div class="profile-info mt-3">
                                 <h5 class="mb-20 h5 text-blue">Contact Information</h5>
                                 <ul>
@@ -80,14 +80,14 @@
                                 <ul>
                                     <li>
                                         <span>New Password</span>
-                                        <input type="text" class="form-control" placeholder="New Password">
+                                        <input type="text" class="form-control" v-model="password" placeholder="New Password">
                                     </li>
                                     <li>
                                         <span>Password Confirmation</span>
-                                        <input type="text" class="form-control" placeholder="Password Confirmation">
+                                        <input type="text" class="form-control" v-model="password_confirm" placeholder="Password Confirmation">
                                     </li>
                                     <li>
-                                        <button class="btn col-12 bg-success text-white">Update</button>
+                                        <button class="btn col-12 bg-success text-white" v-on:click="updatePassword">Update</button>
                                     </li>
                                 </ul>
                             </div>
@@ -400,6 +400,10 @@ export default {
             'totalLeave': '0',
 
             'testDatas': '',
+            'studentId':'',
+            'password':'',
+            'password_confirm':'',
+
         }
     },
     components: {
@@ -409,6 +413,68 @@ export default {
     },
 
     methods: {
+        updatePassword(){
+            let result = axios.post(localStorage.getItem("url") + 'update-student-password',
+                    {
+                        student_id:this.studentId,
+                        password:this.password,
+                        password_confirmation:this.password_confirm,
+
+                    },
+                    {
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    }).then((response) => {
+                        if (response.data.status == 'success') {
+                            Swal.fire({
+                                title: 'Congratulation',
+                                text: response.data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'OK'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // window.location.reload();
+
+                                    this.getUnits();
+
+                                }
+                            })
+                           
+                        } else if (response.data.status == 'failed') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data.message,
+                                footer: 'We are sorry'
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.data,
+                                footer: 'We are sorry'
+                            })
+                        }
+                    }).catch(error => {
+
+                        if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                        
+                    });
+
+                return result;
+        },
         update() {
             let result = axios.put(localStorage.getItem("url")+'student/' + this.s_id,
                 {
@@ -494,6 +560,7 @@ export default {
                 }
             }).then((response) => {
                 this.student_detail = response.data;
+                this.studentId=response.data.data.id;
                 this.name = response.data.data.user.name;
                 this.email = response.data.data.user.email;
                 this.phone = response.data.data.phone;

@@ -2,7 +2,7 @@
     <Navbar />
     <Sidebar />
 
-   
+
 
     <div class="main-container">
         <div class="pd-ltr-20 xs-pd-20-10">
@@ -44,8 +44,7 @@
 
                                             <option value="" selected>Please select Teacher</option>
                                             <option v-for="item in teacher_list" v-bind:key="item.id"
-                                            :value="item.teacher[0].id"
-                                                >
+                                                :value="item.teacher[0].id">
                                                 {{item.name }}
                                             </option>
                                         </select>
@@ -132,14 +131,16 @@
                                             <select class="form-control " v-model="book_filter"
                                                 aria-label="Default select example">
                                                 <option selected disabled>Select Subject</option>
-                                                <option v-for="item in book_list1" v-bind:key="item.id" :value="item.id">
+                                                <option v-for="item in book_list1" v-bind:key="item.id"
+                                                    :value="item.id">
                                                     {{ item.book.subject }}
                                                 </option>
                                             </select>
                                         </div>
                                         <div class="form-group col-lg-3 mt-4">
-                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i class="icon-copy fa fa-filter"
-                                                    aria-hidden="true"></i> Filter</button>
+                                            <button class=" btn btn-info mt-2" v-on:click="filter"><i
+                                                    class="icon-copy fa fa-filter" aria-hidden="true"></i>
+                                                Filter</button>
 
                                         </div>
                                         <!-- <div class="form-group col-lg-12 ">
@@ -246,7 +247,7 @@ export default {
                 })
                 this.semester = '';
             } else {
-                axios.post(localStorage.getItem("url")+'select-subject',
+                axios.post(localStorage.getItem("url") + 'select-subject',
                     {
                         program_id: this.program_filter,
                         semester: this.semester_filter,
@@ -262,6 +263,10 @@ export default {
 
 
                     }).catch(error => {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        }
                         console.log('error: ' + error);
                     });
             }
@@ -269,7 +274,7 @@ export default {
 
         program_filter(newValue, oldValue) {
 
-            axios.post(localStorage.getItem("url")+'select-subject',
+            axios.post(localStorage.getItem("url") + 'select-subject',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
@@ -285,6 +290,10 @@ export default {
 
 
                 }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    }
                     console.log('error: ' + error);
                 });
 
@@ -298,7 +307,7 @@ export default {
                 })
                 this.semester = '';
             } else {
-                axios.post(localStorage.getItem("url")+'select-subject',
+                axios.post(localStorage.getItem("url") + 'select-subject',
                     {
                         program_id: this.program_id,
                         semester: newValue,
@@ -314,6 +323,10 @@ export default {
 
 
                     }).catch(error => {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        }
                         console.log('error: ' + error);
                     });
             }
@@ -321,7 +334,7 @@ export default {
 
         program_id(newValue, oldValue) {
 
-            axios.post(localStorage.getItem("url")+'select-subject',
+            axios.post(localStorage.getItem("url") + 'select-subject',
                 {
                     program_id: newValue,
                     semester: this.semester,
@@ -337,14 +350,18 @@ export default {
 
 
                 }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    }
                     console.log('error: ' + error);
                 });
 
         }
     },
     methods: {
-        filter(){
-            axios.post(localStorage.getItem("url")+'hod-filter',
+        filter() {
+            axios.post(localStorage.getItem("url") + 'hod-filter',
                 {
                     program: this.program_filter,
                     semester: this.semester_filter,
@@ -357,21 +374,25 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('token')
                     }
                 }).then((response) => {
-                    this.assigned_teachers =response.data;
+                    this.assigned_teachers = response.data;
 
                     console.log();
 
 
                 }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    }
                     console.log('error: ' + error);
                 });
         },
         save() {
-            document.getElementById('teacherHelp').innerHTML='';
-            document.getElementById('bookHelp').innerHTML='';
+            document.getElementById('teacherHelp').innerHTML = '';
+            document.getElementById('bookHelp').innerHTML = '';
             // alert('book ID='+this.course_id);
             if (this.update_assign == 'true') {
-                let result = axios.put(localStorage.getItem("url")+'assign-teacher/' + this.assigned_id,
+                let result = axios.put(localStorage.getItem("url") + 'assign-teacher/' + this.assigned_id,
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -416,17 +437,23 @@ export default {
                             })
                         }
                     }).catch(error => {
-                        console.log('error: ' + error);
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
+
+
                     });
 
                 return result;
             } else {
-                let result = axios.post(localStorage.getItem("url")+'assign-teacher',
+                let result = axios.post(localStorage.getItem("url") + 'assign-teacher',
                     {
                         teacher_id: this.teacher_id,
                         course_id: this.course_id,
@@ -461,7 +488,12 @@ export default {
                                 footer: 'We are sorry'
                             })
                         } else {
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            }
                             Swal.fire({
+
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: response.data,
@@ -493,7 +525,10 @@ export default {
 
                             });
                         }
-                        else {
+                        else if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
                             Swal.fire(
                                 'Warning',
                                 'error: ' + error,
@@ -508,7 +543,7 @@ export default {
         },
         deleteAssign(assign_id) {
             alert("sdf");
-            let url = localStorage.getItem("url")+'assign-teacher/' + assign_id;
+            let url = localStorage.getItem("url") + 'assign-teacher/' + assign_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -550,7 +585,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -558,7 +602,7 @@ export default {
             })
         },
         edit(assign_id) {
-            axios.get(localStorage.getItem("url")+'assign-teacher/' + assign_id,
+            axios.get(localStorage.getItem("url") + 'assign-teacher/' + assign_id,
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -574,13 +618,22 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url")+"teacher",
+            axios.get(localStorage.getItem("url") + "teacher",
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -593,10 +646,19 @@ export default {
                     console.log(this.teacher_list);
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
-            axios.get(localStorage.getItem("url")+'program',
+            axios.get(localStorage.getItem("url") + 'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -607,10 +669,19 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
-            axios.get(localStorage.getItem("url")+'assign-teacher',
+            axios.get(localStorage.getItem("url") + 'assign-teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -621,7 +692,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         },

@@ -198,7 +198,8 @@
 
 
                                                             </div>
-                                                            <tr v-else v-for="item in assign_subject" v-bind:key="item.id">
+                                                            <tr v-else v-for="item in assign_subject"
+                                                                v-bind:key="item.id">
                                                                 <td scope="row">{{id}}</td>
                                                                 <td scope="row">{{item.course.program.program}}</td>
                                                                 <td scope="row">{{item.course.semester}}</td>
@@ -219,22 +220,24 @@
 
                                                 <div class="profile-timeline">
                                                     <h3 class="mb-4">Head of Department</h3>
-                                                   
+
                                                     <div class="profile-timeline-list">
-															<ul v-for="item in hod" v-bind:key="item.id">
-																<li>
-																	<div class="date">HOD</div>
-																	<div class="task-name">
-																		<i class="ion-android-alarm-clock"></i>Program ID : {{item.program.id}}
-																	</div>
-																	<p>
-																		{{item.program.program}}
-																	</p>
-																	<div class="task-time">{{item.program.faculty.faculty}}</div>
-																</li>
-																
-															</ul>
-														</div>
+                                                        <ul v-for="item in hod" v-bind:key="item.id">
+                                                            <li>
+                                                                <div class="date">HOD</div>
+                                                                <div class="task-name">
+                                                                    <i class="ion-android-alarm-clock"></i>Program ID :
+                                                                    {{item.program.id}}
+                                                                </div>
+                                                                <p>
+                                                                    {{item.program.program}}
+                                                                </p>
+                                                                <div class="task-time">{{item.program.faculty.faculty}}
+                                                                </div>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
 
 
 
@@ -289,7 +292,7 @@ export default {
             'gender': '',
             'role': '',
             'assign_subject': '',
-            'hod':'',
+            'hod': '',
         }
     },
     components: {
@@ -303,7 +306,7 @@ export default {
     },
     created() {
 
-        axios.get(localStorage.getItem("url")+'teacher/' + this.id,
+        axios.get(localStorage.getItem("url") + 'teacher/' + this.id,
             {
                 headers: {
                     'Content-type': 'application/json',
@@ -319,10 +322,19 @@ export default {
                 this.gender = response.data.gender;
                 this.role = response.data.user.role.user_role;
                 this.assign_subject = response.data.teacher.assign;
-                this.hod=response.data.teacher.user.hod;
+                this.hod = response.data.teacher.user.hod;
 
             }).catch(error => {
-                console.log('error: ' + error);
+                if (error.response.status === 401) {
+                    this.$router.push({ name: "login" });
+
+                } else {
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                }
             });
     },
 
@@ -335,7 +347,7 @@ export default {
 </script>
 
 <style>
-.my-card1{
+.my-card1 {
     height: 150px;
 }
 </style>

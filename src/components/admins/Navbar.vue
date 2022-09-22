@@ -68,10 +68,8 @@
                         <span class="user-name">{{user_name}}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                        <a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
-                        <a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
-                        <!-- <a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a> -->
-                        <a class="dropdown-item" href="login.html"><i class="dw dw-logout"></i> Log Out</a>
+                       
+                        <a class="dropdown-item" href="#" v-on:click="logout"><i class="dw dw-logout"></i> Log Out</a>
                     </div>
                 </div>
             </div>
@@ -90,6 +88,34 @@ export default {
     data(){
         return{
             'user_name':localStorage.getItem('name'),
+        }
+    },
+    methods:{
+        logout(){
+            this.$router.push({ name: "login" });
+            localStorage.clear();
+            let result = axios.get(localStorage.getItem("url") + 'logout',
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                }).then((response) => {
+                    this.$router.push({ name: "login" });
+                }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
         }
     }
 }

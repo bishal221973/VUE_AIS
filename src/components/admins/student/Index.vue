@@ -373,7 +373,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             axios.get(localStorage.getItem("url") + 'student',
@@ -386,7 +395,16 @@ export default {
                     this.student_list = response.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -626,11 +644,16 @@ export default {
                         }
                     }).catch(error => {
 
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     });
 
                 return result;
@@ -672,12 +695,16 @@ export default {
                         })
                     }
                     else {
-                        console.log('error: ' + error);
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 
@@ -709,7 +736,16 @@ export default {
                     this.btn = 'Update';
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         deleteStudent(student_id) {
@@ -755,7 +791,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -808,11 +853,16 @@ export default {
                         })
                     }
                     else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 

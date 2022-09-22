@@ -88,11 +88,12 @@
 
                                         <div class="form-group col-4">
                                             <!-- <label>Program</label> -->
-                                            <select class="custom-select  select2 my-select"
-                                                data-select2-id="9" tabindex="-1" aria-hidden="true"
-                                                v-model="search_program" id="txtProgram">
+                                            <select class="custom-select  select2 my-select" data-select2-id="9"
+                                                tabindex="-1" aria-hidden="true" v-model="search_program"
+                                                id="txtProgram">
 
-                                                <option value="" selected disabled class="bg-white text-dark">Program</option>
+                                                <option value="" selected disabled class="bg-white text-dark">Program
+                                                </option>
                                                 <option class="bg-white text-dark" v-for="item in program_list"
                                                     v-bind:key="item.id" :value="item.program">
                                                     {{ item.program }}
@@ -103,18 +104,26 @@
 
                                         <div class="form-group col-4">
                                             <!-- <label>Semester</label> -->
-                                            <select class="custom-select  select2 my-select"
-                                                data-select2-id="9" tabindex="-1" aria-hidden="true"
-                                                v-model="search_semester" id="txtProgram">
+                                            <select class="custom-select  select2 my-select" data-select2-id="9"
+                                                tabindex="-1" aria-hidden="true" v-model="search_semester"
+                                                id="txtProgram">
 
-                                                <option value="" selected disabled class="bg-white text-dark">Semester</option>
-                                                <option class="bg-white text-dark" href="#" value="1">First semester</option>
-                                                <option class="bg-white text-dark" href="#" value="2">Second semester</option>
-                                                <option class="bg-white text-dark" href="#" value="3">Third semester</option>
-                                                <option class="bg-white text-dark" href="#" value="4">Fourth semester</option>
-                                                <option class="bg-white text-dark" href="#" value="5">Fifth semester</option>
-                                                <option class="bg-white text-dark" href="#" value="6">Sixth semester</option>
-                                                <option class="bg-white text-dark" href="#" value="7">Seventh semester</option>
+                                                <option value="" selected disabled class="bg-white text-dark">Semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="1">First semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="2">Second semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="3">Third semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="4">Fourth semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="5">Fifth semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="6">Sixth semester
+                                                </option>
+                                                <option class="bg-white text-dark" href="#" value="7">Seventh semester
+                                                </option>
                                             </select>
                                             <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
@@ -128,9 +137,10 @@
                                                 Filter</button>
 
                                         </div>
-                                        
+
                                         <div class="form-group col-lg-2">
-                                            <button class=" btn btn-danger mt-2 btn_filter" v-on:click="displayAll"><i class="icon-copy fi-x"></i></button>
+                                            <button class=" btn btn-danger mt-2 btn_filter" v-on:click="displayAll"><i
+                                                    class="icon-copy fi-x"></i></button>
 
                                         </div>
                                     </div>
@@ -209,8 +219,8 @@ export default {
             'update_course': '',
             'search_text': '',
             'btn': 'Save',
-            'search_program':'',
-            'search_semester':'',
+            'search_program': '',
+            'search_semester': '',
         }
     },
     methods: {
@@ -291,11 +301,16 @@ export default {
                             }
                         }).catch(error => {
 
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
                     return result;
@@ -347,11 +362,16 @@ export default {
                             }
                         }).catch(error => {
 
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
                     return result;
@@ -394,12 +414,16 @@ export default {
                                     this.getUnits();
                                 })
                             } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong',
-                                    footer: 'We are sorry'
-                                })
+                                if (error.response.status === 401) {
+                                    this.$router.push({ name: "login" });
+
+                                } else {
+                                    Swal.fire(
+                                        'Warning',
+                                        'error: ' + error,
+                                        'error'
+                                    )
+                                }
                             }
                         }).catch(error => {
                             console.log('error: ' + error);
@@ -426,10 +450,19 @@ export default {
                     this.update_course = 'true';
                     this.btn = 'Update';
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
-        displayAll(){
+        displayAll() {
             this.getUnits();
         },
         getUnits: function () {
@@ -459,7 +492,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             axios.get(localStorage.getItem("url") + 'course',
@@ -473,18 +515,27 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
 
         },
         filter() {
-            
+
             let result = axios.post(localStorage.getItem("url") + 'course-search',
                 {
                     program: this.search_program,
-                    semester:this.search_semester
+                    semester: this.search_semester
                 },
                 {
                     headers: {
@@ -521,11 +572,16 @@ export default {
                         })
                     }
                     else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 
@@ -535,7 +591,7 @@ export default {
     beforeMount() {
         this.getUnits()
     },
-    
+
 }
 </script>
 

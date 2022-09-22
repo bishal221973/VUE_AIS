@@ -193,7 +193,7 @@ export default {
             document.getElementById('authorHelp').innerHTML = '';
 
             if (this.update_book == 'true') {
-                let url = localStorage.getItem("url")+'book/' + this.book_id
+                let url = localStorage.getItem("url") + 'book/' + this.book_id
                 let result = axios.put(url,
                     {
                         subject: this.book,
@@ -219,18 +219,18 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                   
+
 
                                 }
                             })
                             this.book = '';
-                                    this.publication = '';
-                                    this.author = '';
-                                    this.page = '';
-                                    this.price = '';
-                                    this.update_book='';
-                                    this.btn_save = 'Save'
-                                    this.getUnits();
+                            this.publication = '';
+                            this.author = '';
+                            this.page = '';
+                            this.price = '';
+                            this.update_book = '';
+                            this.btn_save = 'Save'
+                            this.getUnits();
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
                                 icon: 'error',
@@ -298,7 +298,7 @@ export default {
                 return result;
             } else {
 
-                let result = axios.post(localStorage.getItem("url")+'book',
+                let result = axios.post(localStorage.getItem("url") + 'book',
                     {
                         subject: this.book,
                         publication: this.publication,
@@ -322,12 +322,12 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                    
+
                                 }
                                 this.getUnits();
-                                this.book='';
-                                this.publication='';
-                                this.author='';
+                                this.book = '';
+                                this.publication = '';
+                                this.author = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -385,11 +385,16 @@ export default {
                             })
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
@@ -399,7 +404,7 @@ export default {
         },
         deleteBook(book_id) {
 
-            let url = localStorage.getItem("url")+'book/' + book_id;
+            let url = localStorage.getItem("url") + 'book/' + book_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected Book ?",
@@ -427,7 +432,7 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
+
 
 
                                     }
@@ -442,7 +447,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -450,7 +464,7 @@ export default {
             })
         },
         edit(book_id) {
-            let url = localStorage.getItem("url")+'book/' + book_id;
+            let url = localStorage.getItem("url") + 'book/' + book_id;
 
             let result = axios.get(url,
                 {
@@ -468,12 +482,21 @@ export default {
                     this.update_book = 'true';
                     this.btn_save = 'Update';
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         getUnits: function () {
 
-            return axios.get(localStorage.getItem("url")+'book',
+            return axios.get(localStorage.getItem("url") + 'book',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -484,7 +507,16 @@ export default {
                     console.log(response.data);
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -496,8 +528,8 @@ export default {
     },
     watch: {
         search_text: function (val, oldVal) {
-            
-            let result = axios.post(localStorage.getItem("url")+'book-search',
+
+            let result = axios.post(localStorage.getItem("url") + 'book-search',
                 {
                     search: this.search_text,
                 },

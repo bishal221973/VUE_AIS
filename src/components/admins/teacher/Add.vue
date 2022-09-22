@@ -284,7 +284,7 @@ export default {
 
             // if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
             if (this.update_record == 'true') {
-                let url = localStorage.getItem("url")+'teacher/' + this.teacher_id;
+                let url = localStorage.getItem("url") + 'teacher/' + this.teacher_id;
 
 
 
@@ -401,7 +401,7 @@ export default {
 
                 return result;
             } else {
-                let result = axios.post(localStorage.getItem("url")+'teacher',
+                let result = axios.post(localStorage.getItem("url") + 'teacher',
                     {
                         name: this.name,
                         username: this.username,
@@ -519,7 +519,7 @@ export default {
             // }
         },
         edit(teacher_id) {
-            let url = localStorage.getItem("url")+'teacher/' + teacher_id;
+            let url = localStorage.getItem("url") + 'teacher/' + teacher_id;
             axios.get(url,
                 {
                     headers: {
@@ -547,7 +547,7 @@ export default {
         },
         deleteTeacher(teacher_id) {
 
-            let url = localStorage.getItem("url")+'teacher/' + teacher_id;
+            let url = localStorage.getItem("url") + 'teacher/' + teacher_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -575,8 +575,8 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
-                                        
+
+
                                     }
                                     this.getUnits();
                                 })
@@ -589,7 +589,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -598,7 +607,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url")+'get-teacher',
+            axios.get(localStorage.getItem("url") + 'get-teacher',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -608,7 +617,16 @@ export default {
                     this.teacher_list = response.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -621,7 +639,7 @@ export default {
     },
     watch: {
         info: function (val, oldVal) {
-            let result = axios.post(localStorage.getItem("url")+'teacher-search',
+            let result = axios.post(localStorage.getItem("url") + 'teacher-search',
                 {
                     info: this.info,
                 },
@@ -660,11 +678,16 @@ export default {
                         })
                     }
                     else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 

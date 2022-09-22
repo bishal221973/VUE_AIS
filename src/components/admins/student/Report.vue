@@ -209,14 +209,14 @@
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Subject</th>
-                                               
+
                                                 <th scope="col">Attendance</th>
                                             </tr>
                                         </thead>
                                         <tbody v-for="item in attendance_list1" v-bind:key="item.id">
                                             <tr class="col-12">
                                                 <td scope="row" class="col-3">{{ item[0].attendance_date }}</td>
-                                                
+
                                                 <td scope="row" class="col-3"></td>
                                                 <td scope="row" class="col-3"></td>
                                             </tr>
@@ -224,9 +224,9 @@
                                                 <td>{{ data.id }}</td>
                                                 <td>{{ data.course.book.subject }}</td>
                                                 <td>{{ data.attendance }}</td>
-                                                
+
                                             </tr>
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -266,7 +266,7 @@ export default {
             'semester': '',
             'course_id': '',
             'book_list': '',
-            
+
         }
     },
     watch: {
@@ -296,7 +296,16 @@ export default {
 
 
                     }).catch(error => {
-                        console.log('error: ' + error);
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     });
             }
         },
@@ -341,12 +350,16 @@ export default {
                         })
                     }
                 }).catch(error => {
-                    console.log('error: ' + error,);
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
 
@@ -384,12 +397,16 @@ export default {
                         })
                     }
                 }).catch(error => {
-                    console.log('error: ' + error,);
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
 
@@ -406,7 +423,16 @@ export default {
                     this.attendance_list1 = response.data.date;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             axios.get(localStorage.getItem("url") + 'program',
@@ -420,7 +446,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         },

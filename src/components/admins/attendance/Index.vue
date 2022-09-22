@@ -156,7 +156,7 @@
                                                     <td>
                                                         <select class="form-control" data-select2-id="9"
                                                             v-model="item.user.id" id="txtSemester">
-                                                            <option value="Persent">Persent</option>
+                                                            <option value="Present">Present</option>
                                                             <option value="Absent">Absent</option>
                                                             <option value="Leave">Leave</option>
 
@@ -251,12 +251,21 @@ export default {
 
 
                     }).catch(error => {
-                        console.log('error: ' + error);
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     });
             }
         },
         subject(newValue, oldValue) {
-            
+
             let result = axios.post(localStorage.getItem("url") + 'select-sub',
                 {
                     course_id: newValue,
@@ -308,12 +317,16 @@ export default {
                     // return result;
 
                 }).catch(error => {
-                    console.log('error:' + error);
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             return result;
@@ -337,7 +350,20 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    }
+                    else if (error.response.status === 422) {
+                        
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         }
@@ -378,19 +404,24 @@ export default {
 
                 }).catch(error => {
 
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         takeAttendance() {
 
             for (let item of this.student_list) {
-                alert(item.user.id);
+                
                 // console.log();
-                if (item.user.id != 'Persent' || item.user.id != 'Absent' || item.user.id != 'Leave') {
+                if (item.user.id != 'Present' || item.user.id != 'Absent' || item.user.id != 'Leave') {
                     let result = axios.post(localStorage.getItem("url") + 'attendance',
                         {
                             student_id: item.id,
@@ -431,13 +462,16 @@ export default {
                                 })
 
                             } else {
-                                console.log(response.data.message)
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data,
-                                    footer: 'We are sorry'
-                                })
+                                if (error.response.status === 401) {
+                                    this.$router.push({ name: "login" });
+
+                                } else {
+                                    Swal.fire(
+                                        'Warning',
+                                        'error: ' + error,
+                                        'error'
+                                    )
+                                }
                             }
                         }).catch(error => {
                             console.log('error: ' + error,);
@@ -466,7 +500,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -484,12 +527,16 @@ export default {
                     this.leave_list = response.data;
                     // console.log(this.);
                 }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
 
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -530,12 +577,16 @@ export default {
                     }
 
                 }).catch(error => {
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
 
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -559,12 +610,16 @@ export default {
                 console.log(response.data);
 
             }).catch(error => {
-                console.log('error:' + error);
-                Swal.fire(
-                    'Warning',
-                    'error: ' + error,
-                    'error'
-                )
+                if (error.response.status === 401) {
+                    this.$router.push({ name: "login" });
+
+                } else {
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                }
             });
 
         return result;

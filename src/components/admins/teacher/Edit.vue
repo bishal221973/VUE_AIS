@@ -112,9 +112,9 @@ export default {
         updateTeacher(teacher_id) {
 
 
-            let url = 'http://127.0.0.1:8000/api/teacher/' + teacher_id;
+            let url = localStorage.getItem("url")+'teacher/' + teacher_id;
 
-           
+
 
             let result = axios.put(url,
                 {
@@ -207,11 +207,16 @@ export default {
                         });
                     }
                     else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 
@@ -219,7 +224,7 @@ export default {
         }
     },
     created() {
-        let url = 'http://127.0.0.1:8000/api/teacher/' + this.teacher_id;
+        let url = localStorage.getItem("url")+'teacher/' + this.teacher_id;
         axios.get(url,
             {
                 headers: {
@@ -237,7 +242,16 @@ export default {
                 this.profile = response.data.profile;
                 console.log(response.data.user);
             }).catch(error => {
-                console.log('error: ' + error);
+                if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
             });
     },
 }

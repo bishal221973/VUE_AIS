@@ -60,11 +60,13 @@
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box height-100-p">
                                     <img :src="'./assets/img/school.jpg'" alt="" class="school-img" />
-                                     <div>
+                                    <div>
                                         <h2 class="pt-20 text-center mt-2" id="txt_school_name"></h2>
                                         <!-- <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5> -->
-                                        <p class="pt-20 text-center h4" id="txt_school_reg"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i></p>
-                                        <p class="mb-20 text-center h5" id="txt_phone"><i class="icon-copy fa fa-address-card" aria-hidden="true"></i> </p>
+                                        <p class="pt-20 text-center h4" id="txt_school_reg"><i
+                                                class="icon-copy fa fa-address-card" aria-hidden="true"></i></p>
+                                        <p class="mb-20 text-center h5" id="txt_phone"><i
+                                                class="icon-copy fa fa-address-card" aria-hidden="true"></i> </p>
                                         <div class="row">
                                             <div class="col-md-6 col-6">
                                                 <a href="#" class="btn btn-primary btn-block"
@@ -104,9 +106,9 @@ export default {
             list: '',
             edit: '',
             school_id: '',
-            s_id:'',
+            s_id: '',
             btn: 'Save',
-            school_list:'',
+            school_list: '',
         }
     },
     components: { Sidebar, Navbar },
@@ -120,7 +122,7 @@ export default {
 
 
             if (this.edit == 'true') {
-                let url = localStorage.getItem("url")+'school/' + this.school_id;
+                let url = localStorage.getItem("url") + 'school/' + this.school_id;
                 let result = axios.put(url,
                     {
                         school_name: this.school_name,
@@ -142,18 +144,18 @@ export default {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
-                                
-                                   
+
+
                             })
                             this.btn = 'Save';
-                                    this.getUnits();
-                                    // window.location.reload();
+                            this.getUnits();
+                            // window.location.reload();
 
-                                this.school_name='';
-                                this.reg_number='';
-                                this.phone='';
-                                this.address='';
-                                this.edit='';
+                            this.school_name = '';
+                            this.reg_number = '';
+                            this.phone = '';
+                            this.address = '';
+                            this.edit = '';
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
                                 icon: 'error',
@@ -195,17 +197,22 @@ export default {
                             });
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
                 return result;
             } else {
-                let result = axios.post(localStorage.getItem("url")+'school',
+                let result = axios.post(localStorage.getItem("url") + 'school',
                     {
                         school_name: this.school_name,
                         reg_number: this.reg_number,
@@ -226,13 +233,13 @@ export default {
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'OK'
                             }).then((result) => {
-                                
-                                    this.getUnits();
 
-                                this.school_name='';
-                                this.reg_number='';
-                                this.phone='';
-                                this.address='';
+                                this.getUnits();
+
+                                this.school_name = '';
+                                this.reg_number = '';
+                                this.phone = '';
+                                this.address = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -304,7 +311,7 @@ export default {
 
         },
         delete_school(school_id) {
-            let url = localStorage.getItem("url")+'school/' + this.s_id;
+            let url = localStorage.getItem("url") + 'school/' + this.s_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete school ?",
@@ -332,7 +339,7 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
+
 
                                     }
                                 })
@@ -347,7 +354,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -356,8 +372,8 @@ export default {
 
         },
         edit_school() {
-            let url = localStorage.getItem("url")+'school/' +this.s_id;
-            
+            let url = localStorage.getItem("url") + 'school/' + this.s_id;
+
             let result = axios.get(url,
                 {
                     headers: {
@@ -373,13 +389,22 @@ export default {
                     this.edit = 'true';
                     this.btn = "Update";
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
         },
         getUnits: function () {
 
-            let result = axios.get(localStorage.getItem("url")+'school',
+            let result = axios.get(localStorage.getItem("url") + 'school',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -387,13 +412,22 @@ export default {
                     }
                 }).then((response) => {
                     this.school_list = response.data.school_name;
-                    
-                    this.s_id=response.data.id;
+
+                    this.s_id = response.data.id;
                     document.getElementById('txt_school_name').innerHTML = response.data.school_name;
                     document.getElementById('txt_school_reg').innerHTML = response.data.reg_number + ', ' + response.data.address;
                     document.getElementById('txt_phone').innerHTML = response.data.phone;
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             return result;

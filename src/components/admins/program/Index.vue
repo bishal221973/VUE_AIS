@@ -159,7 +159,7 @@ export default {
             document.getElementById('facultyHelp').innerHTML = '';
             document.getElementById('programHelp').innerHTML = '';
             if (this.update_program == 'true') {
-                let url = localStorage.getItem("url")+'program/' + this.program_id;
+                let url = localStorage.getItem("url") + 'program/' + this.program_id;
                 let result = axios.put(url,
                     {
                         faculty_id: this.faculty_id,
@@ -235,17 +235,22 @@ export default {
                             })
                         }
                         else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         }
                     });
 
                 return result;
             } else {
-                let result = axios.post(localStorage.getItem("url")+'program',
+                let result = axios.post(localStorage.getItem("url") + 'program',
                     {
                         faculty_id: this.faculty_id,
                         program: this.program,
@@ -266,12 +271,12 @@ export default {
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     // window.location.reload();
-                                   
+
 
                                 }
                                 this.getUnits();
-                                this.faculty_id='';
-                                this.program='';
+                                this.faculty_id = '';
+                                this.program = '';
                             })
                         } else if (response.data.status == 'failed') {
                             Swal.fire({
@@ -332,7 +337,7 @@ export default {
         },
         deleteProgram(program_id) {
 
-            let url = localStorage.getItem("url")+'program/' + program_id;
+            let url = localStorage.getItem("url") + 'program/' + program_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete program ?",
@@ -360,7 +365,7 @@ export default {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // window.location.reload();
-                                        
+
 
 
                                     }
@@ -376,7 +381,16 @@ export default {
                                 })
                             }
                         }).catch(error => {
-                            console.log('error: ' + error);
+                            if (error.response.status === 401) {
+                                this.$router.push({ name: "login" });
+
+                            } else {
+                                Swal.fire(
+                                    'Warning',
+                                    'error: ' + error,
+                                    'error'
+                                )
+                            }
                         });
 
 
@@ -384,7 +398,7 @@ export default {
             })
         },
         edit(program_id) {
-            let url = localStorage.getItem("url")+'program/' + program_id;
+            let url = localStorage.getItem("url") + 'program/' + program_id;
 
             let result = axios.get(url,
                 {
@@ -399,11 +413,20 @@ export default {
                     this.update_program = 'true';
                     this.btn_save = 'Update';
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         getUnits: function () {
-            let result = axios.get(localStorage.getItem("url")+'faculty',
+            let result = axios.get(localStorage.getItem("url") + 'faculty',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -413,10 +436,19 @@ export default {
                     this.faculty_list = response.data.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
-            return axios.get(localStorage.getItem("url")+'program',
+            return axios.get(localStorage.getItem("url") + 'program',
                 {
                     headers: {
                         'Content-type': 'application/json',
@@ -427,7 +459,16 @@ export default {
                     console.log(response.data);
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -440,7 +481,7 @@ export default {
     watch: {
         search_text: function (val, oldVal) {
 
-            let result = axios.post(localStorage.getItem("url")+'program-search',
+            let result = axios.post(localStorage.getItem("url") + 'program-search',
                 {
                     search: this.search_text,
                 },
@@ -479,11 +520,16 @@ export default {
                         })
                     }
                     else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
                     }
                 });
 

@@ -3,8 +3,8 @@
     <div class="context">
         <router-view></router-view>
         <div class="login-container">
-            <h1 class="text-center mt-5">Welcome In</h1>
-            <h1 class="text-center">Attendance Information System</h1>
+            <h1 class="text-center mt-5 text-dark">Welcome In</h1>
+            <h1 class="text-center text-dark">Attendance Information System</h1>
 
             <div class="row mt-5">
                 <div class="col-lg-4">
@@ -24,13 +24,13 @@
                             </div>
                             <div class="form-group">
                                 <label>password</label>
-                                <input type="text" v-model="password" id="txt_password" class="form-control">
+                                <input type="password" v-model="password" id="txt_password" class="form-control">
                                 <label id="err_password"></label>
                             </div>
                             <div>
                                 <button class="btn btn-success mt-3" v-on:click="login">Login</button>
                             </div>
-                            <a href="#" class="link-primary">Forget password ?</a>
+                           
                         </div>
 
                     </div>

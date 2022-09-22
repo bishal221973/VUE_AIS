@@ -310,11 +310,16 @@ export default {
                     console.log(response.data);
                 }).catch(error => {
 
-                    Swal.fire(
-                        'Warning',
-                        'error: ' + error,
-                        'error'
-                    )
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
             return result;
@@ -480,7 +485,16 @@ export default {
                     this.program_list = response.data;
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
 
 
@@ -526,7 +540,16 @@ export default {
 
 
                 }).catch(error => {
-                    console.log('error: ' + error);
+                    if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
                 });
         },
         // edit(teacher_id) {
@@ -605,11 +628,16 @@ export default {
                         })
                     }
                     else {
+                        if (error.response.status === 401) {
+                        this.$router.push({ name: "login" });
+
+                    } else {
                         Swal.fire(
                             'Warning',
                             'error: ' + error,
                             'error'
                         )
+                    }
                     }
                 });
 
