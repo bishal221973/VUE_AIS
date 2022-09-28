@@ -35,8 +35,12 @@
                                     <h4 class="mb-20 h4">Student's on leave</h4>
                                     <ul class="list-group list-group-flush">
 
-                                        <li class="list-group-item" v-for="item in leave_list" v-bind:key="item.id">
-                                            {{item.student.user.name}}
+                                        <li class="list-group-item" v-for="item in my_leave" v-bind:key="item.id">
+                                            <a v-for="item1 in item" v-bind:key="item1.id">
+                                                {{item1.student.user.name}}
+                                                (Roll Number {{item1.student.roll_number}})
+                                            </a>
+                                            
                                         </li>
 
                                     </ul>
@@ -221,6 +225,7 @@ export default {
             'new_subject_id': '',
             'role': localStorage.getItem('role'),
             'leave_list': '',
+            'my_leave':'',
             'date': '',
         }
     },
@@ -398,7 +403,7 @@ export default {
                         }
                         this.i = num;
                         this.student_list = response.data.data;
-
+                        this.my_leave=response.data.leave;
                         console.log(response.data);
                     }
 
@@ -513,7 +518,7 @@ export default {
                 });
 
 
-            axios.post(localStorage.getItem("url") + 'get-leave',
+            axios.post(localStorage.getItem("url") + 'get-leaves',
                 {
                     program_id: this.program_id,
                     semester: this.semester,
@@ -525,7 +530,7 @@ export default {
                     }
                 }).then((response) => {
                     this.leave_list = response.data;
-                    // console.log(this.);
+                    console.log(response.data);
                 }).catch(error => {
                     if (error.response.status === 401) {
                         this.$router.push({ name: "login" });
@@ -572,8 +577,8 @@ export default {
                         }
                         this.i = num;
                         this.student_list = response.data.data;
-
-                        console.log(response.data);
+                        this.my_leave=response.data.leave;
+                        console.log(response.data.leave);
                     }
 
                 }).catch(error => {

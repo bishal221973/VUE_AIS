@@ -30,9 +30,11 @@
 
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="product-detail-desc pd-20 card-box">
+                                <!-- <form @submit="" enctype="multipart/form-data"> -->
                                 <div class="row">
                                     <div class="col-lg-9">
-                                        <div class="row">
+                                       
+                                            <div class="row">
                                             <label
                                                 class="col-12 mb-4 text-black-50 text-uppercase text-monospace">Personal
                                                 Informations</label>
@@ -144,6 +146,7 @@
 
 
                                         </div>
+                                        
                                     </div>
 
                                     <div class="col-lg-3 ">
@@ -160,13 +163,14 @@
                                                 <small id="profileHelp" class="form-text text-danger"></small>
                                             </div>
                                             <div class="form-group col-12">
-                                                <button class="btn btn-success mt-2 col-12" v-on:click="save">{{
+                                                <button class="btn btn-success mt-2 col-12"  v-on:click="save">{{
                                                 btn
                                                 }}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            <!-- </form> -->
                             </div>
                         </div>
                         <!-- model -->
@@ -345,6 +349,7 @@ export default {
             'search_semester': '',
             'search_program': '',
             'search_data': '',
+            'file':null,
         }
     },
     components: {
@@ -358,6 +363,7 @@ export default {
         onFileChange(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
+            this.file=file;
         },
         getUnits: function () {
 
@@ -410,6 +416,7 @@ export default {
 
         },
         save() {
+            console.log(this.profile);
             document.getElementById('firstnameHelp').innerHTML = '';
             document.getElementById('emailHelp').innerHTML = '';
             document.getElementById('genderHelp').innerHTML = '';
@@ -438,14 +445,16 @@ export default {
                         phone: this.phone,
                         f_name: this.f_name,
                         m_name: this.m_name,
-                        profile: this.profile,
+                        profile: this.file,
                     },
                     {
                         headers: {
+                            'content-type': 'multipart/form-data',
                             'Content-type': 'application/json',
                             'Authorization': 'Bearer ' + localStorage.getItem('token')
                         }
                     }).then((response) => {
+                        console.log(response.data);
                         if (response.data.status == 'success') {
                             Swal.fire({
                                 title: 'Congratulation',
