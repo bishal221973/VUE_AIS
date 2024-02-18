@@ -27,42 +27,55 @@
                     <div class="product-detail-wrap mb-30">
                         <div class="row">
 
-                            <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">School Name*</label>
-                                        <input type="text" class="form-control" v-model="school_name" id="txtSchoolName"
-                                            aria-describedby="emailHelp" placeholder="Enter School Name">
-                                        <small id="schoolNameHelp" class="form-text text-danger"></small>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">School Name*</label>
+                                                <input type="text" class="form-control" v-model="school_name"
+                                                    id="txtSchoolName" aria-describedby="emailHelp"
+                                                    placeholder="Enter School Name">
+                                                <small id="schoolNameHelp" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Reg Number*</label>
+                                                <input type="text" class="form-control" v-model="reg_number"
+                                                    id="txtRegNumber" aria-describedby="emailHelp"
+                                                    placeholder="Enter Reg Number">
+                                                <small id="regNumberHelp" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Phone Nummber*</label>
+                                                <input type="number" class="form-control" v-model="phone" id="txtPhone"
+                                                    aria-describedby="emailHelp" placeholder="Enter Phone Nummber">
+                                                <small id="phoneHelp" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Address*</label>
+                                                <input type="text" class="form-control" v-model="address" id="txtAddress"
+                                                    aria-describedby="emailHelp" placeholder="Enter Address">
+                                                <small id="addressHelp" class="form-text text-danger"></small>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Reg Number*</label>
-                                        <input type="text" class="form-control" v-model="reg_number" id="txtRegNumber"
-                                            aria-describedby="emailHelp" placeholder="Enter Reg Number">
-                                        <small id="regNumberHelp" class="form-text text-danger"></small>
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button class="btn btn-success" v-on:click="save">{{ edit ? 'Update' : 'Save'
+                                    }}</button>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Phone Nummber*</label>
-                                        <input type="number" class="form-control" v-model="phone" id="txtPhone"
-                                            aria-describedby="emailHelp" placeholder="Enter Phone Nummber">
-                                        <small id="phoneHelp" class="form-text text-danger"></small>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Address*</label>
-                                        <input type="text" class="form-control" v-model="address" id="txtAddress"
-                                            aria-describedby="emailHelp" placeholder="Enter Address">
-                                        <small id="addressHelp" class="form-text text-danger"></small>
-                                    </div>
-                                    <button class="col-12 btn btn-success" v-on:click="save">{{ btn }}</button>
                                 </div>
                             </div>
-                            <div class="col-lg-8 col-md-12 col-sm-12">
+                            <div class="col-lg-12 mt-2 col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box height-100-p">
-                                    <img :src="'./assets/img/school.jpg'" alt="" class="school-img" />
+                                    <!-- <img :src="'./assets/img/school.jpg'" alt="" class="school-img" />
                                     <div>
                                         <h2 class="pt-20 text-center mt-2" id="txt_school_name"></h2>
-                                        <!-- <h5 class="mb-20 pt-20 text-center">{{ item.reg_number }},{{ item.phone }}</h5> -->
                                         <p class="pt-20 text-center h4" id="txt_school_reg"><i
                                                 class="icon-copy fa fa-address-card" aria-hidden="true"></i></p>
                                         <p class="mb-20 text-center h5" id="txt_phone"><i
@@ -74,7 +87,38 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> -->
+
+                                    <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th scope="col">School Name</th>
+                                                    <th scope="col">Registration Number</th>
+                                                    <th scope="col">Phone number</th>
+                                                    <th scope="col">Address</th>
+                                                    <th scope="col">Action</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                
+                                                <tr >
+                                                    <td scope="row">#</td>
+                                                    <td>{{ school_list.school_name }}</td>
+                                                    <td>{{ school_list.reg_number }}</td>
+                                                    <td>{{ school_list.phone }}</td>
+                                                    <td>{{ school_list.address }}</td>
+                                                   <td>
+                                                    <button class="btn btn-warning ml-1 text-white"
+                                                                v-on:click="edit_school()"><i
+                                                                    class="fa fa-edit"></i></button>
+                                                   </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
                                 </div>
                             </div>
                         </div>
@@ -104,10 +148,8 @@ export default {
             phone: '',
             address: '',
             list: '',
-            edit: '',
+            edit: false,
             school_id: '',
-            s_id: '',
-            btn: 'Save',
             school_list: '',
         }
     },
@@ -120,317 +162,164 @@ export default {
 
             document.getElementById('addressHelp').innerHTML = '';
 
+            this.edit ? this.update() : this.add();
+        },
+        add() {
+            let result = axios.post('school',
+                {
+                    school_name: this.school_name,
+                    reg_number: this.reg_number,
+                    phone: this.phone,
+                    address: this.address,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message);
+                        this.getUnits();
+                        this.clear();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
 
-            if (this.edit == 'true') {
-                let url = localStorage.getItem("url") + 'school/' + this.school_id;
-                let result = axios.put(url,
-                    {
-                        school_name: this.school_name,
-                        reg_number: this.reg_number,
-                        phone: this.phone,
-                        address: this.address,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.verificationError(error);
+                    }
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+        },
+        update() {
+            let result = axios.put('school/' + this.school_id,
+                {
+                    school_name: this.school_name,
+                    reg_number: this.reg_number,
+                    phone: this.phone,
+                    address: this.address,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.getUnits();
 
+                        this.toastMessage("success", response.data.message);
+                        this.clear();
+                        this.edit=false;
 
-                            })
-                            this.btn = 'Save';
-                            this.getUnits();
-                            // window.location.reload();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
 
-                            this.school_name = '';
-                            this.reg_number = '';
-                            this.phone = '';
-                            this.address = '';
-                            this.edit = '';
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
+                    } else {
+                        this.toastMessage("error", response.data);
+
+                    }
+                }).catch(error => {
+
+                    if (error.response.status == 422) {
+                        this.verificationError(error);
+                    }
+                    else {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'school_name') {
-                                    document.getElementById('schoolNameHelp').innerHTML = error.response.data.errors.school_name[0];
-
-                                }
-                                if (key == 'reg_number') {
-                                    document.getElementById('regNumberHelp').innerHTML = error.response.data.errors.reg_number[0];
-
-                                }
-
-                                if (key == 'phone') {
-                                    document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
-
-                                }
-                                if (key == 'address') {
-                                    document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
-
-                                }
-
-
-                            });
-                        }
-                        else {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        }
-                    });
-
-                return result;
-            } else {
-                let result = axios.post(localStorage.getItem("url") + 'school',
-                    {
-                        school_name: this.school_name,
-                        reg_number: this.reg_number,
-                        phone: this.phone,
-                        address: this.address,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-
-                                this.getUnits();
-
-                                this.school_name = '';
-                                this.reg_number = '';
-                                this.phone = '';
-                                this.address = '';
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'school_name') {
-                                    document.getElementById('schoolNameHelp').innerHTML = error.response.data.errors.school_name[0];
-
-                                }
-                                if (key == 'reg_number') {
-                                    document.getElementById('regNumberHelp').innerHTML = error.response.data.errors.reg_number[0];
-
-                                }
-
-                                if (key == 'phone') {
-                                    document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
-
-                                }
-                                if (key == 'address') {
-                                    document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
-
-                                }
-
-
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
-
-                                }
-                            })
-                        }
-                        else {
                             Swal.fire(
                                 'Warning',
                                 'error: ' + error,
                                 'error'
                             )
                         }
-                    });
-
-                return result;
-            }
-
-
-
-        },
-        delete_school(school_id) {
-            let url = localStorage.getItem("url") + 'school/' + this.s_id;
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to delete school ?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let result = axios.delete(url,
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-
-
-                                    }
-                                })
-                                this.getUnits();
-
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong',
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        });
-
-
-                }
-            })
-
-        },
-        edit_school() {
-            let url = localStorage.getItem("url") + 'school/' + this.s_id;
-
-            let result = axios.get(url,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.school_name = response.data.school_name;
-                    this.reg_number = response.data.reg_number;
-                    this.phone = response.data.phone;
-                    this.address = response.data.address;
-                    this.school_id = response.data.id;
-                    this.edit = 'true';
-                    this.btn = "Update";
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
                     }
                 });
+
+        },
+       
+        edit_school() {
+
+            let result = axios.get('school/' + this.s_id).then((response) => {
+                this.school_name = response.data.school_name;
+                this.reg_number = response.data.reg_number;
+                this.phone = response.data.phone;
+                this.address = response.data.address;
+                this.school_id = response.data.id;
+                this.edit = true;
+            }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: "login" });
+
+                } else {
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                }
+            });
 
         },
         getUnits: function () {
 
-            let result = axios.get(localStorage.getItem("url") + 'school',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.school_list = response.data.school_name;
+            let result = axios.get('school').then((response) => {
+                this.school_list = response.data;
+                this.s_id = response.data.id;
+                document.getElementById('txt_school_name').innerHTML = response.data.school_name;
+                document.getElementById('txt_school_reg').innerHTML = response.data.reg_number + ', ' + response.data.address;
+                document.getElementById('txt_phone').innerHTML = response.data.phone;
+            }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: "login" });
 
-                    this.s_id = response.data.id;
-                    document.getElementById('txt_school_name').innerHTML = response.data.school_name;
-                    document.getElementById('txt_school_reg').innerHTML = response.data.reg_number + ', ' + response.data.address;
-                    document.getElementById('txt_phone').innerHTML = response.data.phone;
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
+                } else {
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                }
+            });
 
             return result;
+        },
+        toastMessage(icons, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: icons,
+                title: title
+            });
+        }, clear() {
+            this.school_name = '';
+            this.reg_number = '';
+            this.phone = '';
+            this.address = '';
+        },
+        verificationError(error) {
+            const errorFields = {
+                'school_name': 'schoolNameHelp',
+                'reg_number': 'regNumberHelp',
+                'phone': 'phoneHelp',
+                'address': 'addressHelp',
+
+            };
+            Object.keys(error.response.data.errors).forEach(key => {
+                const errorKey = errorFields[key];
+                if (errorKey) {
+                    document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
+                }
+            });
         }
     },
     beforeMount() {

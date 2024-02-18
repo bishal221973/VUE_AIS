@@ -20,12 +20,12 @@
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text" v-model="username" id="txt_username" class="form-control">
-                                <label id="err_username"></label>
+                                <small id="err_username"></small>
                             </div>
                             <div class="form-group">
                                 <label>password</label>
-                                <input type="password" v-model="password" id="txt_password" class="form-control">
-                                <label id="err_password"></label>
+                                <input type="password" v-model="password" id="txt_password" class="form-control" required>
+                                <small id="err_password"></small>
                             </div>
                             <div>
                                 <button class="btn btn-success mt-3" v-on:click="login">Login</button>
@@ -59,33 +59,25 @@ export default {
         login() {
              
             if (this.username == '') {
-                console.log('Please enter username');
-                // document.getElementById('txt_username').style.borderColor = "red";
-                // document.getElementById('err_username').innerHTML = "Username can not be empity";
-                alert('Please enter username');
+                $("#txt_username").addClass('error');
+                document.getElementById('err_username').innerHTML = "Username can not be empity";
             } else if (this.password == '') {
                 console.log('Please enter Password');
                 document.getElementById('txt_password').style.borderColor = "red";
                 document.getElementById('err_password').innerHTML = "password can not be empity";
             }
             else {
-                let result = axios.post( localStorage.getItem("url")+'login',
-                    {
-                        username: this.username,
-                        password: this.password
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                        }
-                    }).then((response) => {
+                let result = axios.post('login',
+                {
+                    username: this.username,
+                    password: this.password
+                }).then((response) => {
                         if (response.data.status == 'success') {
                             localStorage.setItem('token', response.data.token);
                             localStorage.setItem('role', response.data.role);
                             localStorage.setItem('id', response.data.id);
                             localStorage.setItem('name', response.data.name);
                             this.$router.push({name: "Dashboard"});
-                            console.log(response.data.token);
 
                         } else if (response.data.status == 'failed') {
                             console.log(response.data.message);
@@ -96,6 +88,38 @@ export default {
 
                 return result;
             }
+
+            async function login() {
+    try {
+        const response = await axios.post('login', {
+            username: this.username,
+            password: this.password
+        }, {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        });
+
+        if (response.data.status === 'success') {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('role', response.data.role);
+            localStorage.setItem('id', response.data.id);
+            localStorage.setItem('name', response.data.name);
+            this.$router.push({ name: "Dashboard" });
+            console.log(response.data.token);
+        } else if (response.data.status === 'failed') {
+            console.log(response.data.message);
+        }
+        
+        return response; // Return the entire response object if needed
+    } catch (error) {
+        console.error('Error:', error);
+        throw error; // Rethrow the error if needed
+    }
+}
+
+// You can call the login function elsewhere in your code
+
 
 
         }
@@ -108,11 +132,13 @@ export default {
 }
 
 #err_username {
-    color: red;
+    color: #DC3545;
 }
 
 #err_password {
-    color: red;
+    color: #DC3545;
 }
-
+.form-control.error{
+    border-color: #DC3545;
+}
 </style>

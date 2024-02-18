@@ -1,6 +1,6 @@
 <template>
 
-    <div class="right-sidebar">
+    <div class="right-sidebar ">
         <div class="sidebar-title">
             <h3 class="weight-600 font-16 text-blue">
                 Layout Settings
@@ -93,7 +93,8 @@
     <div class="left-side-bar">
         <div class="brand-logo">
             <a href="#">
-                <img :src="'./assets/vendors/images/icon.png'" alt="" class="dark-logo" />
+                <h3>ATTENDANCE</h3>
+                <!-- <img :src="'./assets/vendors/images/icon.png'" alt="" class="dark-logo" /> -->
                 <!-- <img :src="'./assets/vendors/images/deskapp-logo-white.svg'" alt="" class="light-logo" /> -->
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
@@ -281,3 +282,9 @@ export default {
     },
 }
 </script>
+<style>
+.dark-logo{
+    height: 100px !important;
+    /* display: none !important; */
+}
+</style>

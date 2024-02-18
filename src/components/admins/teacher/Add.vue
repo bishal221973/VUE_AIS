@@ -39,25 +39,22 @@
                                                 <div class="form-group col-lg-4">
                                                     <label for="exampleInputEmail1">Full name*</label>
                                                     <input type="text" class="form-control" v-model="name" name="name"
-                                                        id="txtName" aria-describedby="bookHelp"
-                                                        placeholder="Enter Name">
+                                                        id="txtName" aria-describedby="bookHelp" placeholder="Enter Name">
                                                     <small id="nameHelp" class="form-text text-danger"></small>
                                                 </div>
 
 
                                                 <div class="form-group col-lg-4">
                                                     <label for="exampleInputEmail1">Email*</label>
-                                                    <input type="text" class="form-control" v-model="email"
-                                                        id="txtEmail" aria-describedby="bookHelp"
-                                                        placeholder="Enter Email">
+                                                    <input type="text" class="form-control" v-model="email" id="txtEmail"
+                                                        aria-describedby="bookHelp" placeholder="Enter Email">
                                                     <small id="emailHelp" class="form-text text-danger"></small>
                                                 </div>
                                                 <div class="form-group col-lg-4">
                                                     <label for="exampleInputEmail1">Gender*</label>
 
-                                                    <select class="form-control select2  " data-select2-id="9"
-                                                        tabindex="-1" aria-hidden="true" v-model="gender"
-                                                        id="txtGender">
+                                                    <select class="form-control select2  " data-select2-id="9" tabindex="-1"
+                                                        aria-hidden="true" v-model="gender" id="txtGender">
 
                                                         <option value="" selected>Please select your gender</option>
                                                         <option value="Male" selected>Male</option>
@@ -82,9 +79,8 @@
                                                 </div>
                                                 <div class="form-group col-lg-4">
                                                     <label for="exampleInputEmail1">Phone*</label>
-                                                    <input type="number" class="form-control" v-model="phone"
-                                                        id="txtPhone" aria-describedby="bookHelp"
-                                                        placeholder="Enter phone number">
+                                                    <input type="number" class="form-control" v-model="phone" id="txtPhone"
+                                                        aria-describedby="bookHelp" placeholder="Enter phone number">
                                                     <small id="phoneHelp" class="form-text text-danger"></small>
                                                 </div>
 
@@ -100,20 +96,19 @@
                                                     <small id="usernameHelp" class="form-text text-danger"></small>
                                                 </div>
 
-                                                <div class="form-group col-lg-4" v-if="update_record === ''">
+                                                <div class="form-group col-lg-4" v-if="!update_record">
                                                     <label for="exampleInputEmail1">Password*</label>
                                                     <input type="password" class="form-control" v-model="password"
                                                         id="txtPassword" aria-describedby="bookHelp"
                                                         placeholder="Enter Password">
                                                     <small id="passwordHelp" class="form-text text-danger"></small>
                                                 </div>
-                                                <div class="form-group col-lg-4" v-if="update_record === ''">
+                                                <div class="form-group col-lg-4" v-if="!update_record">
                                                     <label for="exampleInputEmail1">Password Confirmation*</label>
 
                                                     <input type="password" class="form-control"
                                                         v-model="password_confirmation" id="txtPassword"
-                                                        aria-describedby="bookHelp"
-                                                        placeholder="Enter Confirm Password">
+                                                        aria-describedby="bookHelp" placeholder="Enter Confirm Password">
                                                 </div>
 
                                             </div>
@@ -132,7 +127,7 @@
                                                 </div>
                                                 <div class="form-group col-12">
                                                     <button class="btn btn-success d-flex float-right px-5 mt-5"
-                                                        v-on:click="save">{{ btn }}</button>
+                                                        v-on:click="save">{{ update_record ? 'Update' : 'Save' }}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,8 +190,7 @@
                                                         <div class="row">
                                                             <a href="#" class="btn btn-info"
                                                                 v-on:click="tprofile(item.id)"><i
-                                                                    class="icon-copy fa fa-eye"
-                                                                    aria-hidden="true"></i></a>
+                                                                    class="icon-copy fa fa-eye" aria-hidden="true"></i></a>
                                                             <button class="btn btn-warning ml-1 text-white"
                                                                 v-on:click="edit(item.id)"><i
                                                                     class="fa fa-edit"></i></button>
@@ -228,7 +222,6 @@
 
     </div>
     <Profile v-else :id="teacher_profile" />
-
 </template>
 <script>
 
@@ -255,8 +248,7 @@ export default {
             'profile': '',
             'update_teacher': '',
             'teacher_list': '',
-            'btn': 'Save',
-            'update_record': '',
+            update_record: false,
             'teacher_id': '',
             'url': './assets/img/user.png',
             'teacher_profile': '',
@@ -280,253 +272,56 @@ export default {
             document.getElementById('dobHelp').innerHTML = '';
             document.getElementById('phoneHelp').innerHTML = '';
             document.getElementById('profileHelp').innerHTML = '';
-            // document.getElementById('passwordHelp').innerHTML = '';
+            this.update_record ? this.update() : this.add();
+        },
 
-            // if (this.name != '' && this.username != '' && this.email != '' && this.password != '' && this.gender != '' && this.address != '' && this.dob != '' && this.phone != '') {
-            if (this.update_record == 'true') {
-                let url = localStorage.getItem("url") + 'teacher/' + this.teacher_id;
-
+        update() {
 
 
-                let result = axios.put(url,
-                    {
-                        name: this.name,
-                        username: this.username,
-                        email: this.email,
-                        gender: this.gender,
-                        address: this.address,
-                        dob: this.dob,
-                        phone: this.phone,
-                        profile: this.profile,
+        },
 
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
-                                    // this.$router.push({ path: "/teacher-list" });
+        add() {
+            let result = axios.post('teacher',
+                {
+                    name: this.name,
+                    username: this.username,
+                    email: this.email,
+                    password: this.password,
+                    password_confirmation: this.password_confirmation,
+                    gender: this.gender,
+                    address: this.address,
+                    dob: this.dob,
+                    phone: this.phone,
+                    profile: this.profile,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message)
+                        this.clear();
+                        this.getUnits();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
 
-                                }
-                                this.update_record = '';
-                                this.btn = 'Save';
-                                this.name = '';
-                                this.username = '';
-                                this.email = '';
-                                this.password = '';
-                                this.gender = '';
-                                this.address = '';
-                                this.dob = '';
-                                this.phone = '';
-                                this.profile = '';
-                                this.getUnits();
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'name') {
-                                    document.getElementById('nameHelp').innerHTML = error.response.data.errors.name[0];
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.verificationError(error);
+                    }
 
-                                }
-                                if (key == 'username') {
-                                    document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
 
-                                }
-
-                                if (key == 'email') {
-                                    document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
-
-                                }
-                                if (key == 'password') {
-                                    document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
-
-                                }
-                                if (key == 'gender') {
-                                    document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
-
-                                }
-                                if (key == 'address') {
-                                    document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
-
-                                }
-                                if (key == 'dob') {
-                                    document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
-
-                                }
-                                if (key == 'phone') {
-                                    document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
-
-                                }
-                                if (key == 'profile') {
-                                    document.getElementById('profileHelp').innerHTML = error.response.data.errors.profile[0];
-
-                                }
-
-                            });
-                        }
-                        else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        }
-                    });
-
-                return result;
-            } else {
-                let result = axios.post(localStorage.getItem("url") + 'teacher',
-                    {
-                        name: this.name,
-                        username: this.username,
-                        email: this.email,
-                        password: this.password,
-                        password_confirmation: this.password_confirmation,
-                        gender: this.gender,
-                        address: this.address,
-                        dob: this.dob,
-                        phone: this.phone,
-                        profile: this.profile,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
-
-                                }
-                                this.getUnits();
-                                this.name = '';
-                                this.email = '';
-                                this.gender = '';
-                                this.address = '';
-                                this.dob = '';
-                                this.phone = '';
-                                this.username = '';
-                                this.password = '';
-                                this.password_confirmation = '';
-                                document.getElementById('passwordHelp').innerHTML = '';
-
-
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'name') {
-                                    document.getElementById('nameHelp').innerHTML = error.response.data.errors.name[0];
-
-                                }
-                                if (key == 'username') {
-                                    document.getElementById('usernameHelp').innerHTML = error.response.data.errors.username[0];
-
-                                }
-
-                                if (key == 'email') {
-                                    document.getElementById('emailHelp').innerHTML = error.response.data.errors.email[0];
-
-                                }
-                                if (key == 'password') {
-                                    document.getElementById('passwordHelp').innerHTML = error.response.data.errors.password[0];
-
-                                }
-                                if (key == 'gender') {
-                                    document.getElementById('genderHelp').innerHTML = error.response.data.errors.gender[0];
-
-                                }
-                                if (key == 'address') {
-                                    document.getElementById('addressHelp').innerHTML = error.response.data.errors.address[0];
-
-                                }
-                                if (key == 'dob') {
-                                    document.getElementById('dobHelp').innerHTML = error.response.data.errors.dob[0];
-
-                                }
-                                if (key == 'phone') {
-                                    document.getElementById('phoneHelp').innerHTML = error.response.data.errors.phone[0];
-
-                                }
-                                if (key == 'profile') {
-                                    document.getElementById('profileHelp').innerHTML = error.response.data.errors.profile[0];
-
-                                }
-
-                            });
-                        }
-                        else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        }
-                    });
-
-                return result;
-            }
-            // }
+            return result;
         },
         edit(teacher_id) {
-            let url = localStorage.getItem("url") + 'teacher/' + teacher_id;
-            axios.get(url,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            axios.get('teacher/' + teacher_id).then((response) => {
                     // alert(teacher_id);
                     // this.name=response.data;
                     // console.log(response.data);
@@ -538,16 +333,55 @@ export default {
                     this.dob = response.data.dob;
                     this.phone = response.data.phone;
                     this.profile = response.data.profile;
-                    this.btn = 'Update';
+                    
                     this.update_record = 'true';
                     this.teacher_id = response.data.id;
                 }).catch(error => {
                     console.log('error: ' + error);
                 });
         },
-        deleteTeacher(teacher_id) {
+        update() {
+            let result = axios.put('teacher/' + this.teacher_id,
+                {
+                    name: this.name,
+                    username: this.username,
+                    email: this.email,
+                    password: this.password,
+                    password_confirmation: this.password_confirmation,
+                    gender: this.gender,
+                    address: this.address,
+                    dob: this.dob,
+                    phone: this.phone,
+                    profile: this.profile,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.update_record=false;
+                        this.toastMessage("success", response.data.message)
+                        this.clear();
+                        this.getUnits();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
 
-            let url = localStorage.getItem("url") + 'teacher/' + teacher_id;
+                    }
+                }).catch(error => {
+                    if (error.response.status === 422) {
+                        this.verificationError(error);
+                    }
+
+                    else {
+                        Swal.fire(
+                            'Warning',
+                            'error: ' + error,
+                            'error'
+                        )
+                    }
+                });
+
+            return result;
+        },
+        deleteTeacher(teacher_id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -558,36 +392,11 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.delete(url,
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
+                    let result = axios.delete('teacher/' + teacher_id).then((response) => {
                             if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-
-
-                                    }
-                                    this.getUnits();
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response,
-                                    footer: 'We are sorry'
-                                })
-                            }
+                                this.toastMessage("success", response.data.message);
+                                this.getUnits();
+                            } 
                         }).catch(error => {
                             if (error.response.status === 401) {
                                 this.$router.push({ name: "login" });
@@ -607,13 +416,7 @@ export default {
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url") + 'get-teacher',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            axios.get('get-teacher').then((response) => {
                     this.teacher_list = response.data;
 
                 }).catch(error => {
@@ -633,6 +436,53 @@ export default {
 
 
         },
+        toastMessage(icons, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: icons,
+                title: title
+            });
+        },
+        clear() {
+            this.name = '';
+            this.email = '';
+            this.gender = '';
+            this.address = '';
+            this.dob = '';
+            this.phone = '';
+            this.username = '';
+            this.password = '';
+            this.password_confirmation = '';
+        },
+        verificationError(error){
+            const errorFields = {
+                            'name': 'nameHelp',
+                            'username': 'usernameHelp',
+                            'email': 'emailHelp',
+                            'password': 'passwordHelp',
+                            'gender': 'genderHelp',
+                            'address': 'addressHelp',
+                            'dob': 'dobHelp',
+                            'phone': 'phoneHelp',
+                            'profile': 'profileHelp'
+                        };
+                        Object.keys(error.response.data.errors).forEach(key => {
+                            const errorKey = errorFields[key];
+                            if (errorKey) {
+                                document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
+                            }
+                        });
+        }
     },
     beforeMount() {
         this.getUnits()

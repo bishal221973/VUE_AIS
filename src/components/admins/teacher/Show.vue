@@ -306,13 +306,7 @@ export default {
     },
     created() {
 
-        axios.get(localStorage.getItem("url") + 'teacher/' + this.id,
-            {
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                }
-            }).then((response) => {
+        axios.get('teacher/' + this.id).then((response) => {
                 this.name = response.data.user.name;
                 this.email = response.data.user.email;
                 this.phone = response.data.phone;

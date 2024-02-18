@@ -33,7 +33,8 @@ const routes = [
     {
         name: 'Dashboard',
         path: '/',
-        component: Dashboard
+        component: Dashboard,
+        meta: { requiresAuth: true }
     },
     {
         name: 'SchoolSetup',
@@ -141,4 +142,27 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+function isAuthenticated() {
+    return localStorage.getItem('token'); // Example: check if user data is stored in localStorage
+}
+
+// Navigation guard to check authentication
+router.beforeEach((to, from, next) => {
+    console.log('Navigating to:', to.name);
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        console.log('Route requires authentication');
+        if (!isAuthenticated()) {
+            console.log('User is not authenticated. Redirecting to login page.');
+            next({ name: 'login' });
+        } else {
+            console.log('User is authenticated. Proceeding to the requested route.');
+            next();
+        }
+    } else {
+        console.log('Route does not require authentication. Proceeding normally.');
+        next();
+    }
+});
+
 export default router; 
