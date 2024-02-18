@@ -28,16 +28,16 @@
                     <div class="product-detail-wrap mb-30">
                         <div class="row">
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <div class="form-group col-lg-12">
                                         <label for="exampleInputEmail1">Faculty Name</label>
-                                        <input type="text" class="form-control" v-model="faculty" name="name"
-                                            id="txtName" aria-describedby="bookHelp" placeholder="Enter Name">
+                                        <input type="text" class="form-control" v-model="faculty" name="name" id="txtName"
+                                            aria-describedby="bookHelp" placeholder="Enter Name">
                                         <small id="facultyHelp" class="form-text text-danger"></small>
                                     </div>
-                                    <div class="form-group col-lg-10">
-                                        <button class="btn btn-success px-5" v-on:click="save">{{ btn_submit }}</button>
+                                    <div class="form-group col-lg-12 d-flex justify-content-end">
+                                        <button class="btn btn-success px-5" v-on:click="save">{{ edit ? 'Update' : 'Save' }}</button>
                                     </div>
 
 
@@ -45,20 +45,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12 mt-2">
                                 <div class="product-detail-desc pd-20 card-box">
                                     <!-- <input type="text" placeholder="Search"/> -->
 
-                                    <div class="row">
-
-                                        <input type="text" class="form-control col-10 search-input  m-3"
-                                            v-model="search_text" v-on:change="search" placeholder="Search Faculty" />
-                                        <a href="#" class="btn btn-danger form-control mt-3 col-1"
-                                            v-on:click="display_all">
-                                            <i class="icon-copy fi-x"></i>
-                                        </a>
-
-                                    </div>
+                                    
 
                                     <div class="row mt-1">
                                         <table class="table">
@@ -77,12 +68,10 @@
                                                     <td>
                                                         <div class="row btn-action">
                                                             <a href="#" class="text-warning"><i
-                                                                    class="icon-copy fa fa-edit fa-2x"
-                                                                    aria-hidden="true"
-                                                                    v-on:click="edit(item.id)"></i></a>
+                                                                    class="icon-copy fa fa-edit fa-2x" aria-hidden="true"
+                                                                    v-on:click="editFaculty(item.id)"></i></a>
                                                             <a href="#" class="text-danger ml-3"><i
-                                                                    class="icon-copy fa fa-trash fa-2x"
-                                                                    aria-hidden="true"
+                                                                    class="icon-copy fa fa-trash fa-2x" aria-hidden="true"
                                                                     v-on:click="deleteFaculty(item.id)"></i></a>
 
                                                         </div>
@@ -122,9 +111,8 @@ export default {
         return {
             'faculty': '',
             'list': '',
-            'updated': '',
+            edit: false,
             'faculty_id': '',
-            'btn_submit': 'Save',
             'search_text': '',
 
         }
@@ -132,183 +120,92 @@ export default {
     components: { Navbar, Sidebar },
     methods: {
 
-        display_all() {
-            this.search_text = '';
-        },
+        
         save() {
             document.getElementById('facultyHelp').innerHTML = '';
-            if (this.updated == 'true') {
-                let url = localStorage.getItem("url") + 'faculty/' + this.faculty_id;
-                let result = axios.put(url,
-                    {
-                        faculty: this.faculty,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
+            this.edit ? this.update() : this.add();
+        },
+        update() {
+            let result = axios.put('faculty/' + this.faculty_id,
+                {
+                    faculty: this.faculty,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message);
+                        this.faculty = '';
+                        this.edit = false;
+                        this.getUnits();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
 
-
-                                }
-                                this.updated = '';
-                                this.faculty = '';
-                                this.btn_submit = 'Save';
-                                this.getUnits();
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'faculty') {
-                                    document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
-
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
-
-                                }
-                            })
-                        }
-                        else {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
                             }
-                        }
-                    });
+                        });
+                    } else if (error.response.status == 401) {
+                        Swal.fire({
+                            title: 'You are not authorised user',
+                            text: "Please login to perform any transaction",
+                            icon: 'warning',
+                            showCancelButton: false,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.$router.push({ path: "/login" });
 
-                return result;
-            } else {
-                let result = axios.post(localStorage.getItem("url") + 'faculty',
-                    {
-                        faculty: this.faculty,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
-
-
-                                }
-                                this.getUnits();
-                                this.faculty = '';
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'faculty') {
-                                    document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
-
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
-
-                                }
-                            })
-                        }
-                        else {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
                             }
+                        })
+                    }
+                    else {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
+
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
                         }
-                    });
+                    }
+                });
+        },
+        add() {
+            let result = axios.post('faculty',
+                {
+                    faculty: this.faculty,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.getUnits();
+                        this.faculty = '';
+                        this.toastMessage("success", response.data.message);
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                }).catch(error => {
 
-                return result;
-            }
+                    if (error.response.status == 422) {
+                        $.each(error.response.data.errors, function (key, value) {
+                            if (key == 'faculty') {
+                                document.getElementById('facultyHelp').innerHTML = error.response.data.errors.faculty[0];
 
+                            }
+                        });
+                    }
+                });
         },
         deleteFaculty(faculty_id) {
 
-            let url = localStorage.getItem("url") + 'faculty/' + faculty_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete Faculty ?",
@@ -319,107 +216,63 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.delete(url,
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
+                    let result = axios.delete('faculty/' + faculty_id).then((response) => {
                             if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-
-
-
-                                    }
-                                    this.getUnits();
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong',
-                                    footer: 'We are sorry'
-                                })
+                                this.toastMessage("success", response.data.message);
+                                this.getUnits();
+                            }else if (response.data.status == 'error') {
+                                this.toastMessage("error", response.data.message);
+                                this.getUnits();
+                            }
+                             else {
+                                this.toastMessage("error", "Some thing went wrong");
                             }
                         }).catch(error => {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
+                           
                         });
 
 
                 }
             })
         },
-        edit(faculty_id) {
-            let url = localStorage.getItem("url") + 'faculty/' + faculty_id;
+        editFaculty(faculty_id) {
 
-            let result = axios.get(url,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            let result = axios.get('faculty/' + faculty_id).then((response) => {
                     this.faculty = response.data.faculty;
                     this.faculty_id = response.data.id;
-                    this.updated = 'true';
-                    this.btn_submit = 'Update'
+                    this.edit = true;
                 }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
+                  
                 });
         },
         getUnits: function () {
-            let result = axios.get(localStorage.getItem("url") + 'faculty',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            let result = axios.get('faculty').then((response) => {
                     this.list = response.data.data;
 
 
                 }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
+                    
                 });
 
             return result;
-        }
+        },
+        toastMessage(icons, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: icons,
+                title: title
+            });
+        },
     },
     beforeMount() {
         this.getUnits();

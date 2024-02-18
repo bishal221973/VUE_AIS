@@ -74,11 +74,7 @@
                                         </select>
                                         <small id="bookHelp" class="form-text text-danger"></small>
                                     </div>
-                                    <button class="btn btn-success col-12" v-on:click="save">{{btn}}</button>
-
-
-
-
+                                    <button class="btn btn-success col-12" v-on:click="save">{{ edit ? 'Update' : 'Save' }}</button>
                                 </div>
                             </div>
 
@@ -87,10 +83,8 @@
                                     <div class="row">
 
                                         <div class="form-group col-4">
-                                            <!-- <label>Program</label> -->
                                             <select class="custom-select  select2 my-select" data-select2-id="9"
-                                                tabindex="-1" aria-hidden="true" v-model="search_program"
-                                                id="txtProgram">
+                                                tabindex="-1" aria-hidden="true" v-model="search_program" id="txtProgram">
 
                                                 <option value="" selected disabled class="bg-white text-dark">Program
                                                 </option>
@@ -103,10 +97,8 @@
                                         </div>
 
                                         <div class="form-group col-4">
-                                            <!-- <label>Semester</label> -->
                                             <select class="custom-select  select2 my-select" data-select2-id="9"
-                                                tabindex="-1" aria-hidden="true" v-model="search_semester"
-                                                id="txtProgram">
+                                                tabindex="-1" aria-hidden="true" v-model="search_semester" id="txtProgram">
 
                                                 <option value="" selected disabled class="bg-white text-dark">Semester
                                                 </option>
@@ -127,15 +119,10 @@
                                             </select>
                                             <small id="programHelp" class="form-text text-danger"></small>
                                         </div>
-
-
-
-
                                         <div class="form-group col-lg-2">
                                             <button class=" btn btn-info mt-2 btn_filter" v-on:click="filter"><i
                                                     class="icon-copy fa fa-filter" aria-hidden="true"></i>
                                                 Filter</button>
-
                                         </div>
 
                                         <div class="form-group col-lg-2">
@@ -168,12 +155,10 @@
                                                         <div class="row btn-action">
 
                                                             <a href="#" class="text-warning"><i
-                                                                    class="icon-copy fa fa-edit fa-2x"
-                                                                    aria-hidden="true"
-                                                                    v-on:click="edit(item.id)"></i></a>
+                                                                    class="icon-copy fa fa-edit fa-2x" aria-hidden="true"
+                                                                    v-on:click="editCourse(item.id)"></i></a>
                                                             <a href="#" class="text-danger ml-3"><i
-                                                                    class="icon-copy fa fa-trash fa-2x"
-                                                                    aria-hidden="true"
+                                                                    class="icon-copy fa fa-trash fa-2x" aria-hidden="true"
                                                                     v-on:click="deleteCourse(item.id)"></i></a>
 
 
@@ -188,9 +173,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 
@@ -216,171 +198,59 @@ export default {
             'course_id': '',
             'semester': '',
             'book_id': '',
-            'update_course': '',
+            'edit': '',
             'search_text': '',
-            'btn': 'Save',
             'search_program': '',
             'search_semester': '',
         }
     },
     methods: {
         save() {
-            if (this.program_id == '') {
-                document.getElementById('programHelp').innerHTML = "Please select a program";
-                document.getElementById('txtProgram').style.borderColor = "red";
-            } else {
-                document.getElementById('programHelp').innerHTML = "";
-                document.getElementById('txtProgram').style.borderColor = "gray";
-            }
+            this.edit ? this.updateCourse() : this.addNewCourse();
 
-            if (this.semester == '') {
-                document.getElementById('semesterHelp').innerHTML = "Please select a semester";
-                document.getElementById('txtSemester').style.borderColor = "red";
-            } else {
-                document.getElementById('semesterHelp').innerHTML = "";
-                document.getElementById('txtSemester').style.borderColor = "gray";
-            }
 
-            if (this.book_id == '') {
-                document.getElementById('bookHelp').innerHTML = "Please select a book";
-                document.getElementById('txtBook').style.borderColor = "red";
-            } else {
-                document.getElementById('bookHelp').innerHTML = "";
-                document.getElementById('txtBook').style.borderColor = "gray";
-            }
+        },
+        addNewCourse() {
+            let result = axios.post('course',
+                {
+                    program_id: this.program_id,
+                    semester: this.semester,
+                    book_id: this.book_id,
 
-            if (this.program_id != '' && this.semester != '' && this.book_id != '') {
-                if (this.update_course == 'true') {
-                    let url = localStorage.getItem("url") + 'course/' + this.course_id;
-                    let result = axios.put(url,
-                        {
-                            program_id: this.program_id,
-                            semester: this.semester,
-                            book_id: this.book_id,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message);
+                        this.getUnits();
+                        this.clear();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                });
 
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
+        },
+        updateCourse() {
+            let result = axios.put('course/' + this.course_id,
+                {
+                    program_id: this.program_id,
+                    semester: this.semester,
+                    book_id: this.book_id,
 
-                                    }
-                                    this.getUnits();
-                                    this.program_id = '';
-                                    this.semester = '';
-                                    this.book_id = '';
-                                    this.update_course = '';
-                                    this.btn = 'Save';
-                                })
-                            } else if (response.data.status == 'failed') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data.message,
-                                    footer: 'We are sorry'
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data,
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
-
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        });
-
-                    return result;
-                } else {
-                    let result = axios.post(localStorage.getItem("url") + 'course',
-                        {
-                            program_id: this.program_id,
-                            semester: this.semester,
-                            book_id: this.book_id,
-
-                        },
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-
-                                    }
-                                    this.getUnits();
-                                    this.program_id = '';
-                                    this.semester = '';
-                                    this.book_id = '';
-                                })
-                            } else if (response.data.status == 'failed') {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data.message,
-                                    footer: 'We are sorry'
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: response.data,
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
-
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        });
-
-                    return result;
-                }
-            }
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message);
+                        this.getUnits();
+                        this.clear();
+                        this.edit = false;
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                });
         },
         deleteCourse(course_id) {
-
-            let url = localStorage.getItem("url") + 'course/' + course_id;
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected book from course ?",
@@ -391,144 +261,45 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.delete(url,
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
-                            if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
-
-
-                                    }
-                                    this.getUnits();
-                                })
-                            } else {
-                                if (error.response.status === 401) {
-                                    this.$router.push({ name: "login" });
-
-                                } else {
-                                    Swal.fire(
-                                        'Warning',
-                                        'error: ' + error,
-                                        'error'
-                                    )
-                                }
-                            }
-                        }).catch(error => {
-                            console.log('error: ' + error);
-                        });
-
-
+                    let result = axios.delete('course/' + course_id).then((response) => {
+                        if (response.data.status == 'success') {
+                            this.toastMessage("success", response.data.message);
+                            this.getUnits();
+                        }
+                    });
                 }
             })
         },
-        edit(course_id) {
-            let url = localStorage.getItem("url") + 'course/' + course_id;
+        editCourse(course_id) {
 
-            let result = axios.get(url,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.program_id = response.data.program_id;
-                    this.semester = response.data.semester;
-                    this.book_id = response.data.book_id;
-                    this.course_id = response.data.id;
-                    this.update_course = 'true';
-                    this.btn = 'Update';
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
+            let result = axios.get('course/' + course_id).then((response) => {
+                this.program_id = response.data.program_id;
+                this.semester = response.data.semester;
+                this.book_id = response.data.book_id;
+                this.course_id = response.data.id;
+                this.edit = true;
+            });
         },
         displayAll() {
             this.getUnits();
         },
         getUnits: function () {
 
-            axios.get(localStorage.getItem("url") + 'book',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.book_list = response.data;
+            axios.get('book').then((response) => {
+                this.book_list = response.data;
 
 
-                }).catch(error => {
-                    console.log('error: ' + error);
-                });
+            });
 
-            axios.get(localStorage.getItem("url") + 'program',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.program_list = response.data;
+            axios.get('program').then((response) => {
+                this.program_list = response.data;
 
 
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
+            });
 
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
-
-            axios.get(localStorage.getItem("url") + 'course',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.course_list = response.data.data;
-
-
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
-
-
-
+            axios.get('course').then((response) => {
+                this.course_list = response.data.data;
+            })
         },
         filter() {
 
@@ -586,6 +357,41 @@ export default {
                 });
 
             return result;
+        },
+        toastMessage(icons, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: icons,
+                title: title
+            });
+        },
+        clear() {
+            this.program_id = '';
+            this.semester = '';
+            this.book_id = '';
+        },
+        verificationError(error) {
+            const errorFields = {
+                'subject': 'bookHelp',
+                'publication': 'publicationHelp',
+                'author': 'authorHelp',
+            };
+            Object.keys(error.response.data.errors).forEach(key => {
+                const errorKey = errorFields[key];
+                if (errorKey) {
+                    document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
+                }
+            });
         }
     },
     beforeMount() {

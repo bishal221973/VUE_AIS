@@ -322,23 +322,23 @@ export default {
         },
         edit(teacher_id) {
             axios.get('teacher/' + teacher_id).then((response) => {
-                    // alert(teacher_id);
-                    // this.name=response.data;
-                    // console.log(response.data);
-                    this.name = response.data.user.name;
-                    this.username = response.data.user.username;
-                    this.email = response.data.user.email;
-                    this.gender = response.data.gender;
-                    this.address = response.data.address;
-                    this.dob = response.data.dob;
-                    this.phone = response.data.phone;
-                    this.profile = response.data.profile;
-                    
-                    this.update_record = 'true';
-                    this.teacher_id = response.data.id;
-                }).catch(error => {
-                    console.log('error: ' + error);
-                });
+                // alert(teacher_id);
+                // this.name=response.data;
+                // console.log(response.data);
+                this.name = response.data.user.name;
+                this.username = response.data.user.username;
+                this.email = response.data.user.email;
+                this.gender = response.data.gender;
+                this.address = response.data.address;
+                this.dob = response.data.dob;
+                this.phone = response.data.phone;
+                this.profile = response.data.profile;
+
+                this.update_record = 'true';
+                this.teacher_id = response.data.id;
+            }).catch(error => {
+                console.log('error: ' + error);
+            });
         },
         update() {
             let result = axios.put('teacher/' + this.teacher_id,
@@ -355,7 +355,7 @@ export default {
                     profile: this.profile,
                 }).then((response) => {
                     if (response.data.status == 'success') {
-                        this.update_record=false;
+                        this.update_record = false;
                         this.toastMessage("success", response.data.message)
                         this.clear();
                         this.getUnits();
@@ -393,22 +393,22 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     let result = axios.delete('teacher/' + teacher_id).then((response) => {
-                            if (response.data.status == 'success') {
-                                this.toastMessage("success", response.data.message);
-                                this.getUnits();
-                            } 
-                        }).catch(error => {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
+                        if (response.data.status == 'success') {
+                            this.toastMessage("success", response.data.message);
+                            this.getUnits();
+                        }
+                    }).catch(error => {
+                        if (error.response.status === 401) {
+                            this.$router.push({ name: "login" });
 
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        });
+                        } else {
+                            Swal.fire(
+                                'Warning',
+                                'error: ' + error,
+                                'error'
+                            )
+                        }
+                    });
 
 
                 }
@@ -417,20 +417,20 @@ export default {
         getUnits: function () {
 
             axios.get('get-teacher').then((response) => {
-                    this.teacher_list = response.data;
+                this.teacher_list = response.data;
 
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
+            }).catch(error => {
+                if (error.response.status === 401) {
+                    this.$router.push({ name: "login" });
 
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
+                } else {
+                    Swal.fire(
+                        'Warning',
+                        'error: ' + error,
+                        'error'
+                    )
+                }
+            });
 
 
 
@@ -464,24 +464,24 @@ export default {
             this.password = '';
             this.password_confirmation = '';
         },
-        verificationError(error){
+        verificationError(error) {
             const errorFields = {
-                            'name': 'nameHelp',
-                            'username': 'usernameHelp',
-                            'email': 'emailHelp',
-                            'password': 'passwordHelp',
-                            'gender': 'genderHelp',
-                            'address': 'addressHelp',
-                            'dob': 'dobHelp',
-                            'phone': 'phoneHelp',
-                            'profile': 'profileHelp'
-                        };
-                        Object.keys(error.response.data.errors).forEach(key => {
-                            const errorKey = errorFields[key];
-                            if (errorKey) {
-                                document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
-                            }
-                        });
+                'name': 'nameHelp',
+                'username': 'usernameHelp',
+                'email': 'emailHelp',
+                'password': 'passwordHelp',
+                'gender': 'genderHelp',
+                'address': 'addressHelp',
+                'dob': 'dobHelp',
+                'phone': 'phoneHelp',
+                'profile': 'profileHelp'
+            };
+            Object.keys(error.response.data.errors).forEach(key => {
+                const errorKey = errorFields[key];
+                if (errorKey) {
+                    document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
+                }
+            });
         }
     },
     beforeMount() {

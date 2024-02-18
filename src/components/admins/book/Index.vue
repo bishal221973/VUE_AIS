@@ -53,7 +53,7 @@
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-success col-12" v-on:click="save">{{
-                                            btn_save}}</button>
+                                                edit ? 'Update' : 'Save' }}</button>
                                             <!-- <button class="btn btn-danger float-right ml-2" v-on:click="clear">Clear</button> -->
                                         </div>
                                     </div>
@@ -63,41 +63,7 @@
                             </div>
 
                             <div class="col-lg-8 col-md-12 col-sm-12">
-                                <!-- <div class="product-detail-desc pd-20 card-box"> -->
-                                <!-- <div class="row">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Book</th>
-                                                    <th scope="col">Publication</th>
-                                                    <th scope="col">Author</th>
-                                                    <th scope="col">Page Number</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="item in book_list" v-bind:key="item.id">
-                                                    <th scope="row">{{ item.id }}</th>
-                                                    <th scope="row">{{ item.book }}</th>
-                                                    <th scope="row">{{ item.publication }}</th>
-                                                    <th scope="row">{{ item.author }}</th>
-                                                    <th scope="row">{{ item.page }}</th>
-                                                    <th scope="row">RS. {{ item.price }} /-</th>
-                                                    <td>
-                                                        <div class="row">
-                                                            <button class="btn btn-warning text-white"
-                                                                v-on:click="edit(item.teacher[0].id)">Edit</button>
-                                                            <button class="btn btn-danger text-white ml-1"
-                                                                v-on:click="deleteTeacher(item.teacher[0].id)">Delete</button>
 
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> -->
 
                                 <div class="card">
                                     <div class="row m-2">
@@ -132,7 +98,7 @@
                                                     <div class="row btn-action">
                                                         <a href="#" class="text-warning ml-3"><i
                                                                 class="icon-copy fa fa-edit fa-2x" aria-hidden="true"
-                                                                v-on:click="edit(item.id)"></i></a>
+                                                                v-on:click="editBook(item.id)"></i></a>
                                                         <a href="#" class="text-danger ml-3"><i
                                                                 class="icon-copy fa fa-trash fa-2x" aria-hidden="true"
                                                                 v-on:click="deleteBook(item.id)"></i></a>
@@ -173,9 +139,8 @@ export default {
             'book': '',
             'publication': '',
             'author': '',
-            'page': '',
-            'price': '',
-            'update_book': '',
+           
+            'edit': '',
             'book_list': '',
             'book_id': '',
             'btn_save': 'Save',
@@ -192,219 +157,56 @@ export default {
             document.getElementById('publicationHelp').innerHTML = '';
             document.getElementById('authorHelp').innerHTML = '';
 
-            if (this.update_book == 'true') {
-                let url = localStorage.getItem("url") + 'book/' + this.book_id
-                let result = axios.put(url,
-                    {
-                        subject: this.book,
-                        publication: this.publication,
-                        author: this.author,
-                        page: this.page,
-                        price: this.price,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
-
-
-                                }
-                            })
-                            this.book = '';
-                            this.publication = '';
-                            this.author = '';
-                            this.page = '';
-                            this.price = '';
-                            this.update_book = '';
-                            this.btn_save = 'Save'
-                            this.getUnits();
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'book') {
-                                    document.getElementById('bookHelp').innerHTML = error.response.data.errors.book[0];
-
-                                }
-                                if (key == 'publication') {
-                                    document.getElementById('publicationHelp').innerHTML = error.response.data.errors.publication[0];
-
-                                }
-                                if (key == 'author') {
-                                    document.getElementById('authorHelp').innerHTML = error.response.data.errors.author[0];
-
-                                }
-                                if (key == 'page') {
-                                    document.getElementById('pageHelp').innerHTML = error.response.data.errors.page[0];
-
-                                }
-                                if (key == 'price') {
-                                    document.getElementById('priceHelp').innerHTML = error.response.data.errors.price[0];
-
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
-
-                                }
-                            })
-                        }
-                        else {
-                            Swal.fire(
-                                'Warning',
-                                'error: ' + error,
-                                'error'
-                            )
-                        }
-                    });
-
-                return result;
-            } else {
-
-                let result = axios.post(localStorage.getItem("url") + 'book',
-                    {
-                        subject: this.book,
-                        publication: this.publication,
-                        author: this.author,
-                        page: this.page,
-                        price: this.price,
-                    },
-                    {
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    }).then((response) => {
-                        if (response.data.status == 'success') {
-                            Swal.fire({
-                                title: 'Congratulation',
-                                text: response.data.message,
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // window.location.reload();
-
-                                }
-                                this.getUnits();
-                                this.book = '';
-                                this.publication = '';
-                                this.author = '';
-                            })
-                        } else if (response.data.status == 'failed') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data.message,
-                                footer: 'We are sorry'
-                            })
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.data,
-                                footer: 'We are sorry'
-                            })
-                        }
-                    }).catch(error => {
-                        if (error.response.status == 422) {
-                            $.each(error.response.data.errors, function (key, value) {
-                                if (key == 'subject') {
-                                    document.getElementById('bookHelp').innerHTML = error.response.data.errors.subject[0];
-
-                                }
-                                if (key == 'publication') {
-                                    document.getElementById('publicationHelp').innerHTML = error.response.data.errors.publication[0];
-
-                                }
-                                if (key == 'author') {
-                                    document.getElementById('authorHelp').innerHTML = error.response.data.errors.author[0];
-
-                                }
-                                if (key == 'page') {
-                                    document.getElementById('pageHelp').innerHTML = error.response.data.errors.page[0];
-
-                                }
-                                if (key == 'price') {
-                                    document.getElementById('priceHelp').innerHTML = error.response.data.errors.price[0];
-
-                                }
-                            });
-                        } else if (error.response.status == 401) {
-                            Swal.fire({
-                                title: 'You are not authorised user',
-                                text: "Please login to perform any transaction",
-                                icon: 'warning',
-                                showCancelButton: false,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    this.$router.push({ path: "/login" });
-
-                                }
-                            })
-                        }
-                        else {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
-
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
-                            }
-                        }
-                    });
-
-                return result;
-            }
+            this.edit ? this.update() : this.add();
 
         },
-        deleteBook(book_id) {
+        add() {
+            let result = axios.post('book',
+                {
+                    subject: this.book,
+                    publication: this.publication,
+                    author: this.author,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
+                        this.toastMessage("success", response.data.message);
+                        this.getUnits();
+                        this.clear();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.verificationError(error);
+                    } 
+                });
+        },
+        update() {
+            let result = axios.put('book/' + this.book_id,
+                {
+                    subject: this.book,
+                    publication: this.publication,
+                    author: this.author,
+                }).then((response) => {
+                    if (response.data.status == 'success') {
 
-            let url = localStorage.getItem("url") + 'book/' + book_id;
+                        this.toastMessage("success", response.data.message);
+                        this.clear();
+                        this.edit = false;
+                        this.getUnits();
+                    } else if (response.data.status == 'failed') {
+                        this.toastMessage("error", response.data.message);
+                    } else {
+                        this.toastMessage("error", response.data);
+                    }
+                }).catch(error => {
+                    if (error.response.status == 422) {
+                        this.verificationError(error);
+                    }
+                });
+        },
+        deleteBook(book_id) {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You want to delete selected Book ?",
@@ -415,113 +217,72 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    let result = axios.delete(url,
-                        {
-                            headers: {
-                                'Content-type': 'application/json',
-                                'Authorization': 'Bearer ' + localStorage.getItem('token')
-                            }
-                        }).then((response) => {
+                    let result = axios.delete('book/' + book_id).then((response) => {
                             if (response.data.status == 'success') {
-                                Swal.fire({
-                                    title: 'Congratulation',
-                                    text: response.data.message,
-                                    icon: 'success',
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'OK'
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // window.location.reload();
+                                this.toastMessage("success", response.data.message);
 
-
-
-                                    }
-                                    this.getUnits();
-                                })
+                                this.getUnits();
                             } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong',
-                                    footer: 'We are sorry'
-                                })
-                            }
-                        }).catch(error => {
-                            if (error.response.status === 401) {
-                                this.$router.push({ name: "login" });
+                                
+                                this.toastMessage("success", "Something went wrong");
 
-                            } else {
-                                Swal.fire(
-                                    'Warning',
-                                    'error: ' + error,
-                                    'error'
-                                )
                             }
                         });
-
-
                 }
             })
         },
-        edit(book_id) {
-            let url = localStorage.getItem("url") + 'book/' + book_id;
+        editBook(book_id) {
 
-            let result = axios.get(url,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
+            let result = axios.get("book/"+book_id).then((response) => {
                     this.book = response.data.subject;
                     this.publication = response.data.publication;
                     this.author = response.data.author;
-                    this.page = response.data.page;
-                    this.price = response.data.price;
+                    
                     this.book_id = response.data.id;
-                    this.update_book = 'true';
-                    this.btn_save = 'Update';
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
+                    this.edit = true;
                 });
         },
         getUnits: function () {
 
-            return axios.get(localStorage.getItem("url") + 'book',
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                }).then((response) => {
-                    this.book_list = response.data;
-                    console.log(response.data);
-
-                }).catch(error => {
-                    if (error.response.status === 401) {
-                        this.$router.push({ name: "login" });
-
-                    } else {
-                        Swal.fire(
-                            'Warning',
-                            'error: ' + error,
-                            'error'
-                        )
-                    }
-                });
-
-
-
+            return axios.get('book').then((response) => {
+                this.book_list = response.data;
+            });
         },
+        toastMessage(icons, title) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: icons,
+                title: title
+            });
+        },
+        clear() {
+            this.book = '';
+            this.publication = '';
+            this.author = '';
+        },
+        verificationError(error) {
+            const errorFields = {
+                'subject': 'bookHelp',
+                'publication': 'publicationHelp',
+                'author': 'authorHelp',
+            };
+            Object.keys(error.response.data.errors).forEach(key => {
+                const errorKey = errorFields[key];
+                if (errorKey) {
+                    document.getElementById(errorKey).innerHTML = error.response.data.errors[key][0];
+                }
+            });
+        }
     },
     beforeMount() {
         this.getUnits()
